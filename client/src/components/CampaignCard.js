@@ -1,8 +1,25 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { connectWallet } from "../utils/CrowdfundInteract";
 
 export default function CampaignCard({ image, title, descp, country }) {
+
+  const user = useSelector(state => state?.user);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+
+
+  const handleClick = async () => {
+    if (user?.wallet) {
+      navigate("/Campaign");
+    } else {
+      const res = await connectWallet();
+      dispatch({type: 'user/login', wallet: res[0]});
+    }
+  }
+
   return (
     <div className="CampaignCard-container">
       <div className="card-info">
@@ -13,12 +30,11 @@ export default function CampaignCard({ image, title, descp, country }) {
         </div>
       </div>
       <span className="country">{country}</span>
-      <Link to="/Campaign" style={{ textDecoration: "none" }}>
-        <div className="card-btn">
-          Invest
+      
+        <div className="card-btn" onClick={handleClick}>
+          {user?.wallet ? "Invest" : "Connect Wallet"}
           <FaArrowRight />
         </div>
-      </Link>
     </div>
   );
 }

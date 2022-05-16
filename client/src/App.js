@@ -17,6 +17,10 @@ import { Chart, Greeting } from "./helpers/Tree";
 import Navbar from "./screens/Navbar";
 import Dashboard from "./screens/Dashboard";
 import Campaign from "./screens/Campaign";
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+
+
 
 function App() {
   const [wallet, setWallet] = useState("");
@@ -48,13 +52,15 @@ function App() {
   // }, [wallet]);
 
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route exact path="/" element={<Dashboard />} />
-        <Route path="/Campaign" element={<Campaign />} />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path="/" element={<Dashboard />} />
+          <Route path="/Campaign" element={<Campaign />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
 }
 

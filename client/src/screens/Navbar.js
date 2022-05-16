@@ -5,18 +5,25 @@ import { FaBorderNone, FaRegGem } from "react-icons/fa";
 import { FaGem } from "react-icons/fa";
 import { connectWallet } from "../utils/CrowdfundInteract";
 import { balanceOf } from "../utils/ERC20Interact";
+import { useDispatch, useSelector } from "react-redux";
 
 function Navbar(props) {
   const [wallet, setWallet] = useState("");
   const [balance, setBalance] = useState(0);
+  const dispatch = useDispatch();
+  const user = useSelector(state => state?.user);
+  console.log('user', user);
 
   function addWalletListener() {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts) => {
         if (accounts.length > 0) {
           setWallet(accounts[0]);
+          dispatch({type: "user/login", wallet: accounts[0]})
         } else {
           setWallet("");
+          dispatch({type: "user/login", wallet: ""})
+
         }
       });
     }
@@ -25,7 +32,8 @@ function Navbar(props) {
   const getBalance = async () => {
     if (wallet) {
       const res = await balanceOf(wallet)
-      console.log(res);
+      setBalance(res);
+      dispatch({type: "user/setBalance", balance: res});  
     } else {
       console.log("Connect Wallet");
     }
@@ -34,7 +42,9 @@ function Navbar(props) {
   
   const handleConnect = async () => {
     const res = await connectWallet();
+    dispatch({type: "user/login", wallet: res[0]});
     setWallet(res[0]);
+
   }
 
   const formatAddress = () => {
