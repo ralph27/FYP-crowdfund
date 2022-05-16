@@ -57,7 +57,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Dashboard />} />
-          <Route path="/Campaign" element={<Campaign />} />
+          <Route path="/Campaign/:id" element={<Campaign />} />
         </Routes>
       </Router>
     </Provider>
