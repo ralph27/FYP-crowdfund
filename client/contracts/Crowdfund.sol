@@ -22,6 +22,7 @@ contract Crowdfund is ERC20 {
 
     struct Campaign {
         address creator;
+        uint numberOfInvestors;
         uint goal;
         uint pledged;
         uint32 startAt;
@@ -78,6 +79,10 @@ contract Crowdfund is ERC20 {
         Campaign storage campaign = campaigns[_id];
         require(block.timestamp > campaign.startAt, "Not started");
         require(block.timestamp <= campaign.endAt, "Ended");
+
+        if (pledgedAmount[_id][msg.sender] > 0) {
+            campaign.numberOfInvestors += 1;
+        }
 
         (bool success, ) = address(this).call{value: _amount}("");
         require(success, "Call failed");
