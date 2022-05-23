@@ -4,14 +4,13 @@ import "../styles/main.css";
 import axios from "axios";
 
 export default function Dashboard() {
-
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getCampaigns = async () => {
     const res = await axios.get("http://localhost:8080/all-campaigns");
     setCampaigns(res.data);
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -19,10 +18,10 @@ export default function Dashboard() {
       await getCampaigns();
       setLoading(false);
     })();
-  }, [])
+  }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>
+    return <h1>Loading...</h1>;
   }
 
   return (
@@ -37,20 +36,20 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="dashboard-grid">
-        {campaigns.map(campaign => {
+        {campaigns.map((campaign) => {
           return (
-            <CampaignCard 
-              title={campaign.title} 
-              descp={campaign.description} 
-              snippet={campaign.snippet} 
-              creator={campaign.creator} 
-              image={campaign.thumbnail} 
+            <CampaignCard
+              title={campaign.title}
+              descp={campaign.description}
+              snippet={campaign.snippet}
+              creator={campaign.creator}
+              image={campaign.thumbnail}
               id={campaign._id}
-              campaignId={campaign.id} 
-              startDate={campaign.startAt} 
-              endDate={campaign.endAt} 
+              campaignId={campaign.id}
+              startDate={campaign.startAt}
+              endDate={campaign.endAt}
             />
-          )
+          );
         })}
       </div>
     </section>

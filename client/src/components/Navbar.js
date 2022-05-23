@@ -11,19 +11,18 @@ function Navbar(props) {
   const [wallet, setWallet] = useState("");
   const [balance, setBalance] = useState(0);
   const dispatch = useDispatch();
-  const user = useSelector(state => state?.user);
-  console.log('user', user);
+  const user = useSelector((state) => state?.user);
+  console.log("user", user);
 
   function addWalletListener() {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts) => {
         if (accounts.length > 0) {
           setWallet(accounts[0]);
-          dispatch({type: "user/login", wallet: accounts[0]})
+          dispatch({ type: "user/login", wallet: accounts[0] });
         } else {
           setWallet("");
-          dispatch({type: "user/login", wallet: ""})
-
+          dispatch({ type: "user/login", wallet: "" });
         }
       });
     }
@@ -31,35 +30,34 @@ function Navbar(props) {
 
   const getBalance = async () => {
     if (wallet) {
-      const res = await balanceOf(wallet)
+      const res = await balanceOf(wallet);
       setBalance(res);
-      dispatch({type: "user/setBalance", balance: res});  
+      dispatch({ type: "user/setBalance", balance: res });
     } else {
       console.log("Connect Wallet");
     }
-  }
+  };
 
-  
   const handleConnect = async () => {
     const res = await connectWallet();
-    dispatch({type: "user/login", wallet: res[0]});
+    dispatch({ type: "user/login", wallet: res[0] });
     setWallet(res[0]);
-
-  }
+  };
 
   const formatAddress = () => {
-    return `${String(wallet).substring(0, 6)}...${String(wallet).substring(38)}`
-  }
-  
-  useEffect(() => {
-    ( async () => {
-      await handleConnect();
-      addWalletListener();
-      getBalance();
-    }
-    )();
-  }, [wallet]);
+    return `${String(wallet).substring(0, 6)}...${String(wallet).substring(
+      38
+    )}`;
+  };
 
+  // useEffect(() => {
+  //   ( async () => {
+  //     await handleConnect();
+  //     addWalletListener();
+  //     getBalance();
+  //   }
+  //   )();
+  // }, [wallet]);
 
   return (
     <nav className="navbar">
@@ -71,15 +69,21 @@ function Navbar(props) {
         <Link to="/" style={{ textDecoration: "none" }}>
           <li>Dashboard</li>
         </Link>
-        <li>Campaign</li>
-        <li>Staking</li>
+        <Link to="/AddCampaign" style={{ textDecoration: "none" }}>
+          <li>Add Your Campaign</li>
+        </Link>
+        <Link to="/Staking" style={{ textDecoration: "none" }}>
+          <li>Staking</li>
+        </Link>
       </ul>
       <div className="wallet-container">
         <div className="wallet">
           <FaRegGem color="#fff" fontSize="1.5em" />
           <span className="balance">{balance} GMS</span>
         </div>
-        <div className="connect-btn" onClick={handleConnect}>{wallet ? formatAddress() : "Connect Wallet"}</div>
+        <div className="connect-btn" onClick={handleConnect}>
+          {wallet ? formatAddress() : "Connect Wallet"}
+        </div>
       </div>
     </nav>
   );

@@ -64,7 +64,7 @@
   background-image: url("https://wallpaperaccess.com/full/3861110.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
+  height: 800px;
 }
 .title-section {
   margin-top: 0;
@@ -226,4 +226,125 @@
 .campaign-about p {
   max-width: 1100px;
   line-height: 25px;
+}
+.formContainer {
+  background-image: url("https://wallpaperaccess.com/full/3861110.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  padding-top: 140px;
+  padding-bottom: 40px;
+}
+.form-title {
+  display: block;
+  margin-left: 250px;
+  color: #fff;
+  font-size: 32px;
+}
+.form {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 250px;
+}
+.form-label {
+  width: 350px;
+  color: #a218d9;
+  font-size: 22px;
+  margin-right: 20px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+.input {
+  border-radius: 4px;
+  width: 300px;
+  height: 20px;
+  padding: 8px;
+  margin-top: 5px;
+  font-size: 18px;
+}
+.flex {
+  display: flex;
+}
+.textarea {
+  padding: 8px;
+  margin-top: 5px;
+  width: 400px;
+  height: 150px;
+  font-size: 18px;
+}
+.submitBtn {
+  margin-top: 15px;
+  border-radius: 8px;
+  width: 100px;
+  cursor: pointer;
+  background-color: #a218d9;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  padding: 12px;
+}
+.submitBtn:hover {
+  background-color: #530b70;
+}
+.footer {
+  display: flex;
+  height: 60px;
+  background-color: #0a2233;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+}
+.footer img {
+  height: 40px;
+  width: auto;
+}
+.footer-links {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+.staking {
+  background-image: url("https://wallpaperaccess.com/full/3861110.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  padding-top: 100px;
+  padding-bottom: 40px;
+  font-size: 18px;
+}
+.staking .title {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+.staking-container {
+  margin-left: 250px;
+}
+.card-1 {
+  padding: 18px;
+  margin-top: 20px;
+  width: 334px;
+  border-radius: 20px;
+  background-color: rgb(21, 62, 103);
+  color: white;
+}
+.card-1 > div {
+  margin-bottom: 15px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-1-title {
+  margin-right: 12px;
+}
+.value-staked {
+  color: #a218d9;
+  font-size: 18px;
+  font-weight: bold;
+}
+.seperator {
+  background-color: rgb(39, 92, 138);
 }

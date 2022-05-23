@@ -14,13 +14,14 @@ import {
 } from "./utils/ERC20Interact";
 import axios from "axios";
 import { Chart, Greeting } from "./helpers/Tree";
-import Navbar from "./screens/Navbar";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Dashboard from "./screens/Dashboard";
 import Campaign from "./screens/Campaign";
-import { Provider } from 'react-redux';
-import { store } from './redux/store';
-
-
+import Staking from "./screens/Staking";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import AddCampaign from "./screens/AddCampaign";
 
 function App() {
   const [wallet, setWallet] = useState("");
@@ -58,7 +59,10 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Dashboard />} />
           <Route path="/Campaign/:id" element={<Campaign />} />
+          <Route path="/AddCampaign" element={<AddCampaign />} />
+          <Route path="/Staking" element={<Staking />} />
         </Routes>
+        <Footer />
       </Router>
     </Provider>
   );
