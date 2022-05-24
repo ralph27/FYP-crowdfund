@@ -47,7 +47,6 @@ app.get("/all-campaigns", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   Campaign.find()
     .then((result) => {
-      console.log(result);
       res.send(result);
     })
     .catch((err) => {

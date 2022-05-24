@@ -12,7 +12,6 @@ function Navbar(props) {
   const [balance, setBalance] = useState(0);
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
-  console.log("user", user);
 
   function addWalletListener() {
     if (window.ethereum) {
@@ -41,23 +40,22 @@ function Navbar(props) {
   const handleConnect = async () => {
     const res = await connectWallet();
     dispatch({ type: "user/login", wallet: res[0] });
-    setWallet(res[0]);
   };
 
   const formatAddress = () => {
-    return `${String(wallet).substring(0, 6)}...${String(wallet).substring(
+    return `${String(user.wallet).substring(0, 6)}...${String(user.wallet).substring(
       38
     )}`;
   };
 
-  // useEffect(() => {
-  //   ( async () => {
-  //     await handleConnect();
-  //     addWalletListener();
-  //     getBalance();
-  //   }
-  //   )();
-  // }, [wallet]);
+  useEffect(() => {
+     ( async () => {
+      await handleConnect();
+      addWalletListener();
+      getBalance();
+     }
+     )();
+   }, [wallet]);
 
   return (
     <nav className="navbar">
@@ -82,7 +80,7 @@ function Navbar(props) {
           <span className="balance">{balance} GMS</span>
         </div>
         <div className="connect-btn" onClick={handleConnect}>
-          {wallet ? formatAddress() : "Connect Wallet"}
+          {user?.wallet ? formatAddress() : "Connect Wallet"}
         </div>
       </div>
     </nav>

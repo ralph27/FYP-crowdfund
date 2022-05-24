@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\client\\contracts\\Crowdfund.sol": {
-      "lastModificationDate": 1651824979773,
-      "contentHash": "6c5def07065baa28c22e6f518bb3d980",
+    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\Crowdfund.sol": {
+      "lastModificationDate": 1653393001834,
+      "contentHash": "3412057f3c0c4b6a3a893f79f8251792",
       "sourceName": "contracts/Crowdfund.sol",
       "solcConfig": {
         "version": "0.8.10",
@@ -29,7 +29,8 @@
         }
       },
       "imports": [
-        "./ERC20.sol"
+        "./ERC20.sol",
+        "hardhat/console.sol"
       ],
       "versionPragmas": [
         "0.8.10"
@@ -38,9 +39,9 @@
         "Crowdfund"
       ]
     },
-    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\client\\contracts\\ERC20.sol": {
-      "lastModificationDate": 1651824992198,
-      "contentHash": "9fd2e2f27a7e3f7065d2cb65ce7fa290",
+    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\ERC20.sol": {
+      "lastModificationDate": 1653327427374,
+      "contentHash": "2cb3c61d610cf8ce92fe80fcea34edd5",
       "sourceName": "contracts/ERC20.sol",
       "solcConfig": {
         "version": "0.8.10",
@@ -76,8 +77,8 @@
         "IERC20"
       ]
     },
-    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\client\\contracts\\Staking.sol": {
-      "lastModificationDate": 1651825375313,
+    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\Staking.sol": {
+      "lastModificationDate": 1652522266859,
       "contentHash": "5f0da2dfcfb08922a883bcbb201e804a",
       "sourceName": "contracts/Staking.sol",
       "solcConfig": {
@@ -109,6 +110,41 @@
       ],
       "artifacts": [
         "Staking"
+      ]
+    },
+    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\node_modules\\hardhat\\console.sol": {
+      "lastModificationDate": 1652522271518,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
       ]
     }
   }

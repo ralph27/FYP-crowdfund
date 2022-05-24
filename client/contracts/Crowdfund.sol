@@ -2,6 +2,7 @@
 pragma solidity 0.8.10;
 
 import "./ERC20.sol";
+import "hardhat/console.sol";
 
 contract Crowdfund is ERC20 {
 
@@ -49,22 +50,21 @@ contract Crowdfund is ERC20 {
         uint _goal,
         uint32 _startAt,
         uint32 _endAt
-    ) external {
+    ) external returns (uint) {
         require(_startAt >= block.timestamp, "Start at < now");
         require(_endAt >= _startAt, "end at < start at");
         require(_endAt <= block.timestamp + 90 days, "end at > max duration");
-
         count += 1;
-        campaigns[count] = Campaign({
-            creator: msg.sender,
-            goal: _goal,
-            pledged: 0,
-            startAt: _startAt,
-            endAt: _endAt,
-            claimed: false
-        });
-
+        Campaign storage c = campaigns[count];
+        c.creator = msg.sender;
+        c.numberOfInvestors = 0;
+        c.goal = _goal;
+        c.pledged = 0;
+        c.startAt = _startAt;
+        c.endAt = _endAt;
+        c.claimed = false;
         emit Launch(count, msg.sender, _goal, _startAt, _endAt);
+        return campaigns[count].goal;
     }
 
     function cancel(uint _id) external {
@@ -79,8 +79,9 @@ contract Crowdfund is ERC20 {
         Campaign storage campaign = campaigns[_id];
         require(block.timestamp > campaign.startAt, "Not started");
         require(block.timestamp <= campaign.endAt, "Ended");
+        require(_amount > 0, "Amount should be bigger than 0");
 
-        if (pledgedAmount[_id][msg.sender] > 0) {
+        if (pledgedAmount[_id][msg.sender] == 0) {
             campaign.numberOfInvestors += 1;
         }
 

@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/main.css";
 import axios from "axios";
 import uuid from "react-uuid";
+import { parseEther, parseUnits } from "ethers/lib/utils";
+import { addCampaign, getCampaignDetails, getCampaignsCount } from "../utils/CrowdfundInteract";
+import { useSelector } from "react-redux";
+import { BigNumber } from "ethers";
 
 export default function AddCampaign() {
   const [creator, setCreator] = useState("");
@@ -10,25 +14,40 @@ export default function AddCampaign() {
   const [thumbnail, setThumbnail] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [goal, setGoal] = useState("");
   const [description, setDescription] = useState("");
+  const [id, setId] = useState(0);
 
-  const handleSubmit = (event) => {
+  const user = useSelector(state => state?.user);
+
+
+  useEffect(() => {
+    (async () => {
+      const count = await getCampaignsCount();
+      setId(count);
+    })();
+  }, [])
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newCampaign = {
-      id: parseInt(uuid()),
+      id: id,
       creator: creator,
       title: title,
       description: description,
       snippet: snippet,
       thumbnail: thumbnail,
-      startAt: startDate,
-      endAt: endDate,
+      startAt: Math.floor(new Date(startDate).getTime() / 1000),
+      endAt: Math.floor(new Date(endDate).getTime() / 1000),
+      goal: parseEther(goal).toString()
     };
-    console.log(newCampaign.id);
+    let wei = parseEther(goal).toString();
+    let weiBig = BigNumber.from(wei).toString();
+    await addCampaign(weiBig, newCampaign.startAt, newCampaign.endAt, user.wallet);
     axios
       .post("http://localhost:8080/addCampaign", newCampaign)
       .then((res) => {
-        console.log(res.response.data);
+        console.log(res.response);
       })
       .catch((error) => {
         console.log(error);
@@ -85,7 +104,7 @@ export default function AddCampaign() {
             Start Date:
             <input
               className="input"
-              type="text"
+              type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
@@ -94,20 +113,31 @@ export default function AddCampaign() {
             End Date:
             <input
               className="input"
-              type="text"
+              type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
           </label>
         </div>
-        <label className="form-label">
-          Campaign Description:
-          <textarea
-            className="textarea"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </label>
+        <div className="flex">
+          <label className="form-label">
+            Goal ( In Eth ):
+            <input
+              className="input"
+              type="number"
+              value={goal}
+              onChange={(e) => setGoal(e.target.value)}
+            />
+          </label>
+          <label className="form-label">
+            Campaign Description:
+            <textarea
+              className="textarea"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </label>
+        </div>
         <input className="submitBtn" type="submit" />
       </form>
     </div>

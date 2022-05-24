@@ -34,6 +34,7 @@ interface IERC20 {
 
 contract ERC20 is IERC20, Staking {
     uint public totalSupply;
+    uint public circulatingSupply;
     mapping(address => uint) public balanceOf;
     mapping(address => mapping(address => uint)) public allowance;
     string public name = "Test";
@@ -69,6 +70,7 @@ contract ERC20 is IERC20, Staking {
     function mint(uint amount) external {
         balanceOf[address(this)] += amount;
         totalSupply += amount;
+        circulatingSupply += amount;
         emit Transfer(address(0), address(this), amount);
     }
 
@@ -87,7 +89,7 @@ contract ERC20 is IERC20, Staking {
 
     function burn(uint amount) external {
         balanceOf[msg.sender] -= amount;
-        totalSupply -= amount;
+        circulatingSupply -= amount;
         emit Transfer(msg.sender, address(0), amount);
     }
 
@@ -95,7 +97,7 @@ contract ERC20 is IERC20, Staking {
         require(_amount < balanceOf[msg.sender], "Not enough tokens");
         _stake(_amount);
         balanceOf[msg.sender] -= _amount;
-        totalSupply -= _amount;
+        circulatingSupply -= _amount;
     }
 
         /**
@@ -107,6 +109,7 @@ contract ERC20 is IERC20, Staking {
         // Return staked tokens to user
         balanceOf[msg.sender] += amount_to_mint;
         totalSupply += amount_to_mint;
+        circulatingSupply += amount_to_mint;
     }
 
     function getSummary() public {

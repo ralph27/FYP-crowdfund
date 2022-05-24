@@ -42,6 +42,10 @@ const CampaignSchema = new Schema({
       type: String,
       required: true
    },
+   goal: {
+      type: Number,
+      required: true
+   }
 
 }, {timestamps: true});
 
