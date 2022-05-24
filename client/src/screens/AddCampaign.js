@@ -17,7 +17,7 @@ export default function AddCampaign() {
   const [goal, setGoal] = useState("");
   const [description, setDescription] = useState("");
   const [id, setId] = useState(0);
-
+  const [uploading, setUploading] = useState(false);
   const user = useSelector(state => state?.user);
 
 
@@ -43,15 +43,8 @@ export default function AddCampaign() {
     };
     let wei = parseEther(goal).toString();
     let weiBig = BigNumber.from(wei).toString();
-    await addCampaign(weiBig, newCampaign.startAt, newCampaign.endAt, user.wallet);
-    axios
-      .post("http://localhost:8080/addCampaign", newCampaign)
-      .then((res) => {
-        console.log(res.response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await addCampaign(weiBig, newCampaign.startAt, newCampaign.endAt, user.wallet, newCampaign);
+  
   };
   return (
     <div className="formContainer">
