@@ -64,7 +64,7 @@ contract Crowdfund is ERC20 {
         c.endAt = _endAt;
         c.claimed = false;
         emit Launch(count, msg.sender, _goal, _startAt, _endAt);
-        return campaigns[count].goal;
+        return count;
     }
 
     function cancel(uint _id) external {
@@ -77,8 +77,6 @@ contract Crowdfund is ERC20 {
 
     function pledge(uint _id, uint _amount) external payable {
         Campaign storage campaign = campaigns[_id];
-        require(block.timestamp > campaign.startAt, "Not started");
-        require(block.timestamp <= campaign.endAt, "Ended");
         require(_amount > 0, "Amount should be bigger than 0");
 
         if (pledgedAmount[_id][msg.sender] == 0) {

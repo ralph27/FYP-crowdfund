@@ -10,9 +10,7 @@ export const ERC20Contract = new web3.eth.Contract(
    ERC20_CONTRACT
 );
 
-export const mint = async (address, amount) => {
-   console.log(ERC20_CONTRACT);
-   console.log(address);
+export const mintTokens = async (address, amount) => {
    const transactionParameters = {
       to: ERC20_CONTRACT,
       from: address,

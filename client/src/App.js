@@ -19,38 +19,12 @@ import Footer from "./components/Footer";
 import Dashboard from "./screens/Dashboard";
 import Campaign from "./screens/Campaign";
 import Staking from "./screens/Staking";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "./redux/store";
 import AddCampaign from "./screens/AddCampaign";
+import Invest from "./screens/Invest";
 
-function App() {
-  const [wallet, setWallet] = useState("");
-  const [count, setCount] = useState(1);
-  const [totalSupply, setTotalSupply] = useState(0);
-  const [myBalance, setMyBalance] = useState("");
-  const [campaigns, setCampaigns] = useState([]);
-
-  // function addWalletListener() {
-  //   if (window.ethereum) {
-  //     window.ethereum.on("accountsChanged", (accounts) => {
-  //       if (accounts.length > 0) {
-  //         setWallet(accounts[0]);
-  //       } else {
-  //         setWallet("");
-  //       }
-  //     });
-  //   }
-  // }
-  // const connectWalletPressed = async () => {
-  //   const res = await connectWallet();
-  //   setWallet(res[0]);
-  // };
-  // useEffect(() => {
-  //   (async () => {
-  //     await connectWalletPressed();
-  //     addWalletListener();
-  //   })();
-  // }, [wallet]);
+function App() {  
 
   return (
     <Provider store={store}>
@@ -61,6 +35,7 @@ function App() {
           <Route path="/Campaign/:id" element={<Campaign />} />
           <Route path="/AddCampaign" element={<AddCampaign />} />
           <Route path="/Staking" element={<Staking />} />
+          <Route path="/Invest" element={<Invest />} />
         </Routes>
         <Footer />
       </Router>

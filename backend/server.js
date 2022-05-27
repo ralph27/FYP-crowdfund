@@ -21,28 +21,6 @@ app.use(cors());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/add-campaign", (req, res) => {
-  const campaign = new Campaign({
-    id: 0,
-    creator: "New Creator",
-    title: "New title",
-    snippet: "New snippet",
-    description: "New description",
-    thumbnail: "New thumbnail",
-    startAt: "New startAt",
-    endAt: "New endAt",
-  });
-
-  campaign
-    .save()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
 app.get("/all-campaigns", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   Campaign.find()
@@ -53,6 +31,7 @@ app.get("/all-campaigns", (req, res) => {
       console.log(err);
     });
 });
+
 app.post("/addCampaign", async (req, res, next) => {
   Campaign.create(req.body, (error, data) => {
     if (error) {
@@ -63,3 +42,10 @@ app.post("/addCampaign", async (req, res, next) => {
     }
   });
 });
+
+app.post("/updateCampaign", async (req, res) => {
+  const filter =  {id: req.body.id};
+  const updateDoc = {pledged: req.body.amount};
+  const result = await Campaign.updateOne(filter, updateDoc);
+  console.log(result.matchedCount);
+})

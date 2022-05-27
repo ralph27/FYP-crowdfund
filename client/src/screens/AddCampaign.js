@@ -37,102 +37,97 @@ export default function AddCampaign() {
       description: description,
       snippet: snippet,
       thumbnail: thumbnail,
-      startAt: Math.floor(new Date(startDate).getTime() / 1000),
-      endAt: Math.floor(new Date(endDate).getTime() / 1000),
+      startAt: startDate,
+      endAt: endDate,
       goal: parseEther(goal).toString()
     };
     let wei = parseEther(goal).toString();
     let weiBig = BigNumber.from(wei).toString();
-    await addCampaign(weiBig, newCampaign.startAt, newCampaign.endAt, user.wallet, newCampaign);
+    await addCampaign(weiBig, startDate, endDate, user.wallet, newCampaign);
   
   };
   return (
     <div className="formContainer">
-      <span className="form-title">
-        Please Fill the Below Information To Get Started
-      </span>
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="flex">
-          <label className="form-label">
-            Name:
+      <div className="form-wrapper">
+        <span className="form-title">
+          Please Fill the Below Information To Get Started
+        </span>
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="flex-left-side"> 
+
             <input
               className="input"
               type="text"
               value={creator}
               onChange={(e) => setCreator(e.target.value)}
+              placeholder="Name"
             />
-          </label>
-          <label className="form-label">
-            Campaign Title:
+       
             <input
               className="input"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
             />
-          </label>
-        </div>
-        <div className="flex">
-          <label className="form-label">
-            Snippet:
-            <input
-              className="input"
-              type="text"
-              value={snippet}
-              onChange={(e) => setSnippet(e.target.value)}
-            />
-          </label>
-          <label className="form-label">
-            Thumbnail link:
-            <input
-              className="input"
-              type="text"
-              value={thumbnail}
-              onChange={(e) => setThumbnail(e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex">
-          <label className="form-label">
-            Start Date:
-            <input
-              className="input"
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-          </label>
-          <label className="form-label">
-            End Date:
-            <input
-              className="input"
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex">
-          <label className="form-label">
-            Goal ( In Eth ):
+
             <input
               className="input"
               type="number"
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
+              placeholder="Goal ( in ETH )"
             />
-          </label>
-          <label className="form-label">
-            Campaign Description:
+
+            <input
+              className="input"
+              type="text"
+              value={thumbnail}
+              onChange={(e) => setThumbnail(e.target.value)}
+              placeholder="Thumbnail"
+            />
+
+            <input
+              className="input"
+              type="text"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              placeholder="Start Date"
+            />
+
+            <input
+              className="input"
+              type="text"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              placeholder="End Date"
+            />
+
+          </div>
+          <div className="flex-right-side">
+
             <textarea
-              className="textarea"
+              className="textarea top"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+              rows='9'
             />
-          </label>
-        </div>
-        <input className="submitBtn" type="submit" />
-      </form>
+
+            <textarea
+              className="textarea bottom"
+              type="text"
+              value={snippet}
+              onChange={(e) => setSnippet(e.target.value)}
+              maxLength='150'
+              placeholder="Snippet"
+              rows='5'
+              
+            />
+          </div>
+        </form>
+          <button className="submitBtn" onClick={handleSubmit} >Submit</button>
+      </div>
     </div>
   );
 }

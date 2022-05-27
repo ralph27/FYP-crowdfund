@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\Crowdfund.sol": {
-      "lastModificationDate": 1653393001834,
-      "contentHash": "3412057f3c0c4b6a3a893f79f8251792",
+      "lastModificationDate": 1653551530808,
+      "contentHash": "c00be385a9f83afcee9ee4ad0570ab00",
       "sourceName": "contracts/Crowdfund.sol",
       "solcConfig": {
         "version": "0.8.10",

@@ -45,6 +45,14 @@ const CampaignSchema = new Schema({
    goal: {
       type: Number,
       required: true
+   },
+   nbOfInvestors: {
+      type: Number,
+      required: false
+   },
+   pledged: {
+      type: Number,
+      required: false
    }
 
 }, {timestamps: true});

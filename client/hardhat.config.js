@@ -10,10 +10,10 @@ require("@nomiclabs/hardhat-waffle")
 const { API_URL, PRIVATE_KEY, ETHERSCAN_KEY } = process.env;
 module.exports = {
    solidity: "0.8.10",
-   defaultNetwork: "ropsten",
+   defaultNetwork: "rinkeby",
    networks: {
       hardhat: {},
-      ropsten: {
+      rinkeby: {
          url: API_URL,
          accounts: [`0x${PRIVATE_KEY}`]
       }

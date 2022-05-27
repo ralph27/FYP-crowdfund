@@ -5,11 +5,8 @@ export default function userReducer(state = initialState, action) {
    switch (action.type) {
       case "user/login":
          temp = { ...state };
-         temp.wallet = action.wallet;
-         return temp;
-      case "user/setBalance":
-         temp = { ...state };
-         temp.balance = action.balance;
+         temp.wallet = action.wallet.address;
+         temp.balance = action.wallet.balance
          return temp;
       default:
          return state;

@@ -4,11 +4,13 @@ import "../styles/main.css";
 import axios from "axios";
 
 export default function Dashboard() {
+  
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getCampaigns = async () => {
     const res = await axios.get("http://localhost:8080/all-campaigns");
+    console.log(res.data);
     setCampaigns(res.data);
   };
 
@@ -48,6 +50,8 @@ export default function Dashboard() {
               campaignId={campaign.id}
               startDate={campaign.startAt}
               endDate={campaign.endAt}
+              pledged={campaign.pledged}
+              
             />
           );
         })}
