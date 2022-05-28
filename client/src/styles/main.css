@@ -227,7 +227,10 @@
   margin: 0 auto;
   margin-top: 80px;
   padding-left: 30px;
+}
 
+.campaign-bottom-CTA {
+  display: flex;
 }
 
 .invest-info {
@@ -256,6 +259,8 @@
   text-align: center;
   color: white;
   padding: 12px;
+  margin-right: 30px;
+  margin-left: 30px;
 }
 
 .campaign-about {

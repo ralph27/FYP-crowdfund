@@ -51,7 +51,7 @@ export default function Dashboard() {
               startDate={campaign.startAt}
               endDate={campaign.endAt}
               pledged={campaign.pledged}
-              
+              nbOfInvestors={campaign.nbOfInvestors}
             />
           );
         })}

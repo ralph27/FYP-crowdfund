@@ -39,7 +39,8 @@ export default function AddCampaign() {
       thumbnail: thumbnail,
       startAt: startDate,
       endAt: endDate,
-      goal: parseEther(goal).toString()
+      goal: parseEther(goal).toString(),
+      nbOfInvestors: 0
     };
     let wei = parseEther(goal).toString();
     let weiBig = BigNumber.from(wei).toString();

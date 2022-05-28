@@ -45,7 +45,17 @@ app.post("/addCampaign", async (req, res, next) => {
 
 app.post("/updateCampaign", async (req, res) => {
   const filter =  {id: req.body.id};
-  const updateDoc = {pledged: req.body.amount};
+  let updateDoc = {};
+  if (req.body.incInvestors) {
+    updateDoc = {
+      pledged: req.body.amount,
+      $inc: {
+        nbOfInvestors: 1
+      }
+    }
+  } else {
+    updateDoc = {pledged: req.body.amount};
+  }
   const result = await Campaign.updateOne(filter, updateDoc);
   console.log(result.matchedCount);
 })

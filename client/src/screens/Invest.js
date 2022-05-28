@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import eth from '../images/ethereum.png'
-import { pledgeAmount } from '../utils/CrowdfundInteract';
+import { pledgeAmount, pledgedAmount } from '../utils/CrowdfundInteract';
 import { getEthBalance } from '../utils/EthInteract';
 import { BigNumber } from 'ethers'
 import { parseEther } from 'ethers/lib/utils';
 
 import axios from 'axios';
-function Invest() {
 
+function Invest() {
+   const dispatch = useDispatch();
    const [ethBalance, setEthBalance] = useState(0)
    const [value, setValue] = useState("");
 
    const user = useSelector(state => state?.user);
    const campaign = useSelector(state => state?.campaign.currentCampaign);
-
+   console.log(user);
    useEffect(() => {
       (async () => {
          const res = await getEthBalance(user?.wallet.toLowerCase());
@@ -23,17 +24,32 @@ function Invest() {
    }, [])
 
    const handleInvest = async () => {
+      const amountInvested = await pledgedAmount(campaign.campaignId, user?.wallet);
+      console.log(typeof(amountInvested));
       let wei = parseEther(value).toString();
       let weiBig = BigNumber.from(wei).toString();
-      //await pledgeAmount(campaign.campaignId, weiBig, user.wallet);
+      await pledgeAmount(campaign.campaignId, weiBig, user.wallet);
       let amountPledged = 0;
+      let nbOfInvestors = campaign.nbOfInvestors;
       if (campaign.pledged) {
-         amountPledged = wei + campaign.pledged
+         amountPledged = Number(wei) + Number(campaign.pledged)
+         console.log(amountPledged);   
       } else {
          amountPledged = wei
       }
-      console.log(amountPledged);
-      await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged});
+      console.log(amountInvested);
+      if (amountInvested === "0") {
+         dispatch({type: "campaign/invest", campaign: {pledged: amountPledged, nbOfInvestors: nbOfInvestors + 1}})
+         console.log('new investor');
+         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: true});
+        ;
+         
+      } else {
+         dispatch({type: "campaign/invest", campaign: {pledged: amountPledged, nbOfInvestors: nbOfInvestors}});
+         console.log('old investor');
+         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged});
+      }
+
       
    }
 

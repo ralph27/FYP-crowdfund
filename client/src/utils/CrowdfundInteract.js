@@ -45,7 +45,7 @@ export const pledgeAmount = async (id, amount, address) => {
  const transactionParameters = {
     to: CROWDFUND_ADDRESS,
     from: address,
-    data: CrowdfundContract.methods.pledge(id, amount, {from: address}).encodeABI(),
+    data: CrowdfundContract.methods.pledge(id, amount).encodeABI(),
     value: ethers.utils.parseEther(value).toHexString()
   }
 
