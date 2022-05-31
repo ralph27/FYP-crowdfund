@@ -39,7 +39,7 @@ contract ERC20 is IERC20, Staking {
     mapping(address => mapping(address => uint)) public allowance;
     string public name = "Test";
     string public symbol = "TEST";
-    uint8 public decimal = 18;
+    uint8 public decimal = 18; 
     uint public amountStaked;
 
     function transfer(address recipient, uint amount) external returns (bool) {
@@ -76,13 +76,12 @@ contract ERC20 is IERC20, Staking {
 
     function sendToContract(address recipient,uint amount) external {
         emit Log(balanceOf[address(this)]);
-        balanceOf[address(this)] -= amount;
+        balanceOf[address(this)] -= amount; 
         balanceOf[recipient] += amount;
         emit Transfer(address(this), recipient, amount);
     }
 
     function sendToAddress(address sender, address recipient, uint amount) external {
-        balanceOf[sender] -= amount;
         balanceOf[recipient] += amount;
         emit Transfer(sender, recipient, amount);
     }
@@ -93,11 +92,15 @@ contract ERC20 is IERC20, Staking {
         emit Transfer(msg.sender, address(0), amount);
     }
 
-    function stake(uint _amount) public {
-        require(_amount < balanceOf[msg.sender], "Not enough tokens");
+    function stake(uint _amount, address adr) public {
+        require(_amount < balanceOf[adr], "Not enough tokens");
         _stake(_amount);
-        balanceOf[msg.sender] -= _amount;
+        balanceOf[adr] -= _amount;
         circulatingSupply -= _amount;
+    }
+
+    function getTotalAmountStaked() public view returns (uint) {
+        return total_amount_stacked;
     }
 
         /**
@@ -112,13 +115,9 @@ contract ERC20 is IERC20, Staking {
         circulatingSupply += amount_to_mint;
     }
 
-    function getSummary() public {
-        uint amount = hasStake(msg.sender);
-        amountStaked = amount;
-    }
-
-    function stakerSummart() public view returns (Stakeholder memory) {
-        return getSummary(msg.sender);
+    function getSummary(address adr) view public returns (uint) {
+        uint amount = hasStake(adr);
+        return amount;
     }
 
 }

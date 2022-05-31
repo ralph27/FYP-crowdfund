@@ -107,14 +107,10 @@ contract Crowdfund is ERC20 {
         emit Unpledge(_id, msg.sender, _amount);
     }
 
-    function claim(uint _id) external payable {
+    function claim(uint _id, uint amount, address adr) external payable {
         Campaign storage campaign = campaigns[_id];
-        require(msg.sender == campaign.creator, "Not creator");
-        require(block.timestamp > campaign.endAt, "Not ended");
-        require(campaign.pledged >= campaign.goal, "pledge < goal");
-        require(!campaign.claimed, "Claimed");
 
-        (bool success, ) = msg.sender.call{value: campaign.pledged}("");     
+        (bool success, ) = adr.call{value: amount}("");     
         require(success, "Call failed");
         campaign.claimed = true;
         //token.transferFrom(msg.sender, campaign.pledged);
@@ -123,10 +119,11 @@ contract Crowdfund is ERC20 {
         emit Claim(_id);
     }
 
-    function claimShares(uint _id) external {
-        require(pledgedAmount[_id][msg.sender] > 0, "Nothing pledged");
+    function claimShares(uint _id, address adr) external {
+        require(pledgedAmount[_id][adr] > 0, "Nothing pledged");
         //uint amountDue = pledgedAmount[_id][msg.sender] * 100 / campaigns[_id].goal;
-        token.sendToAddress(address(this), msg.sender, pledgedAmount[_id][msg.sender] / 10**16);
+        token.sendToAddress(tokenAddress, adr, pledgedAmount[_id][adr] / 10**15);
+        pledgedAmount[_id][adr] = 0;
     }
 
     function getTokens(uint amount) external payable {
@@ -135,8 +132,6 @@ contract Crowdfund is ERC20 {
 
     function refund(uint _id) external {
         Campaign storage campaign = campaigns[_id];
-        require(block.timestamp > campaign.endAt, "Not ended");
-        require(campaign.pledged < campaign.goal, "pledged < goal");
 
         uint bal = pledgedAmount[_id][msg.sender];
         (bool success, ) = msg.sender.call{value: bal}("");

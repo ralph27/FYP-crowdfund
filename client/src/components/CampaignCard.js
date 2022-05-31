@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { connectWallet } from "../utils/CrowdfundInteract";
 
-export default function CampaignCard({ image, title, descp, snippet, creator, id, campaignId, startDate, endDate, pledged, nbOfInvestors }) {
+export default function CampaignCard({ image, title, descp, snippet, creator, id, campaignId, startDate, endDate, pledged, nbOfInvestors, claimed }) {
 
   const user = useSelector(state => state?.user);
   let navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function CampaignCard({ image, title, descp, snippet, creator, id
 
   const handleClick = async () => {
     if (user?.wallet) {
-      dispatch({type: "campaign/setDetails", campaign: {image, title, descp, snippet, creator, id, campaignId, startDate, endDate, pledged, nbOfInvestors}});
+      dispatch({type: "campaign/setDetails", campaign: {image, title, descp, snippet, creator, id, campaignId, startDate, endDate, pledged, nbOfInvestors,claimed}});
       navigate(`/Campaign/${id}`);
     } else {
       const res = await connectWallet();

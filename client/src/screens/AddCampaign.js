@@ -40,10 +40,13 @@ export default function AddCampaign() {
       startAt: startDate,
       endAt: endDate,
       goal: parseEther(goal).toString(),
-      nbOfInvestors: 0
+      nbOfInvestors: 0,
+      pledged: 0,
+      claimed: false,
     };
     let wei = parseEther(goal).toString();
     let weiBig = BigNumber.from(wei).toString();
+    console.log('wei', weiBig);
     await addCampaign(weiBig, startDate, endDate, user.wallet, newCampaign);
   
   };

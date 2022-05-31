@@ -5,7 +5,7 @@ import "../styles/main.css";
 import { FaBorderNone, FaRegGem } from "react-icons/fa";
 import { FaGem } from "react-icons/fa";
 import { connectWallet } from "../utils/CrowdfundInteract";
-import { balanceOf, getTotalSupply, mintTokens } from "../utils/ERC20Interact";
+import { balanceOf, getTotalSupply, mintTokens, sendToContract } from "../utils/ERC20Interact";
 import { useDispatch, useSelector } from "react-redux";
 
 function Navbar(props) {
@@ -59,7 +59,6 @@ function Navbar(props) {
      ( async () => {
       await getAccount();
       const supply = await getTotalSupply();
-      console.log(supply);
       setTotalSupply(supply)
       addWalletListener();
      }
@@ -67,8 +66,8 @@ function Navbar(props) {
    }, [user?.wallet]);
 
    const mint = async () => {
-     
-     await mintTokens(user?.wallet, 1000000)
+     //await mintTokens(user?.wallet, 1000000);
+     await sendToContract(user?.wallet)
    }
 
   return (
@@ -92,7 +91,7 @@ function Navbar(props) {
       <div className="wallet-container">
         <div className="wallet">
           <FaRegGem color="#fff" fontSize="1.5em" />
-          <span className="balance">{totalSupply} GMS</span>
+          <span className="balance">{user?.balance} GMS</span>
         </div>
         <div className="connect-btn" onClick={getAccount}>
           {user?.wallet ? formatAddress() : "Connect Wallet"}

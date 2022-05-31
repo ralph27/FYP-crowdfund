@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const { mongoose } = require("mongoose");
 const Campaign = require("./Models/models");
 var cors = require("cors");
+const { Stake } = require("./Models/StakeModel");
 
 const app = express();
 const dbURI =
@@ -23,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/all-campaigns", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
-  Campaign.find()
+  Campaign.Campaign.find()
     .then((result) => {
       res.send(result);
     })
@@ -33,7 +34,7 @@ app.get("/all-campaigns", (req, res) => {
 });
 
 app.post("/addCampaign", async (req, res, next) => {
-  Campaign.create(req.body, (error, data) => {
+  Campaign.Campaign.create(req.body, (error, data) => {
     if (error) {
       return next(error);
     } else {
@@ -56,6 +57,36 @@ app.post("/updateCampaign", async (req, res) => {
   } else {
     updateDoc = {pledged: req.body.amount};
   }
-  const result = await Campaign.updateOne(filter, updateDoc);
+  console.log('doc', updateDoc);
+  const result = await Campaign.Campaign.updateOne(filter, updateDoc);
   console.log(result.matchedCount);
+})
+
+app.post("/claimCampaign", async (req, res) => {
+  const filter = {id: req.body.id}
+  let updateDoc = {claimed: true};
+  const result = await Campaign.Campaign.updateOne(filter, updateDoc)
+  console.log(result.matchedCount);
+})
+
+app.post("/addStake", async (req, res) => {
+  Campaign.Stake.create(req.body, (error, data) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data);
+      res.json(data);
+    }
+  });
+})
+
+app.get("/getStakes", async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  Campaign.Stake.find({ user: req.query.user})
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 })

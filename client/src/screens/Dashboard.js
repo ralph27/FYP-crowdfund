@@ -10,7 +10,6 @@ export default function Dashboard() {
 
   const getCampaigns = async () => {
     const res = await axios.get("http://localhost:8080/all-campaigns");
-    console.log(res.data);
     setCampaigns(res.data);
   };
 
@@ -52,6 +51,7 @@ export default function Dashboard() {
               endDate={campaign.endAt}
               pledged={campaign.pledged}
               nbOfInvestors={campaign.nbOfInvestors}
+              claimed={campaign.claimed}
             />
           );
         })}

@@ -1,31 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { getCampaignDetails, pledgeAmount, pledgedAmount } from "../utils/CrowdfundInteract";
+import { claimShares, claimStake, getCampaignDetails, pledgeAmount, pledgedAmount, refund } from "../utils/CrowdfundInteract";
+import moment from 'moment';
 
 export default function Campaign() {
 
   const campaign = useSelector(state => state?.campaign.currentCampaign);
-  console.log(campaign);
   const [blockData, setBlockData] = useState();
-
+  const [amountPledged, setAmountPledged] = useState(0);
+  const currentDate = Date.now();
   const user = useSelector(state => state?.user);
   const navigate = useNavigate();
-  
+
   
   useEffect(() => {
     (async () => {
       const res = await getCampaignDetails(campaign?.campaignId + 1);
-      console.log('res', res);
-      console.log(campaign?.nbOfInvestors);
+      console.log(res);
       const amount = await pledgedAmount(campaign?.campaignId, user?.wallet);
       setBlockData(res);
+      setAmountPledged(amount);
     })();
-  }, []);
+  }, [user?.wallet]);
+  console.log(blockData?.goal);
+  console.log(campaign?.pledged);
+  console.log(campaign?.pledged < blockData?.goal);
 
   const handleClaim = async () => {
-    if (user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase()) {
-            
+    if (user?.wallet?.toLowerCase() !== blockData?.creator?.toLowerCase()) {
+          await claimShares(campaign?.campaignId, user?.wallet);
+    } else if (campaign.claimed === false) {
+      await claimStake(campaign?.campaignId, user?.wallet, campaign?.pledged);
+
+    }
+  } 
+
+  const handleRefund = async () => {
+    const pledged = await pledgedAmount(campaign?.campaignId, user?.wallet)
+    console.log('pledged', pledged);
+    if (pledged > 0) {
+      await refund(campaign?.campaignId, user?.wallet, pledged);
     }
   }
 
@@ -54,23 +69,41 @@ export default function Campaign() {
           <div className="invest-info">
             <div>
               <div className="info">Amount Raised</div>
-              <div className="value">{campaign?.pledged ? campaign?.pledged / (10 ** 18) : 0}</div>
+              <div className="value">{campaign?.pledged ? campaign?.pledged / (10 ** 18) : 0} ETH</div>
             </div>
             <div>
               <div className="info">Total Investors</div>
               <div className="value">{campaign?.nbOfInvestors ? campaign?.nbOfInvestors : 0}</div>
             </div>
             <div>
-              <div className="info">Share price</div>
-              <div className="value">3.87 GMS</div>
+              <div className="info">Goal</div>
+              <div className="value">{blockData?.goal / (10 ** 18)} ETH</div>
             </div>
           </div>
           <div className="campaign-bottom-CTA">
+
             <div className="invest-btn" onClick={() => navigate('/invest')}>
               Invest
             </div>
-            { blockData?.goal === campaign?.pledged.toString() && 
-            <div className="invest-btn" onClick={handleClaim}>Claim {user?.wallet?.toLowerCase() == blockData?.creator?.toLowerCase() ? "Amount Pledged" : "Shares"}</div> }
+
+            {Number(blockData?.endAt) <= moment().unix() && amountPledged > 0 && campaign.claimed &&
+              <div className="invest-btn" onClick={handleClaim}>
+                Claim Shares
+              </div>
+            }
+
+            {Number(blockData?.endAt) <= moment().unix() && user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase() && !campaign?.claimed &&
+              <div className="invest-btn" onClick={handleClaim}>
+                Claim Amount Pledged
+              </div>
+            }
+
+
+            { Number(blockData?.endAt) <= moment().unix() && !campaign.claimed && amountPledged > 0 &&
+              <div className="invest-btn" onClick={handleRefund}>
+                Refund
+              </div>
+            }
           </div>
       </div>
       

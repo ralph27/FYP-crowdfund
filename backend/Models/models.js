@@ -53,9 +53,36 @@ const CampaignSchema = new Schema({
    pledged: {
       type: Number,
       required: false
+   },
+   claimed: {
+      type: Boolean,
+      required: true
    }
 
 }, {timestamps: true});
 
 const Campaign = mongoose.model("Campaign", CampaignSchema);
-module.exports = Campaign
+
+const StakeSchema = new Schema({
+   user: {
+      type: String,
+      required: true,
+   },
+   amount: {
+      type: String,
+      required: true
+   },
+   claimed: {
+      type: Boolean,
+      required: true
+   },
+   date: {
+      type: String,
+      require: true
+   }
+})
+
+const Stake = mongoose.model("Stake", StakeSchema);
+
+
+module.exports = {Campaign, Stake}

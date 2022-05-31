@@ -43,46 +43,12 @@
 				"type": "address"
 			}
 		],
-		"name": "getSummary",
+		"name": "hasStake",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "user",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amount",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "since",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "claimable",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct Staking.Stake[]",
-						"name": "address_stakes",
-						"type": "tuple[]"
-					}
-				],
-				"internalType": "struct Staking.Stakeholder",
+				"internalType": "uint256",
 				"name": "",
-				"type": "tuple"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -91,12 +57,25 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "stakeholders",
+		"outputs": [
+			{
 				"internalType": "address",
-				"name": "_staker",
+				"name": "user",
 				"type": "address"
 			}
 		],
-		"name": "hasStake",
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "total_amount_stacked",
 		"outputs": [
 			{
 				"internalType": "uint256",

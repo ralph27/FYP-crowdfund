@@ -10,4 +10,10 @@ export const StakingContract = new web3.eth.Contract(
    STAKING_ADDRESS
  );
 
+ export const totalStaked = async () => {
+   const res = await StakingContract.methods.total_amount_stacked().call();
+   console.log('res',res);
+   return res;
+ }
+
  
