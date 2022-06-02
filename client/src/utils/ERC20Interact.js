@@ -113,6 +113,39 @@ export const totalAmount = async () => {
    return res;
 }
 
+export const withdrawStake = async (initialAmount, amount, amountMint, address, id) => {
+   console.log(amount, amountMint, address, id);
+   const tx = {
+      from: address,
+      to: ERC20_CONTRACT,
+      data: ERC20Contract.methods.withdrawStake(initialAmount, amount, amountMint, address).encodeABI()
+   }
+   try {
+      const txHash = await window.ethereum.request({
+         method: "eth_sendTransaction",
+         params: [tx]
+      });
+      const interval = setInterval(function() {
+        console.log("Attempting to get transaction receipt...");
+        web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+          if (rec) {
+            console.log(rec);
+            clearInterval(interval);
+            await axios.post("http://localhost:8080/claimStake", {id: id})
+            .then((res) => {
+               console.log(res.response);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
+          }
+        });
+      }, 1000)    
+   } catch (err) {
+      console.log(err.message)
+   }
+}
+
 export const subscribeToTransfer = async () => {
    ERC20Contract.events.Transfer({}, (error, data) => {
       if (error) {

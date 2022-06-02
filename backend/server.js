@@ -82,11 +82,19 @@ app.post("/addStake", async (req, res) => {
 
 app.get("/getStakes", async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
-  Campaign.Stake.find({ user: req.query.user})
+  Campaign.Stake.find({ user: req.query.user, claimed: false})
   .then((result) => {
     res.send(result);
   })
   .catch((err) => {
     console.log(err);
   });
+})
+
+app.post("/claimStake", async (req, res) => {
+  console.log(req.body);
+  const filter = {_id:  req.body.id};
+  const updateDoc = {claimed: true};
+  const result = await Campaign.Stake.updateOne(filter, updateDoc);
+  console.log(result.matchedCount);
 })

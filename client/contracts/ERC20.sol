@@ -60,7 +60,6 @@ contract ERC20 is IERC20, Staking {
         address recipient,
         uint amount
     ) external returns (bool) {
-        allowance[sender][msg.sender] -= amount;
         balanceOf[sender] -= amount;
         balanceOf[recipient] += amount;
         emit Transfer(sender, recipient, amount);
@@ -70,7 +69,6 @@ contract ERC20 is IERC20, Staking {
     function mint(uint amount) external {
         balanceOf[address(this)] += amount;
         totalSupply += amount;
-        circulatingSupply += amount;
         emit Transfer(address(0), address(this), amount);
     }
 
@@ -78,10 +76,15 @@ contract ERC20 is IERC20, Staking {
         emit Log(balanceOf[address(this)]);
         balanceOf[address(this)] -= amount; 
         balanceOf[recipient] += amount;
+        totalSupply -= amount;
+        circulatingSupply += amount;
         emit Transfer(address(this), recipient, amount);
     }
 
     function sendToAddress(address sender, address recipient, uint amount) external {
+        require(totalSupply > amount, "Not enough supply");
+        totalSupply -= amount;
+        circulatingSupply += amount;
         balanceOf[recipient] += amount;
         emit Transfer(sender, recipient, amount);
     }
@@ -93,7 +96,7 @@ contract ERC20 is IERC20, Staking {
     }
 
     function stake(uint _amount, address adr) public {
-        require(_amount < balanceOf[adr], "Not enough tokens");
+        require(_amount <= balanceOf[adr], "Not enough tokens");
         _stake(_amount);
         balanceOf[adr] -= _amount;
         circulatingSupply -= _amount;
@@ -106,13 +109,13 @@ contract ERC20 is IERC20, Staking {
         /**
     * @notice withdrawStake is used to withdraw stakes from the account holder
      */
-    function withdrawStake(uint256 _amount, uint256 stake_index)  public {
-
-        uint256 amount_to_mint = _withdrawStake(_amount, stake_index);
+    function withdrawStake(uint256 initialAmount, uint256 _amount, uint256 _amountMint, address adr)  public {
+        require(_amountMint < totalSupply, "Not enough supply");
         // Return staked tokens to user
-        balanceOf[msg.sender] += amount_to_mint;
-        totalSupply += amount_to_mint;
-        circulatingSupply += amount_to_mint;
+        balanceOf[adr] += _amountMint;
+        totalSupply -= _amount;
+        circulatingSupply += _amountMint;
+        total_amount_stacked -= initialAmount;
     }
 
     function getSummary(address adr) view public returns (uint) {

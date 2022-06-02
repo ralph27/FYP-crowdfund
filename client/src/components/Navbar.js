@@ -57,10 +57,12 @@ function Navbar(props) {
 
   useEffect(() => {
      ( async () => {
+      dispatch({type: "fetch/setFetch", status: true})
       await getAccount();
       const supply = await getTotalSupply();
       setTotalSupply(supply)
       addWalletListener();
+      dispatch({type: "fetch/setFetch", status: false})
      }
      )();
    }, [user?.wallet]);

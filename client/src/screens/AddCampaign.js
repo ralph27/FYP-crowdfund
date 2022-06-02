@@ -19,14 +19,16 @@ export default function AddCampaign() {
   const [id, setId] = useState(0);
   const [uploading, setUploading] = useState(false);
   const user = useSelector(state => state?.user);
+  const fetch = useSelector(state => state?.fetch)
 
 
   useEffect(() => {
     (async () => {
       const count = await getCampaignsCount();
+      console.log(user);
       setId(count);
     })();
-  }, [])
+  }, [fetch])
 
   const handleSubmit = async (event) => {
     event.preventDefault();

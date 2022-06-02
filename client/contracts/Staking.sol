@@ -122,7 +122,7 @@ contract Staking {
      * and the duration the stake has been active
      */
     function calculateStakeReward(uint since, uint amount)
-        internal
+        public
         view
         returns (uint256)
     {

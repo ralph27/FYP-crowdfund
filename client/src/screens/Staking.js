@@ -3,17 +3,22 @@ import { FaGem } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaRocket } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getCirculation, getStakes, getTotalSupply, stake, totalAmount } from "../utils/ERC20Interact";
+import { getCirculation, getStakes, getTotalSupply, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
 import moment from "moment";
 import axios from "axios";
+import { getRewardAmount } from "../utils/StakingInteract";
+import { BigNumber, ethers } from "ethers";
 
 export default function Stakings() {
   const dispatch = useDispatch();
   const token = useSelector(state => state?.token);
+  const fetch = useSelector(state => state?.fetch);
   const user = useSelector(state => state?.user);
   const [amount, setAmount] = useState();
   const [stakes, setStakes] = useState([]);
   const [totalStaked, setTotalStaked] = useState(0);
+  const [loading, setLoading] = useState(true);
+  
   
   const handleStake = async () => {
     const stakeInfo = {
@@ -25,24 +30,44 @@ export default function Stakings() {
     await stake(amount, user?.wallet, stakeInfo);
   }
 
+  const calculateReward = (date, amount) => {
+    const res =  (((moment().unix() - date) / 60) * amount) / 1000;
+    return res;
+  }
+
+  const handleClaim = async (stake) => {
+    const amountAfterMint = Number(stake.amount) + Number(stake.reward);
+    await withdrawStake(stake.amount, Math.ceil(stake.reward), Math.ceil(amountAfterMint).toString(), user?.wallet, stake.id);
+  }
+
 
   useEffect(() => {
     (async () => {
+      
       const sup = await getTotalSupply();
       const cir = await getCirculation();
       const stake = await totalAmount();
       if (user?.wallet) {
+        setTotalStaked(0);
+        setStakes([]);
         const data = await axios.get("http://localhost:8080/getStakes", {params: {user: user?.wallet}})
-        console.log(data.data);
-        setStakes(data.data);
+        data.data.map(info => {
+          setTotalStaked(prev => prev + Number(info.amount));
+          setStakes(prev => ([
+            ...prev,
+            {amount: info.amount,
+            date: info.date,
+            reward: calculateReward(info.date, info.amount),
+            id: info._id
+            }
+          ]))
+        });
       }   
       dispatch({type: "token/setInfo", token: {supply: sup, circulation: cir, staked: stake}});
     })();
-  }, [user?.wallet])
+  }, [fetch])
 
-  useEffect(() => {
-    stakes.map(stake => setTotalStaked(prev => prev + Number(stake.amount)));
-  }, [stakes])
+
 
 
   return (
@@ -62,14 +87,14 @@ export default function Stakings() {
             </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
-                <FaLock color="#FF007A" size={25} />
+                <FaRocket color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS In Circulation</p>
               </div>
               <p><span className="value-staked">{token?.circulation}</span> GMS</p>
             </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
-                <FaRocket color="#FF007A" size={25} />
+                <FaLock color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS Staked</p>
               </div>
               <p><span className="value-staked">{token?.staked}</span> GMS</p>
@@ -127,17 +152,17 @@ export default function Stakings() {
                       <FaGem color="#FF007A" size={20} />
                       <p>{stake.amount} GSM</p>
                     </div>
-                    <p>Claimable: {stake.claimable} GSM</p>
-                    <p className="claim-btn">Claim</p>
+                    <p>Claimable: {Number(stake.reward).toFixed(2)} GSM</p>
+                    <p className="claim-btn" onClick={() => handleClaim(stake)}>Claim</p>
                   </div>
                 )
-              }) 
+                }) 
               : 
                 <div className="card-3-empty">
                   <h2>No stakes found</h2>
                 </div>
               }
-            </div>
+            </div> 
           </div>
         </div>
       </div>
