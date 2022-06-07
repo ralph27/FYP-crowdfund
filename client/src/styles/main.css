@@ -920,7 +920,16 @@ input::-webkit-inner-spin-button {
   min-height: calc(100vh - (80px + 60px));
   padding-top: 5%;
   padding-bottom: 5%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.profile-screen > h1 {
+  color: white;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.profile-invested-title {
+  color: white;
+  text-align: center;
+  margin-bottom: 30px;
 }

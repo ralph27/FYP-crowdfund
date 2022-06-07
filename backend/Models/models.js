@@ -57,8 +57,11 @@ const CampaignSchema = new Schema({
    claimed: {
       type: Boolean,
       required: true
+   },
+   investors: {
+      type: Array,
+      required: false
    }
-
 });
 
 const Campaign = mongoose.model("Campaign", CampaignSchema);

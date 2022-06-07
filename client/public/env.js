@@ -10,7 +10,7 @@ window.env = {
   "CommonProgramW6432": "C:\\Program Files\\Common Files",
   "COMPUTERNAME": "RALPH",
   "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
-  "CROWDFUND_ADDRESS": "0xcdBc991d80819d9f02db3a851223a7fecffB1Bc6",
+  "CROWDFUND_ADDRESS": "0x4974594c8B8B0066616081316479E91D8120617E",
   "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
   "EDITOR": "notepad.exe",
   "ERC20_CONTRACT": "0x56b338A5b9b82996569B6E2D739B44258Fe5fFf1",

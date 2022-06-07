@@ -33,12 +33,14 @@ export default function Campaign() {
     var h = Math.floor(time % (3600*24) / 3600);
     var m = Math.floor(time % 3600 / 60);
     var s = Math.floor(time % 60);
-
+    if (d < 0) {
+      setTimeLeft("Campaign Has Ended")
+    } else
     if (d >= 1) {
       setTimeLeft(`${d} day and ${h} ${h > 1 ? "hours" : "hour"} left`);
     } else {
       setTimeLeft(`${h} ${h > 1 ? "hours" : "hour"} and ${m} ${m > 1 ? "minutes" : "minute"} and ${s} ${s > 1 ? "seconds" : "second"} left`);
-    }
+    } 
   }
 
   const handleClaim = async () => {
@@ -102,9 +104,9 @@ export default function Campaign() {
           <ProgressBar completed={( campaign?.pledged * 100 ) / blockData?.goal} width="50vw" margin="50px 0 0 0" bgColor="#FF007A"/>
           <div className="campaign-bottom-CTA">
 
-            <div className="invest-btn" onClick={() => navigate('/invest')}>
+            {Number(blockData?.endAt) >= moment().unix() && <div className="invest-btn" onClick={() => navigate('/invest')}>
               Invest
-            </div>
+            </div>}
 
             {Number(blockData?.endAt) <= moment().unix() && amountPledged > 0 && campaign.claimed &&
               <div className="invest-btn" onClick={handleClaim}>
@@ -112,7 +114,7 @@ export default function Campaign() {
               </div>
             }
 
-            {Number(blockData?.endAt) <= moment().unix() && user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase() && !campaign?.claimed &&
+            {Number(blockData?.endAt) <= moment().unix() && user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase() && !campaign?.claimed && campaign?.pledged > 0 &&
               <div className="invest-btn" onClick={handleClaim}>
                 Claim Amount Pledged
               </div>

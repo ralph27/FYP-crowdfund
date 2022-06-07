@@ -68,7 +68,8 @@ app.post("/updateCampaign", async (req, res) => {
       pledged: req.body.amount,
       $inc: {
         nbOfInvestors: 1
-      }
+      },
+      $push: { investors: req.body.wallet}
     }
   } else {
     console.log('not incing investors');
@@ -112,4 +113,25 @@ app.post("/claimStake", async (req, res) => {
   const filter = {_id:  req.body.id};
   const updateDoc = {claimed: true};
   const result = await Campaign.Stake.updateOne(filter, updateDoc);
+})
+
+app.get("/getProfile", async (req, res) => {
+  console.log(req.query);
+  Campaign.Campaign.find({investors: req.query.address})
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+})
+
+app.get("/getCreated", async (req, res) => {
+  Campaign.Campaign.find({creator: req.query.address})
+  .then((result) => {
+    res.send(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 })

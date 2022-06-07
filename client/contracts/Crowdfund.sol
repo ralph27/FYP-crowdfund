@@ -36,6 +36,7 @@ contract Crowdfund is ERC20 {
     uint public count;
     mapping(uint => Campaign) public campaigns;
     mapping(uint => mapping(address => uint)) public pledgedAmount;
+    mapping(address => uint[]) public investors;
 
     constructor(address _token) {
         token = IERC20(_token);
@@ -75,12 +76,13 @@ contract Crowdfund is ERC20 {
         emit Cancel(_id);
     }
 
-    function pledge(uint _id, uint _amount) external payable {
+    function pledge(uint _id, uint _amount, address adr) external payable {
         Campaign storage campaign = campaigns[_id];
         require(_amount > 0, "Amount should be bigger than 0");
 
         if (pledgedAmount[_id][msg.sender] == 0) {
             campaign.numberOfInvestors += 1;
+            investors[adr].push(_id);
         }
 
         (bool success, ) = address(this).call{value: _amount}("");

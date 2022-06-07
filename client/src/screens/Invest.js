@@ -38,7 +38,7 @@ function Invest() {
       if (amountInvested === "0") {
       
          dispatch({type: "campaign/invest", campaign: {pledged: amountPledged, nbOfInvestors: nbOfInvestors + 1}})
-         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: true});        
+         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: true, wallet: user?.wallet});        
       } else {
          dispatch({type: "campaign/invest", campaign: {pledged: amountPledged, nbOfInvestors: nbOfInvestors}});
          await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: false});

@@ -358,6 +358,30 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "since",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "calculateStakeReward",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
@@ -414,6 +438,19 @@
 		"name": "cancel",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "circulatingSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -487,60 +524,19 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_staker",
+				"name": "adr",
 				"type": "address"
 			}
 		],
 		"name": "getSummary",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "user",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amount",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "since",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "claimable",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct Staking.Stake[]",
-						"name": "address_stakes",
-						"type": "tuple[]"
-					}
-				],
-				"internalType": "struct Staking.Stakeholder",
+				"internalType": "uint256",
 				"name": "",
-				"type": "tuple"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getSummary",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -557,6 +553,19 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getTotalAmountStaked",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -565,6 +574,30 @@
 			}
 		],
 		"name": "hasStake",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "investors",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -641,6 +674,11 @@
 				"internalType": "uint256",
 				"name": "_amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "adr",
+				"type": "address"
 			}
 		],
 		"name": "pledge",
@@ -732,6 +770,11 @@
 				"internalType": "uint256",
 				"name": "_amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "adr",
+				"type": "address"
 			}
 		],
 		"name": "stake",
@@ -740,47 +783,19 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "stakerSummart",
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "stakeholders",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "user",
-						"type": "address"
-					},
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "user",
-								"type": "address"
-							},
-							{
-								"internalType": "uint256",
-								"name": "amount",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "since",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "claimable",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct Staking.Stake[]",
-						"name": "address_stakes",
-						"type": "tuple[]"
-					}
-				],
-				"internalType": "struct Staking.Stakeholder",
-				"name": "",
-				"type": "tuple"
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -828,6 +843,19 @@
 	{
 		"inputs": [],
 		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "total_amount_stacked",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -913,13 +941,23 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "initialAmount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
 				"name": "_amount",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "stake_index",
+				"name": "_amountMint",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "adr",
+				"type": "address"
 			}
 		],
 		"name": "withdrawStake",

@@ -49,7 +49,7 @@ export const pledgeAmount = async (id, amount, address, setUploading, dispatch) 
  const transactionParameters = {
     to: CROWDFUND_ADDRESS,
     from: address,
-    data: CrowdfundContract.methods.pledge(id, amount).encodeABI(),
+    data: CrowdfundContract.methods.pledge(id, amount, address).encodeABI(),
     value: ethers.utils.parseEther(value).toHexString()
   }
 
@@ -221,10 +221,20 @@ export const refund = async (id, address, amount) => {
  }
 }
 
+export const getProfileCampaigns = async (adr) => {
+
+}
+
 
 export const getCampaignDetails = async (id) => 
 {
   const res = await CrowdfundContract.methods.campaigns(id).call();
+  return res;
+}
+
+export const getProfile = async (adr) => {
+  console.log(adr);
+  const res = await CrowdfundContract.methods.investors(adr).call();
   return res;
 }
 

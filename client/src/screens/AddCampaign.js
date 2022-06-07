@@ -37,7 +37,7 @@ export default function AddCampaign() {
     let endStr = moment(endDate).unix();
     const newCampaign = {
       id: id,
-      creator: creator,
+      creator: user?.wallet,
       title: title,
       description: description,
       snippet: snippet,
@@ -48,6 +48,7 @@ export default function AddCampaign() {
       nbOfInvestors: 0,
       pledged: 0,
       claimed: false,
+      investors: [],
     };
     let wei = parseEther(goal).toString();
     let weiBig = BigNumber.from(wei).toString();
@@ -74,14 +75,6 @@ export default function AddCampaign() {
         </span>
         <form className="form" onSubmit={handleSubmit}>
           <div className="flex-left-side"> 
-
-            <input
-              className="input"
-              type="text"
-              value={creator}
-              onChange={(e) => setCreator(e.target.value)}
-              placeholder="Name"
-            />
        
             <input
               className="input"
