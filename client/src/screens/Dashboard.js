@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CampaignCard from "../components/CampaignCard";
 import "../styles/main.css";
 import axios from "axios";
+import moment from "moment";
 
 export default function Dashboard() {
   
@@ -9,7 +10,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
 
   const getCampaigns = async () => {
-    const res = await axios.get("http://localhost:8080/all-campaigns");
+    const res = await axios.get("http://localhost:8080/all-campaigns", {params: {date: moment().unix()}});
     setCampaigns(res.data);
   };
 

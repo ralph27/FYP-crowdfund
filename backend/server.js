@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const { mongoose } = require("mongoose");
 const Campaign = require("./Models/models");
 var cors = require("cors");
-const { Stake } = require("./Models/StakeModel");
+const multer = require("multer");
+var fs = require('fs');
+var path = require('path');
 
 const app = express();
 const dbURI =
@@ -22,9 +24,21 @@ app.use(cors());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+let upload = multer({ storage: storage});
+
 app.get("/all-campaigns", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
-  Campaign.Campaign.find()
+  console.log(req.query);
+  Campaign.Campaign.find({startAt: {$lt: req.query.date}, endAt: {$gt: req.query.date}})
     .then((result) => {
       res.send(result);
     })
@@ -34,6 +48,7 @@ app.get("/all-campaigns", (req, res) => {
 });
 
 app.post("/addCampaign", async (req, res, next) => {
+
   Campaign.Campaign.create(req.body, (error, data) => {
     if (error) {
       return next(error);
@@ -48,6 +63,7 @@ app.post("/updateCampaign", async (req, res) => {
   const filter =  {id: req.body.id};
   let updateDoc = {};
   if (req.body.incInvestors) {
+    console.log('incing investors');
     updateDoc = {
       pledged: req.body.amount,
       $inc: {
@@ -55,6 +71,7 @@ app.post("/updateCampaign", async (req, res) => {
       }
     }
   } else {
+    console.log('not incing investors');
     updateDoc = {pledged: req.body.amount};
   }
   console.log('doc', updateDoc);
@@ -92,9 +109,7 @@ app.get("/getStakes", async (req, res) => {
 })
 
 app.post("/claimStake", async (req, res) => {
-  console.log(req.body);
   const filter = {_id:  req.body.id};
   const updateDoc = {claimed: true};
   const result = await Campaign.Stake.updateOne(filter, updateDoc);
-  console.log(result.matchedCount);
 })

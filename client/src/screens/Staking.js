@@ -3,11 +3,10 @@ import { FaGem } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaRocket } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getCirculation, getStakes, getTotalSupply, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
+import { getCirculation, getTotalSupply, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
 import moment from "moment";
 import axios from "axios";
-import { getRewardAmount } from "../utils/StakingInteract";
-import { BigNumber, ethers } from "ethers";
+import Popup from "../components/Popup";
 
 export default function Stakings() {
   const dispatch = useDispatch();
@@ -17,8 +16,7 @@ export default function Stakings() {
   const [amount, setAmount] = useState();
   const [stakes, setStakes] = useState([]);
   const [totalStaked, setTotalStaked] = useState(0);
-  const [loading, setLoading] = useState(true);
-  
+  const [uploading, setUploading] = useState(false);
   
   const handleStake = async () => {
     const stakeInfo = {
@@ -27,7 +25,8 @@ export default function Stakings() {
       claimed: false,
       date: moment().unix()
     }
-    await stake(amount, user?.wallet, stakeInfo);
+    await stake(amount, user?.wallet, stakeInfo, setUploading, dispatch);
+    setAmount(0);
   }
 
   const calculateReward = (date, amount) => {
@@ -37,13 +36,12 @@ export default function Stakings() {
 
   const handleClaim = async (stake) => {
     const amountAfterMint = Number(stake.amount) + Number(stake.reward);
-    await withdrawStake(stake.amount, Math.ceil(stake.reward), Math.ceil(amountAfterMint).toString(), user?.wallet, stake.id);
+    await withdrawStake(stake.amount, Math.ceil(stake.reward), Math.ceil(amountAfterMint).toString(), user?.wallet, stake.id, setUploading, dispatch);
   }
 
 
   useEffect(() => {
     (async () => {
-      
       const sup = await getTotalSupply();
       const cir = await getCirculation();
       const stake = await totalAmount();
@@ -72,6 +70,7 @@ export default function Stakings() {
 
   return (
     <div className="staking">
+      {uploading && <Popup setUploading={setUploading}/>}
       <h1 className="title">STAKING</h1>
       <div className="staking-container">
         <div className="left-container">

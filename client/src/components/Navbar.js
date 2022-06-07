@@ -89,6 +89,9 @@ function Navbar(props) {
         <Link to="/Staking" style={{ textDecoration: "none" }}>
           <li>Staking</li>
         </Link>
+        <Link to="/Profile" style={{ textDecoration: "none" }}>
+          <li>Profile</li>
+        </Link>
       </ul>
       <div className="wallet-container">
         <div className="wallet">

@@ -6,10 +6,12 @@ import { getEthBalance } from '../utils/EthInteract';
 import { BigNumber } from 'ethers'
 import { parseEther } from 'ethers/lib/utils';
 import axios from 'axios';
+import Popup from '../components/Popup';
 function Invest() {
    const dispatch = useDispatch();
    const [ethBalance, setEthBalance] = useState(0)
    const [value, setValue] = useState("");
+   const [uplaoding, setUploading] = useState(false);
    const user = useSelector(state => state?.user);
    const campaign = useSelector(state => state?.campaign.currentCampaign);
    useEffect(() => {
@@ -25,7 +27,7 @@ function Invest() {
       const amountInvested = await pledgedAmount(campaign.campaignId, user?.wallet);
       let wei = parseEther(value).toString();
       let weiBig = BigNumber.from(wei).toString();
-      await pledgeAmount(campaign.campaignId, weiBig, user.wallet);
+      await pledgeAmount(campaign.campaignId, weiBig, user.wallet, setUploading, dispatch);
       let amountPledged = 0;
       let nbOfInvestors = campaign.nbOfInvestors;
       if (campaign.pledged) {
@@ -34,20 +36,18 @@ function Invest() {
          amountPledged = wei
       }
       if (amountInvested === "0") {
+      
          dispatch({type: "campaign/invest", campaign: {pledged: amountPledged, nbOfInvestors: nbOfInvestors + 1}})
-         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: true});
-        ;
-         
+         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: true});        
       } else {
          dispatch({type: "campaign/invest", campaign: {pledged: amountPledged, nbOfInvestors: nbOfInvestors}});
-         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged});
+         await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: false});
       }
-
-      
    }
 
    return (
       <div className='invest-wrapper'>
+         {uplaoding && <Popup setUploading={setUploading}/>}
          <div className='invest-form-wrapper'>
             <h1>Enter amount</h1>
             <div className='invest-input-wrapper'>

@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import campaignReducer from "./features/campaignReducer";
 import fetchReducer from "./features/fetchReducer";
 import tokenReducer from "./features/tokenReducer";
+import TransactionReducer from "./features/TransactionReducer";
 import userReducer from "./features/userReducer";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
       user: userReducer,
       campaign: campaignReducer,
       token: tokenReducer,
-      fetch: fetchReducer
+      fetch: fetchReducer,
+      transaction: TransactionReducer
    }
 })

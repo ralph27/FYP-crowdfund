@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "../styles/main.css";
-import axios from "axios";
-import uuid from "react-uuid";
-import { parseEther, parseUnits } from "ethers/lib/utils";
-import { addCampaign, getCampaignDetails, getCampaignsCount } from "../utils/CrowdfundInteract";
-import { useSelector } from "react-redux";
+import { parseEther } from "ethers/lib/utils";
+import { addCampaign, getCampaignsCount } from "../utils/CrowdfundInteract";
+import { useDispatch, useSelector } from "react-redux";
 import { BigNumber } from "ethers";
+import moment from 'moment'
+import Popup from "../components/Popup";
 
 export default function AddCampaign() {
   const [creator, setCreator] = useState("");
   const [title, setTitle] = useState("");
   const [snippet, setSnippet] = useState("");
   const [thumbnail, setThumbnail] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [goal, setGoal] = useState("");
   const [description, setDescription] = useState("");
   const [id, setId] = useState(0);
-  const [uploading, setUploading] = useState(false);
   const user = useSelector(state => state?.user);
   const fetch = useSelector(state => state?.fetch)
+  const [uploading, setUploading] = useState(false)
 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -32,6 +33,8 @@ export default function AddCampaign() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    let startStr = moment(startDate).unix();
+    let endStr = moment(endDate).unix();
     const newCampaign = {
       id: id,
       creator: creator,
@@ -39,8 +42,8 @@ export default function AddCampaign() {
       description: description,
       snippet: snippet,
       thumbnail: thumbnail,
-      startAt: startDate,
-      endAt: endDate,
+      startAt: startStr,
+      endAt: endStr,
       goal: parseEther(goal).toString(),
       nbOfInvestors: 0,
       pledged: 0,
@@ -49,11 +52,22 @@ export default function AddCampaign() {
     let wei = parseEther(goal).toString();
     let weiBig = BigNumber.from(wei).toString();
     console.log('wei', weiBig);
-    await addCampaign(weiBig, startDate, endDate, user.wallet, newCampaign);
-  
+    await addCampaign(weiBig, startStr, endStr, user.wallet, newCampaign, setUploading, dispatch);
+    setId(0);
+    setCreator("");
+    setTitle("");
+    setDescription("");
+    setSnippet("");
+    setThumbnail("");
+    setStartDate(new Date());
+    setEndDate(new Date());
+    setGoal("");
   };
+
+  
   return (
     <div className="formContainer">
+      {uploading && <Popup setUploading={setUploading} />}
       <div className="form-wrapper">
         <span className="form-title">
           Please Fill the Below Information To Get Started
@@ -93,18 +107,22 @@ export default function AddCampaign() {
               placeholder="Thumbnail"
             />
 
-            <input
-              className="input"
-              type="text"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              placeholder="Start Date"
-            />
+            <label className="add-campaign-label">
+              Start Date
+            </label>
+              <input
+                className="date-input"
+                value={startDate}
+                type="datetime-local"
+                onChange={(e) => setStartDate(e.target.value)}
+                placeholder="Start Date"
+              />
 
+            <label className="add-campaign-label">End Date</label>
             <input
-              className="input"
-              type="text"
+              className="date-input"
               value={endDate}
+              type="datetime-local"
               onChange={(e) => setEndDate(e.target.value)}
               placeholder="End Date"
             />

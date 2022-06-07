@@ -45,7 +45,7 @@ export const balanceOf = async (address) => {
    return bal;
 }
 
-export const stake = async (amount, address, stake) => {
+export const stake = async (amount, address, stake, setUploading, dispatch) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
@@ -56,22 +56,32 @@ export const stake = async (amount, address, stake) => {
          method: "eth_sendTransaction",
          params: [tx]
       });
-      const interval = setInterval(function() {
-        console.log("Attempting to get transaction receipt...");
-        web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
-          if (rec) {
-            console.log(rec);
-            await axios.post("http://localhost:8080/addStake", stake)
-            .then((res) => {
-               console.log(res.response);
-            })
-            .catch((error) => {
-               console.log(error);
+      setTimeout(  
+         function() {
+            setUploading(true);
+            dispatch({type: "tx/setTx", tx: txHash})
+            const interval = setInterval(function() {
+            console.log("Attempting to get transaction receipt...");
+            web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+              if (rec) {
+                console.log(rec);
+                clearInterval(interval);
+                await axios.post("http://localhost:8080/addStake", stake)
+                .then((res) => {
+                   console.log(res.response);
+                   dispatch({type: "tx/setStatus", status: rec.status})
+                })
+                .catch((error) => {
+                   console.log(error);
+                   dispatch({type: "tx/setStatus", status: rec.status})
+                });
+               
+              }
             });
-            clearInterval(interval);
-          }
-        });
-      }, 1000)    
+          }, 1000)  
+         },  
+      1000)
+      
    } catch (err) {
       console.log(err.message)
    }
@@ -113,8 +123,7 @@ export const totalAmount = async () => {
    return res;
 }
 
-export const withdrawStake = async (initialAmount, amount, amountMint, address, id) => {
-   console.log(amount, amountMint, address, id);
+export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
@@ -125,25 +134,35 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
          method: "eth_sendTransaction",
          params: [tx]
       });
-      const interval = setInterval(function() {
-        console.log("Attempting to get transaction receipt...");
-        web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
-          if (rec) {
-            console.log(rec);
-            clearInterval(interval);
-            await axios.post("http://localhost:8080/claimStake", {id: id})
-            .then((res) => {
-               console.log(res.response);
-            })
-            .catch((error) => {
-               console.log(error);
-            });
-          }
-        });
-      }, 1000)    
+      setTimeout(
+         function() {
+           setUploading(true);
+           dispatch({type: "tx/setTx", tx: txHash})
+           var interval = setInterval(function() {
+             console.log("Attempting to get transaction receipt...");
+             web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+               if (rec) {
+                 console.log(rec);
+                 clearInterval(interval);
+                 dispatch({type: "tx/setStatus", status: rec.status})
+                 await axios.post("http://localhost:8080/claimStake", {id: id})
+                 .then((res) => {
+                   console.log(res.response);
+                 })
+                 .catch((error) => {
+                   console.log(error);
+                   dispatch({type: "tx/setStatus", status: rec.status})
+                 });
+               }
+             });
+           }, 1000)
+         },
+         1000
+       )
    } catch (err) {
       console.log(err.message)
    }
+  // await axios.post("http://localhost:8080/claimStake", {id: id})
 }
 
 export const subscribeToTransfer = async () => {

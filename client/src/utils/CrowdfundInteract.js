@@ -43,7 +43,7 @@ export const pledgedAmount = async (id, address) => {
   return res
 }
 
-export const pledgeAmount = async (id, amount, address) => {
+export const pledgeAmount = async (id, amount, address, setUploading, dispatch) => {
   const total = amount / (10 ** 18);
   const value = total.toString();
  const transactionParameters = {
@@ -59,26 +59,30 @@ export const pledgeAmount = async (id, amount, address) => {
       params: [transactionParameters]
     })
 
-    const interval = setInterval(function() {
-      console.log("Attempting to get transaction receipt...");
-      web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
-        if (rec) {
-          console.log(rec);
-          clearInterval(interval);
-        }
-        if (err) {
-          console(err);
-          clearInterval(interval);
-        }
-      });
-    }, 1000) 
+    setTimeout(
+      function() {
+        setUploading(true);
+        dispatch({type: "tx/setTx", tx: txHash})
+        var interval = setInterval(function() {
+          console.log("Attempting to get transaction receipt...");
+          web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+            if (rec) {
+              console.log(rec);
+              clearInterval(interval);
+              dispatch({type: "tx/setStatus", status: rec.status})
+            }
+          });
+        }, 1000)
+      },
+      1000
+    )
 
   } catch (err) {
     console.log(err.message);
   }
 }
 
-export const addCampaign = async (goal, startAt, endAt, address, campaign) => {
+export const addCampaign = async (goal, startAt, endAt, address, campaign, setUploading, dispatch) => {
   const transactionParameters = {
     to: CROWDFUND_ADDRESS,
     from: address,
@@ -90,22 +94,34 @@ export const addCampaign = async (goal, startAt, endAt, address, campaign) => {
        method: "eth_sendTransaction",
        params: [transactionParameters]
     });
-    const interval = setInterval(function() {
-      console.log("Attempting to get transaction receipt...");
-      web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
-        if (rec) {
-          console.log(rec);
-          await axios.post("http://localhost:8080/addCampaign", campaign)
-          .then((res) => {
-            console.log(res.response);
-          })
-          .catch((error) => {
-            console.log(error);
+   
+    setTimeout(
+      function() {
+        setUploading(true);
+        dispatch({type: "tx/setTx", tx: txHash})
+        var interval = setInterval(function() {
+          console.log("Attempting to get transaction receipt...");
+          web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+            if (rec) {
+              console.log(rec);
+              clearInterval(interval);
+              await axios.post("http://localhost:8080/addCampaign", campaign)
+              .then((res) => {
+                console.log(res.response);
+                dispatch({type: "tx/setStatus", status: rec.status})
+              })
+              .catch((error) => {
+                console.log(error);
+                dispatch({type: "tx/setStatus", status: rec.status})
+              });
+            }
           });
-          clearInterval(interval);
-        }
-      });
-    }, 1000)    
+        }, 1000)
+      },
+      1000
+    )
+      
+
  } catch (err) {
     console.log(err.message)
  }

@@ -23,6 +23,7 @@ import { Provider, useDispatch } from "react-redux";
 import { store } from "./redux/store";
 import AddCampaign from "./screens/AddCampaign";
 import Invest from "./screens/Invest";
+import Profile from "./screens/Profile";
 
 function App() {  
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/AddCampaign" element={<AddCampaign />} />
           <Route path="/Staking" element={<Staking />} />
           <Route path="/Invest" element={<Invest />} />
+          <Route path="/Profile" element={<Profile />} />
         </Routes>
         <Footer />
       </Router>

@@ -59,7 +59,7 @@ const CampaignSchema = new Schema({
       required: true
    }
 
-}, {timestamps: true});
+});
 
 const Campaign = mongoose.model("Campaign", CampaignSchema);
 
