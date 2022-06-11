@@ -42,7 +42,7 @@ export const getCirculation = async () => {
 
 export const balanceOf = async (address) => {
    const bal = await ERC20Contract.methods.balanceOf(address).call();
-   return bal;
+   return bal; 
 }
 
 export const stake = async (amount, address, stake, setUploading, dispatch) => {

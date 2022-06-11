@@ -115,7 +115,7 @@ export default function Campaign() {
               </div>
             }
 
-            {Number(blockData?.endAt) <= moment().unix() && user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase() && !blockData?.claimed && blockData?.pledged > 0 &&
+            {Number(blockData?.endAt) <= moment().unix() && user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase() && !blockData?.claimed && blockData?.pledged >= blockData.goal &&
               <div className="invest-btn" onClick={handleClaim}>
                 Claim Amount Pledged
               </div>

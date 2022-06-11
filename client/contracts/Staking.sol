@@ -90,7 +90,7 @@ contract Staking {
      * _Stake is used to make a stake for an sender. It will remove the amount staked from the stakers account and place those tokens inside a stake container
      * StakeID
      */
-    function _stake(uint256 _amount) internal {
+    function _stake(uint256 _amount) internal { 
         // Simple check so that user does not stake 0
         require(_amount > 0, "Cannot stake nothing");
 

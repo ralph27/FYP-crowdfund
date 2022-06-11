@@ -37,9 +37,9 @@ contract ERC20 is IERC20, Staking {
     uint public circulatingSupply;
     mapping(address => uint) public balanceOf;
     mapping(address => mapping(address => uint)) public allowance;
-    string public name = "Test";
-    string public symbol = "TEST";
-    uint8 public decimal = 18; 
+    string public name = "Gemstone";
+    string public symbol = "GMS";
+    uint8 public decimal = 3; 
     uint public amountStaked;
 
     function transfer(address recipient, uint amount) external returns (bool) {
