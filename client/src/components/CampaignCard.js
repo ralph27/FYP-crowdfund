@@ -31,7 +31,8 @@ export default function CampaignCard({ image, title, descp, snippet, creator, id
         </div>
       </div>
       <div className="campaign-card-bottom">
-        <span className="country">Creator: {creator}</span>
+        <span className="country">Creator: {String(creator).substring(0, 18)}...{String(creator).substring(38)}
+        </span>
         <div className="card-btn" onClick={handleClick}>
           {user?.wallet ? "Invest" : "Connect Wallet"}
           <FaArrowRight />

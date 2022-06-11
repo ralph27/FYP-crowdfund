@@ -3,9 +3,8 @@ import { FaGem } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaRocket } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getCirculation, getTotalSupply, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
+import { getCirculation, getTotalSupply, getUserStakes, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
 import moment from "moment";
-import axios from "axios";
 import Popup from "../components/Popup";
 
 export default function Stakings() {
@@ -44,23 +43,29 @@ export default function Stakings() {
     (async () => { 
       const sup = await getTotalSupply();
       const cir = await getCirculation();
-      const stake = await totalAmount();
       if (user?.wallet) {
         setTotalStaked(0);
         setStakes([]);
-        const data = await axios.get("http://localhost:8080/getStakes", {params: {user: user?.wallet}})
-        data.data.map(info => {
-          setTotalStaked(prev => prev + Number(info.amount));
-          setStakes(prev => ([
-            ...prev,
-            {amount: info.amount,
-            date: info.date,
-            reward: calculateReward(info.date, info.amount),
-            id: info._id
+        const stakes = await getUserStakes(user?.wallet);
+        console.log(stakes);
+        if (stakes.length > 0) {
+          stakes.map((stake, index) => {
+            if (stake.claimable) {
+              setTotalStaked(prev => prev + Number(stake.amount));
+              setStakes(prev => ([
+                ...prev,
+                {
+                  amount: stake.amount,
+                  date: stake.since,
+                  reward: calculateReward(stake.since, stake.amount),
+                  id: index
+                }
+              ]))
             }
-          ]))
-        });
-      }   
+          })
+        }
+      }
+      const stake = await totalAmount();
       dispatch({type: "token/setInfo", token: {supply: sup, circulation: cir, staked: stake}});
     })();
   }, [fetch])

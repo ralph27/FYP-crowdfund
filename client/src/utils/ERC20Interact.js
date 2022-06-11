@@ -66,16 +66,7 @@ export const stake = async (amount, address, stake, setUploading, dispatch) => {
               if (rec) {
                 console.log(rec);
                 clearInterval(interval);
-                await axios.post("http://localhost:8080/addStake", stake)
-                .then((res) => {
-                   console.log(res.response);
-                   dispatch({type: "tx/setStatus", status: rec.status})
-                })
-                .catch((error) => {
-                   console.log(error);
-                   dispatch({type: "tx/setStatus", status: rec.status})
-                });
-               
+                dispatch({type: "tx/setStatus", status: rec.status})
               }
             });
           }, 1000)  
@@ -90,6 +81,11 @@ export const stake = async (amount, address, stake, setUploading, dispatch) => {
 export const getStakes = async (address) => {
    console.log(address);
    const summary = await ERC20Contract.methods.getSummary(address).call();
+   return summary;
+}
+
+export const getUserStakes = async (address) => {
+   const summary = await ERC20Contract.methods.getUserStakes(address).call();
    return summary;
 }
 
@@ -124,10 +120,11 @@ export const totalAmount = async () => {
 }
 
 export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch) => {
+
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.withdrawStake(initialAmount, amount, amountMint, address).encodeABI()
+      data: ERC20Contract.methods.withdrawStake(initialAmount, amount, amountMint, address, id).encodeABI()
    }
    try {
       const txHash = await window.ethereum.request({
@@ -145,14 +142,6 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
                  console.log(rec);
                  clearInterval(interval);
                  dispatch({type: "tx/setStatus", status: rec.status})
-                 await axios.post("http://localhost:8080/claimStake", {id: id})
-                 .then((res) => {
-                   console.log(res.response);
-                 })
-                 .catch((error) => {
-                   console.log(error);
-                   dispatch({type: "tx/setStatus", status: rec.status})
-                 });
                }
              });
            }, 1000)

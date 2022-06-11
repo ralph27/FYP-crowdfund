@@ -22,7 +22,7 @@ contract Staking {
         uint256 amount;
         uint256 since;
         // Claimable represent how big of a reward is currently available
-        uint256 claimable;
+        bool claimable;
     }
     /**
      * @notice Stakeholder is a staker that has active stakes
@@ -90,12 +90,12 @@ contract Staking {
      * _Stake is used to make a stake for an sender. It will remove the amount staked from the stakers account and place those tokens inside a stake container
      * StakeID
      */
-    function _stake(uint256 _amount) internal { 
+    function _stake(uint256 _amount, address adr) internal { 
         // Simple check so that user does not stake 0
         require(_amount > 0, "Cannot stake nothing");
 
         // Mappings in solidity creates all values, but empty, so we can just check the address
-        uint256 index = stakes[msg.sender];
+        uint256 index = stakes[adr];
         // block.timestamp = timestamp of the current block in seconds since the epoch
         uint256 timestamp = block.timestamp;
         // See if the staker already has a staked index or if its the first time
@@ -103,17 +103,17 @@ contract Staking {
             // This stakeholder stakes for the first time
             // We need to add him to the stakeHolders and also map it into the Index of the stakes
             // The index returned will be the index of the stakeholder in the stakeholders array
-            index = _addStakeholder(msg.sender);
+            index = _addStakeholder(adr);
         }
 
         // Use the index to push a new Stake
         // push a newly created Stake with the current block timestamp.
         stakeholders[index].address_stakes.push(
-            Stake(msg.sender, _amount, timestamp, 0)
+            Stake(adr, _amount, timestamp, true)
         );
         total_amount_stacked += _amount;
         // Emit an event that the stake has occured
-        emit Staked(msg.sender, _amount, index, timestamp);
+        emit Staked(adr, _amount, index, timestamp);
     }
 
     /**
@@ -145,15 +145,13 @@ contract Staking {
      * Will return the amount to MINT onto the acount
      * Will also calculateStakeReward and reset timer
      */
-    function _withdrawStake(uint256 amount, uint256 index)
+    function _withdrawStake(uint256 amount, uint256 index, address adr)
         internal
         returns (uint256)
     {
         // Grab user_index which is the index to use to grab the Stake[]
-        uint256 user_index = stakes[msg.sender];
-        Stake memory current_stake = stakeholders[user_index].address_stakes[
-            index
-        ];
+        uint256 user_index = stakes[adr];
+        Stake storage current_stake = stakeholders[user_index].address_stakes[index];
         require(
             current_stake.amount >= amount,
             "Staking: Cannot withdraw more than you have staked"
@@ -195,8 +193,6 @@ contract Staking {
         // Itterate all stakes and grab amount of stakes
         for (uint256 s = 0; s < summary.stakes.length; s += 1) {
             uint256 availableReward = calculateStakeReward(summary.stakes[s].since, summary.stakes[s].amount);
-            summary.stakes[s].claimable = availableReward;
-            totalStakeAmount += summary.stakes[s].claimable;
         }
         // Assign calculate amount to summary
         summary.total_amount = totalStakeAmount;

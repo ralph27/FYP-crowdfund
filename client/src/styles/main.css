@@ -919,13 +919,19 @@ input::-webkit-inner-spin-button {
   background-color: #191B1F;
   min-height: calc(100vh - (80px + 60px));
   padding-top: 5%;
-  padding-bottom: 5%;
+  padding-bottom: 5%; 
 }
 
 .profile-screen > h1 {
   color: white;
   text-align: center;
   margin-top: 60px;
+}
+
+.profile-invested {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
 }
 
 .profile-invested-title {

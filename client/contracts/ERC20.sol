@@ -97,7 +97,7 @@ contract ERC20 is IERC20, Staking {
 
     function stake(uint _amount, address adr) public {
         require(_amount <= balanceOf[adr], "Not enough tokens");
-        _stake(_amount);
+        _stake(_amount, adr);
         balanceOf[adr] -= _amount;
         circulatingSupply -= _amount;
     }
@@ -106,11 +106,21 @@ contract ERC20 is IERC20, Staking {
         return total_amount_stacked;
     }
 
+    function getUserStakes(address adr) public view returns (Stake[] memory)  {
+        uint index = stakes[adr];
+        Stake[] memory holder = stakeholders[index].address_stakes;
+        return holder;
+    }
+
         /**
     * @notice withdrawStake is used to withdraw stakes from the account holder
      */
-    function withdrawStake(uint256 initialAmount, uint256 _amount, uint256 _amountMint, address adr)  public {
+    function withdrawStake(uint256 initialAmount, uint256 _amount, uint256 _amountMint, address adr, uint id)  public {
         require(_amountMint < totalSupply, "Not enough supply");
+        // uint res = _withdrawStake(initialAmount, id, adr);
+        uint index = stakes[adr];
+        Stake storage holder = stakeholders[index].address_stakes[id];
+        holder.claimable = false;
         // Return staked tokens to user
         balanceOf[adr] += _amountMint;
         totalSupply -= _amount;

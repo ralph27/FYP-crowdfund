@@ -272,6 +272,47 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "adr",
+				"type": "address"
+			}
+		],
+		"name": "getUserStakes",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "since",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "claimable",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct Staking.Stake[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "_staker",
 				"type": "address"
 			}
@@ -504,6 +545,11 @@
 				"internalType": "address",
 				"name": "adr",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
 			}
 		],
 		"name": "withdrawStake",
