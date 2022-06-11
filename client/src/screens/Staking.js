@@ -41,7 +41,7 @@ export default function Stakings() {
 
 
   useEffect(() => {
-    (async () => {
+    (async () => { 
       const sup = await getTotalSupply();
       const cir = await getCirculation();
       const stake = await totalAmount();

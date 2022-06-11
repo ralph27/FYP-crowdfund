@@ -18,7 +18,8 @@ export default function Campaign() {
   
   useEffect(() => {
     (async () => {
-      const res = await getCampaignDetails(campaign?.campaignId + 1);
+      const res = await getCampaignDetails(campaign?.campaignId);
+      console.log(res);
       const amount = await pledgedAmount(campaign?.campaignId, user?.wallet);
       setBlockData(res);
       setAmountPledged(amount);
@@ -26,7 +27,7 @@ export default function Campaign() {
     })();
   }, [user?.wallet]);
 
-
+  console.log(amountPledged);
   const getTimeLeft = () => {
     let time = Number(campaign?.endDate) - moment().unix();
     var d = Math.floor(time / (3600*24));
@@ -46,8 +47,8 @@ export default function Campaign() {
   const handleClaim = async () => {
     if (user?.wallet?.toLowerCase() !== blockData?.creator?.toLowerCase()) {
           await claimShares(campaign?.campaignId, user?.wallet);
-    } else if (campaign.claimed === false) {
-      await claimStake(campaign?.campaignId, user?.wallet, campaign?.pledged);
+    } else if (blockData.claimed === false) {
+      await claimStake(campaign?.campaignId, user?.wallet, blockData?.pledged);
 
     }
   } 
@@ -90,38 +91,38 @@ export default function Campaign() {
           <div className="invest-info">
             <div>
               <div className="info">Amount Raised</div>
-              <div className="value">{campaign?.pledged ? campaign?.pledged / (10 ** 18) : 0} ETH</div>
+              <div className="value">{blockData?.pledged ? blockData?.pledged / (10 ** 18) : 0} ETH</div>
             </div>
             <div>
               <div className="info">Total Investors</div>
-              <div className="value">{campaign?.nbOfInvestors ? campaign?.nbOfInvestors : 0}</div>
+              <div className="value">{blockData?.numberOfInvestors ? blockData?.numberOfInvestors : 0}</div>
             </div>
             <div>
               <div className="info">Goal</div>
               <div className="value">{blockData?.goal / (10 ** 18)} ETH</div>
             </div>
           </div>
-          <ProgressBar completed={( campaign?.pledged * 100 ) / blockData?.goal} width="50vw" margin="50px 0 0 0" bgColor="#FF007A"/>
+          <ProgressBar completed={( blockData?.pledged * 100 ) / blockData?.goal} width="50vw" margin="50px 0 0 0" bgColor="#FF007A"/>
           <div className="campaign-bottom-CTA">
 
-            {Number(blockData?.endAt) >= moment().unix() && <div className="invest-btn" onClick={() => navigate('/invest')}>
+            {Number(blockData?.endAt) >= moment().unix() && user?.wallet.toLowerCase() !== blockData?.creator.toLowerCase() && <div className="invest-btn" onClick={() => navigate('/invest')}>
               Invest
             </div>}
 
-            {Number(blockData?.endAt) <= moment().unix() && amountPledged > 0 && campaign.claimed &&
+            {Number(blockData?.endAt) <= moment().unix() && amountPledged > 0 && blockData.claimed &&
               <div className="invest-btn" onClick={handleClaim}>
                 Claim Shares
               </div>
             }
 
-            {Number(blockData?.endAt) <= moment().unix() && user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase() && !campaign?.claimed && campaign?.pledged > 0 &&
+            {Number(blockData?.endAt) <= moment().unix() && user?.wallet?.toLowerCase() === blockData?.creator?.toLowerCase() && !blockData?.claimed && blockData?.pledged > 0 &&
               <div className="invest-btn" onClick={handleClaim}>
                 Claim Amount Pledged
               </div>
             }
 
 
-            { Number(blockData?.endAt) <= moment().unix() && !campaign.claimed && amountPledged > 0 &&
+            { Number(blockData?.endAt) <= moment().unix() && !blockData?.claimed && amountPledged > 0 &&
               <div className="invest-btn" onClick={handleRefund}>
                 Refund
               </div>

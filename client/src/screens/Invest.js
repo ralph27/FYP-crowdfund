@@ -36,7 +36,6 @@ function Invest() {
          amountPledged = wei
       }
       if (amountInvested === "0") {
-      
          dispatch({type: "campaign/invest", campaign: {pledged: amountPledged, nbOfInvestors: nbOfInvestors + 1}})
          await axios.post("http://localhost:8080/updateCampaign", { id: campaign.campaignId, amount: amountPledged, incInvestors: true, wallet: user?.wallet});        
       } else {

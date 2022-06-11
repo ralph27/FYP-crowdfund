@@ -55,7 +55,6 @@ contract Crowdfund is ERC20 {
         require(_startAt >= block.timestamp, "Start at < now");
         require(_endAt >= _startAt, "end at < start at");
         require(_endAt <= block.timestamp + 90 days, "end at > max duration");
-        count += 1;
         Campaign storage c = campaigns[count];
         c.creator = msg.sender;
         c.numberOfInvestors = 0;
@@ -64,6 +63,7 @@ contract Crowdfund is ERC20 {
         c.startAt = _startAt;
         c.endAt = _endAt;
         c.claimed = false;
+        count += 1;
         emit Launch(count, msg.sender, _goal, _startAt, _endAt);
         return count;
     }
@@ -91,7 +91,7 @@ contract Crowdfund is ERC20 {
         campaign.pledged += _amount;
         pledgedAmount[_id][msg.sender] += _amount;
         //token.transferFrom(msg.sender, address(this), _amount);
-        
+        campaigns[_id] = campaign;
         emit Pledge(_id, msg.sender, _amount);
     }
 
