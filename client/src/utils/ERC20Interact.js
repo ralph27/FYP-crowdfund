@@ -66,7 +66,16 @@ export const stake = async (amount, address, stake, setUploading, dispatch) => {
               if (rec) {
                 console.log(rec);
                 clearInterval(interval);
-                dispatch({type: "tx/setStatus", status: rec.status})
+                await axios.post("http://localhost:8080/addStake", stake)
+                .then((res) => {
+                   console.log(res.response);
+                   dispatch({type: "tx/setStatus", status: rec.status})
+                })
+                .catch((error) => {
+                   console.log(error);
+                   dispatch({type: "tx/setStatus", status: rec.status})
+                });
+               
               }
             });
           }, 1000)  
@@ -142,6 +151,14 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
                  console.log(rec);
                  clearInterval(interval);
                  dispatch({type: "tx/setStatus", status: rec.status})
+                 await axios.post("http://localhost:8080/claimStake", {id: id})
+                 .then((res) => {
+                   console.log(res.response);
+                 })
+                 .catch((error) => {
+                   console.log(error);
+                   dispatch({type: "tx/setStatus", status: rec.status})
+                 });
                }
              });
            }, 1000)

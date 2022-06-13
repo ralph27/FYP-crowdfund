@@ -35,7 +35,7 @@
 .links li {
   margin-right: 25px;
   cursor: pointer;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 .links li:hover {
   color: white;
@@ -65,7 +65,7 @@
 
 /*dashboard*/
 .dashboard {
-  background-color: #191B1F;
+  background-color: #191b1f;
   background-repeat: no-repeat;
   background-size: cover;
   min-height: calc(100vh - 120px);
@@ -106,10 +106,10 @@
   position: relative;
   border-radius: 8px;
   padding: 20px;
-  background-color: #1D1F23;
+  background-color: #1d1f23;
   border: 1px solid rgba(255, 255, 255, 0.19);
   transition: 1.2s ease;
-  color: rgba(255,255,255,0.6);;
+  color: rgba(255, 255, 255, 0.6);
 }
 .CampaignCard-container:hover {
   transform: translateY(-20px);
@@ -123,7 +123,6 @@
 .card-info {
   display: flex;
   align-items: flex-start;
-  
 }
 .card-title {
   font-size: 20px;
@@ -134,7 +133,6 @@
 .card-descp {
   max-width: 300px;
   margin-top: 20px;
-
 }
 
 .campaign-card-bottom {
@@ -142,7 +140,6 @@
   align-items: center;
   justify-content: space-between;
 }
-
 .card-btn {
   float: right;
   border-radius: 8px;
@@ -159,7 +156,7 @@
 }
 
 .campaign {
-  background-color: #191B1F;
+  background-color: #191b1f;
   padding-top: 100px;
   min-height: calc(100vh - 120px);
   height: 100%;
@@ -183,7 +180,7 @@
 .campaign-website {
   display: block;
   margin-top: 15px;
-  color: #FF007A;
+  color: #ff007a;
 }
 .campaign-website a {
   text-decoration: none;
@@ -194,7 +191,7 @@
   margin-top: 15px;
 }
 .campaign-image-wrapper {
-  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
   border-radius: 24px;
   width: 100%;
   height: calc(100% - 20px);
@@ -216,14 +213,13 @@
   align-items: center;
 }
 .campaign-title {
-  color: #FF007A;
+  color: #ff007a;
   font-size: 24px;
 }
 .campaign-descp {
   max-width: 400px;
   color: rgba(255, 255, 255, 1);
   margin-top: 10px;
-
 }
 
 .campaign-website-info {
@@ -245,7 +241,7 @@
   text-align: center;
 }
 .info {
-  color: #FF007A;
+  color: #ff007a;
   font-weight: bold;
 }
 .value {
@@ -256,7 +252,7 @@
   margin-top: 60px;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #FF007A;
+  background-color: #ff007a;
   width: 300px;
   font-size: 18px;
   font-weight: bold;
@@ -279,7 +275,7 @@
 }
 
 .campaign-description-header {
-  color: #FF007A;
+  color: #ff007a;
   margin-bottom: 20px;
 }
 
@@ -289,7 +285,7 @@
 }
 
 .formContainer {
-  background-color: #191B1F;
+  background-color: #191b1f;
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
@@ -328,12 +324,11 @@
   justify-content: space-between;
   padding-left: 2%;
   padding-right: 2%;
-
 }
 
 .textarea {
-  background-color: rgb(44, 47, 54);;
-  border: 1px solid #40444F;
+  background-color: rgb(44, 47, 54);
+  border: 1px solid #40444f;
   border-radius: 10px;
   font-size: 22px;
   width: 400px;
@@ -342,12 +337,12 @@
   color: white;
   outline: none;
   resize: none;
-  font-family: 'Roboto mono';
+  font-family: "Roboto mono";
   scrollbar-color: rebeccapurple green;
 }
 
 textarea::-webkit-scrollbar {
-  width: 10px;  
+  width: 10px;
   padding-right: 20px;
 }
 
@@ -373,13 +368,12 @@ textarea::-webkit-scrollbar-thumb {
   padding-left: 10px;
   margin-bottom: 20px;
   font-size: 20px;
-  background-color: rgb(44, 47, 54);;
+  background-color: rgb(44, 47, 54);
   border-radius: 10px;
   outline: none;
-  border: 1px solid #40444F;
+  border: 1px solid #40444f;
   color: white;
-  font-family: 'Roboto mono';
-
+  font-family: "Roboto mono";
 }
 
 ::placeholder {
@@ -421,22 +415,20 @@ textarea::-webkit-scrollbar-thumb {
   background-color: rgb(44, 47, 54);
   border-radius: 10px;
   outline: none;
-  border: 1px solid #40444F;
-  font-family: 'Roboto mono';
+  border: 1px solid #40444f;
+  font-family: "Roboto mono";
   display: flex;
   color: rgb(195, 197, 203);
 }
 
-
 /* DATE PICKER */
-
 
 .submitBtn {
   margin-top: 15px;
   border-radius: 8px;
   width: 150px;
   cursor: pointer;
-  background-color: #FF007A;
+  background-color: #ff007a;
   font-size: 18px;
   font-weight: bold;
   color: white;
@@ -446,7 +438,7 @@ textarea::-webkit-scrollbar-thumb {
 .footer {
   display: flex;
   height: 60px;
-  background-color: #191B1F;
+  background-color: #191b1f;
   justify-content: space-around;
   align-items: center;
   color: white;
@@ -464,7 +456,7 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .social-media-link:hover {
-  fill: #58595A
+  fill: #58595a;
 }
 
 .staking {
@@ -483,7 +475,6 @@ textarea::-webkit-scrollbar-thumb {
   color: white;
   width: fit-content;
   margin: 0 auto;
-
 }
 .staking-container {
   padding-top: 40px;
@@ -512,7 +503,7 @@ textarea::-webkit-scrollbar-thumb {
   width: 100%;
   margin-top: 20px;
   border-radius: 16px;
-  background-color: #191B1F;
+  background-color: #191b1f;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -520,7 +511,6 @@ textarea::-webkit-scrollbar-thumb {
   color: white;
   padding: 10px;
   border: 1px solid rgb(44, 47, 54);
-
 }
 
 .card-info-wrapper {
@@ -529,7 +519,7 @@ textarea::-webkit-scrollbar-thumb {
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
 }
 
 .card-1-label {
@@ -544,20 +534,19 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .card-info-wrapper:not(:last-child) {
-  border-bottom: 1px solid rgb(44, 47, 54)
+  border-bottom: 1px solid rgb(44, 47, 54);
 }
 .card-1-title {
   margin-right: 0px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
 }
 
 .value-staked {
-  color: #FF007A;
+  color: #ff007a;
   margin-right: 5px;
   font-size: 18px;
   font-weight: bold;
-  font-family: 'Roboto Mono', monospace;
-
+  font-family: "Roboto Mono", monospace;
 }
 
 /* CARD 2 */
@@ -565,7 +554,7 @@ textarea::-webkit-scrollbar-thumb {
 .card-2 {
   width: 100%;
   border-radius: 16px;
-  background-color: #191B1F;
+  background-color: #191b1f;
   margin-top: 20px;
   padding: 25px 10px;
   border: 1px solid rgb(44, 47, 54);
@@ -599,7 +588,6 @@ textarea::-webkit-scrollbar-thumb {
   margin: 0 auto;
   border-radius: 16px;
   border: 1px solid rgb(44, 47, 54);
-
 }
 
 .card-2-top-input {
@@ -629,8 +617,6 @@ textarea::-webkit-scrollbar-thumb {
   margin-bottom: 20px;
   color: white;
   font-family: "Roboto Mono", monospace;
-
-
 }
 
 .stake-btn-wrapper {
@@ -643,7 +629,7 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 8px;
   width: 150px;
   cursor: pointer;
-  background-color: #FF007A;
+  background-color: #ff007a;
   font-size: 20px;
   font-weight: bold;
   color: white;
@@ -652,14 +638,13 @@ textarea::-webkit-scrollbar-thumb {
 
 /* Card 3 */
 .card-3 {
-  background-color: #191B1F;
+  background-color: #191b1f;
   color: white;
   border-radius: 16px;
   padding: 25px 20px;
   align-self: center;
   width: 100%;
   border: 1px solid rgb(44, 47, 54);
-  
 }
 
 .card-3-top {
@@ -673,7 +658,6 @@ textarea::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
 
 .card-3-stakes > div {
@@ -704,7 +688,7 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .claim-btn:hover {
-  color: #FF007A;
+  color: #ff007a;
 }
 
 .card-3-empty {
@@ -717,10 +701,9 @@ textarea::-webkit-scrollbar-thumb {
   justify-content: center;
 }
 
-
 /* Invest screen */
 .invest-wrapper {
-  background-color: #191B1F;
+  background-color: #191b1f;
   height: calc(100vh - (80px + 60px));
   padding-top: 5%;
   padding-bottom: 5%;
@@ -752,8 +735,7 @@ textarea::-webkit-scrollbar-thumb {
 .invest-form-wrapper > h1 {
   margin-bottom: 20px;
   margin-left: 5px;
-  font-family: 'Roboto Mono', monospace;
-
+  font-family: "Roboto Mono", monospace;
 }
 
 .invest-input {
@@ -767,20 +749,19 @@ textarea::-webkit-scrollbar-thumb {
   border: 0px;
   z-index: 99;
   color: white;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   height: 30px;
   font-size: 38px;
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
 }
 
 .invest-amount-dollar {
-  font-family: 'Roboto Mono', monospace;
-
+  font-family: "Roboto Mono", monospace;
 }
 
 .invest-input-wrapper {
   display: flex;
-  background-color: #191B1F;
+  background-color: #191b1f;
   padding-right: 3%;
   padding-top: 3%;
   padding-bottom: 3%;
@@ -793,8 +774,7 @@ textarea::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  font-family: 'Roboto Mono', monospace;
-
+  font-family: "Roboto Mono", monospace;
 }
 
 .invest-currency {
@@ -817,23 +797,21 @@ textarea::-webkit-scrollbar-thumb {
   color: rgb(143, 150, 172);
   font-size: 16px;
   font-weight: 500;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
 }
 
 .invest-currency > h3 {
   font-size: 16px;
   letter-spacing: 1px;
   margin-left: 7px;
-  font-family: 'Roboto Mono', monospace;
-
+  font-family: "Roboto Mono", monospace;
 }
 
 .currency-wrapper > p {
   color: rgb(143, 150, 172);
   font-size: 16px;
   font-weight: 500;
-  font-family: 'Roboto Mono', monospace;
-
+  font-family: "Roboto Mono", monospace;
 }
 
 .invest-action-btn {
@@ -845,8 +823,8 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .invest-action-btn > h1 {
-  font-family: 'Roboto Mono', monospace;
-} 
+  font-family: "Roboto Mono", monospace;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -857,13 +835,17 @@ input::-webkit-inner-spin-button {
 /* POPUP */
 
 @keyframes popup {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .popup-wrapper {
   background-color: #434953;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   min-width: 350px;
   color: white;
   width: fit-content;
@@ -889,7 +871,6 @@ input::-webkit-inner-spin-button {
 
 /* POPUP */
 
-
 /* LOADING SPINNER */
 
 @keyframes spinner {
@@ -903,7 +884,7 @@ input::-webkit-inner-spin-button {
 .loading-spinner {
   width: 25px;
   height: 25px;
-  border: 3px solid #FF007A;
+  border: 3px solid #ff007a;
   border-top: 3px solid #f3f3f3;
   border-radius: 50%;
   animation: spinner 1.5s linear infinite;
@@ -914,14 +895,13 @@ input::-webkit-inner-spin-button {
 
 /* LOADING SPINNER */
 
-
 /* PROFILE */
 
 .profile-screen {
-  background-color: #191B1F;
+  background-color: #191b1f;
   min-height: calc(100vh - (80px + 60px));
   padding-top: 5%;
-  padding-bottom: 5%; 
+  padding-bottom: 5%;
 }
 
 .profile-screen > h1 {
@@ -930,14 +910,134 @@ input::-webkit-inner-spin-button {
   margin-top: 60px;
 }
 
-.profile-invested {
-  display: flex;
-  flex-direction: column;
-  row-gap: 30px;
-}
-
 .profile-invested-title {
   color: white;
   text-align: center;
   margin-bottom: 30px;
+}
+.profile-screen .CampaignCard-container {
+  margin-top: 10px;
+}
+.menu-btn {
+  cursor: pointer;
+  display: none;
+}
+.menu-btn:hover {
+  transform: rotate(90deg);
+  transition: 300ms linear all;
+}
+.mobile-menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  padding-top: 60px;
+  z-index: 99;
+  background-color: rgb(25, 27, 31);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.menu-links {
+  text-align: center;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+}
+
+.menu-links li {
+  margin-top: 12px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+}
+.menu-links li:hover {
+  color: white;
+}
+/*Media queries*/
+@media (max-width: 1200px) {
+  .staking-container {
+    grid-template-columns: repeat(1, auto);
+    justify-content: center;
+  }
+  .country {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .profile-invested {
+    margin-top: 22px;
+  }
+  .CampaignCard-container {
+    margin-top: 18px;
+    margin: 16px auto;
+  }
+}
+@media (max-width: 990px) {
+  .navbar {
+    justify-content: space-between;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .navbar .links {
+    display: none;
+  }
+  .menu-btn {
+    display: block;
+  }
+  .hi {
+    display: none;
+  }
+  .form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .flex-left-side,
+  .flex-right-side {
+    width: 90%;
+  }
+  .input,
+  .textarea,
+  .date-input {
+    width: 90%;
+  }
+}
+@media (max-width: 768px) {
+  .dashboard-grid {
+    margin-top: 75px;
+  }
+  .campaign-card-bottom {
+    margin-top: 20px;
+    flex-direction: column;
+  }
+  .card-btn {
+    margin-top: 10px;
+  }
+  .card-1,
+  .card-2,
+  .card-3 {
+    max-width: 355px;
+  }
+  .card-info-wrapper {
+    flex-direction: column;
+  }
+  .card-1-title {
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+  .profile-screen .CampaignCard-container {
+    max-width: 285px;
+  }
+  .footer {
+    flex-direction: column;
+    height: 100%;
+  }
+  .footer > span {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
 }
