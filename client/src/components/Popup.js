@@ -13,7 +13,7 @@ function Popup({setUploading}) {
     <div className='popup-wrapper'>
        {transaction?.pending && <LoadingSpinner />}
        {transaction?.pending && <h2 className='popup-title'>Transaction is pending</h2>}
-       {!transaction?.pending && <h2 className='popup-title'>{transaction.status ? "Transaction is successfull" : "Transaction failed"}</h2>}
+       {!transaction?.pending && <h2 className='popup-title'>{transaction?.status ? "Transaction is successfull" : "Transaction failed"}</h2>}
        {transaction?.pending && <a className='etherscan-link' href={`https://rinkeby.etherscan.io/tx/${transaction.tx}`} target="_blank" >Check transaction status here</a>}
        {!transaction?.pending && <p className='etherscan-link' onClick={handleClose}>Close</p>}
     </div>

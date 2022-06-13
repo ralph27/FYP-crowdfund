@@ -204,6 +204,7 @@
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 20px;
+  z-index: 1;
 
 }
 .campaign-info {
@@ -873,6 +874,7 @@ input::-webkit-inner-spin-button {
   border-radius: 13px;
   border: 1px solid rgb(44, 47, 54);
   animation: popup 0.5s ease-out;
+  z-index: 999;
 }
 
 .etherscan-link {

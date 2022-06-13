@@ -7,7 +7,7 @@ import { getCirculation, getTotalSupply, getUserStakes, stake, totalAmount, with
 import moment from "moment";
 import Popup from "../components/Popup";
 
-export default function Stakings() {
+export default function Stakings({setLoading}) {
   const dispatch = useDispatch();
   const token = useSelector(state => state?.token);
   const fetch = useSelector(state => state?.fetch);
@@ -15,7 +15,6 @@ export default function Stakings() {
   const [amount, setAmount] = useState();
   const [stakes, setStakes] = useState([]);
   const [totalStaked, setTotalStaked] = useState(0);
-  const [uploading, setUploading] = useState(false);
   
   const handleStake = async () => {
     const stakeInfo = {
@@ -24,7 +23,7 @@ export default function Stakings() {
       claimed: false,
       date: moment().unix()
     }
-    await stake(amount, user?.wallet, stakeInfo, setUploading, dispatch);
+    await stake(amount, user?.wallet, stakeInfo, setLoading, dispatch);
     setAmount(0);
   }
 
@@ -35,7 +34,7 @@ export default function Stakings() {
 
   const handleClaim = async (stake) => {
     const amountAfterMint = Number(stake.amount) + Number(stake.reward);
-    await withdrawStake(stake.amount, Math.ceil(stake.reward), Math.ceil(amountAfterMint).toString(), user?.wallet, stake.id, setUploading, dispatch);
+    await withdrawStake(stake.amount, Math.ceil(stake.reward), Math.ceil(amountAfterMint).toString(), user?.wallet, stake.id, setLoading, dispatch);
   }
 
 
@@ -75,7 +74,6 @@ export default function Stakings() {
 
   return (
     <div className="staking">
-      {uploading && <Popup setUploading={setUploading}/>}
       <h1 className="title">STAKING</h1>
       <div className="staking-container">
         <div className="left-container">

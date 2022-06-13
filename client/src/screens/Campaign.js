@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { claimShares, claimStake, getCampaignDetails, pledgeAmount, pledgedAmount, refund } from "../utils/CrowdfundInteract";
 import moment from 'moment';
 import ProgressBar from "@ramonak/react-progress-bar";
 
 
-export default function Campaign() {
+export default function Campaign({setLoading}) {
 
   const campaign = useSelector(state => state?.campaign.currentCampaign);
   const [blockData, setBlockData] = useState();
@@ -14,7 +14,7 @@ export default function Campaign() {
   const [timeLeft, setTimeLeft] = useState(0);
   const user = useSelector(state => state?.user);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   
   useEffect(() => {
     (async () => {
@@ -27,7 +27,6 @@ export default function Campaign() {
     })();
   }, [user?.wallet]);
 
-  console.log(amountPledged);
   const getTimeLeft = () => {
     let time = Number(campaign?.endDate) - moment().unix();
     var d = Math.floor(time / (3600*24));
@@ -46,9 +45,9 @@ export default function Campaign() {
 
   const handleClaim = async () => {
     if (user?.wallet?.toLowerCase() !== blockData?.creator?.toLowerCase()) {
-          await claimShares(campaign?.campaignId, user?.wallet);
+          await claimShares(campaign?.campaignId, user?.wallet, setLoading, dispatch);
     } else if (blockData.claimed === false) {
-      await claimStake(campaign?.campaignId, user?.wallet, blockData?.pledged);
+      await claimStake(campaign?.campaignId, user?.wallet, blockData?.pledged, setLoading, dispatch);
 
     }
   } 
@@ -56,7 +55,7 @@ export default function Campaign() {
   const handleRefund = async () => {
     const pledged = await pledgedAmount(campaign?.campaignId, user?.wallet)
     if (pledged > 0) {
-      await refund(campaign?.campaignId, user?.wallet, pledged);
+      await refund(campaign?.campaignId, user?.wallet, pledged, setLoading, dispatch);
     }
   }
 

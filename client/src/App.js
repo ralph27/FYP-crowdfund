@@ -24,19 +24,21 @@ import { store } from "./redux/store";
 import AddCampaign from "./screens/AddCampaign";
 import Invest from "./screens/Invest";
 import Profile from "./screens/Profile";
+import Popup from "./components/Popup";
 
 function App() {  
-
+  const [loading, setLoading] = useState(false);
   return (
     <Provider store={store}>
       <Router>
         <Navbar />
+        {loading && <Popup setUploading={setLoading}/>}
         <Routes>
           <Route exact path="/" element={<Dashboard />} />
-          <Route path="/Campaign/:id" element={<Campaign />} />
-          <Route path="/AddCampaign" element={<AddCampaign />} />
-          <Route path="/Staking" element={<Staking />} />
-          <Route path="/Invest" element={<Invest />} />
+          <Route path="/Campaign/:id" element={<Campaign setLoading={setLoading}/>} />
+          <Route path="/AddCampaign" element={<AddCampaign loading={loading} setLoading={setLoading}/>} />
+          <Route path="/Staking" element={<Staking setLoading={setLoading} />} />
+          <Route path="/Invest" element={<Invest setLoading={setLoading} />} />
           <Route path="/Profile" element={<Profile />} />
         </Routes>
         <Footer />

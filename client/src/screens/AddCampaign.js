@@ -7,7 +7,7 @@ import { BigNumber } from "ethers";
 import moment from 'moment'
 import Popup from "../components/Popup";
 
-export default function AddCampaign() {
+export default function AddCampaign({ setLoading, loading }) {
   const [creator, setCreator] = useState("");
   const [title, setTitle] = useState("");
   const [snippet, setSnippet] = useState("");
@@ -19,7 +19,6 @@ export default function AddCampaign() {
   const [id, setId] = useState(0);
   const user = useSelector(state => state?.user);
   const fetch = useSelector(state => state?.fetch)
-  const [uploading, setUploading] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -53,7 +52,7 @@ export default function AddCampaign() {
     let wei = parseEther(goal).toString();
     let weiBig = BigNumber.from(wei).toString();
     console.log('wei', weiBig);
-    await addCampaign(weiBig, startStr, endStr, user.wallet, newCampaign, setUploading, dispatch);
+    await addCampaign(weiBig, startStr, endStr, user.wallet, newCampaign, setLoading, dispatch);
     setId(0);
     setCreator("");
     setTitle("");
@@ -68,7 +67,6 @@ export default function AddCampaign() {
   
   return (
     <div className="formContainer">
-      {uploading && <Popup setUploading={setUploading} />}
       <div className="form-wrapper">
         <span className="form-title">
           Please Fill the Below Information To Get Started
