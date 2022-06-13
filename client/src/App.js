@@ -20,29 +20,32 @@ import Dashboard from "./screens/Dashboard";
 import Campaign from "./screens/Campaign";
 import Staking from "./screens/Staking";
 import { Provider, useDispatch } from "react-redux";
-import { store } from "./redux/store";
+import { persistor, store } from "./redux/store";
 import AddCampaign from "./screens/AddCampaign";
 import Invest from "./screens/Invest";
 import Profile from "./screens/Profile";
 import Popup from "./components/Popup";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {  
   const [loading, setLoading] = useState(false);
   return (
     <Provider store={store}>
-      <Router>
-        <Navbar />
-        {loading && <Popup setUploading={setLoading}/>}
-        <Routes>
-          <Route exact path="/" element={<Dashboard />} />
-          <Route path="/Campaign/:id" element={<Campaign setLoading={setLoading}/>} />
-          <Route path="/AddCampaign" element={<AddCampaign loading={loading} setLoading={setLoading}/>} />
-          <Route path="/Staking" element={<Staking setLoading={setLoading} />} />
-          <Route path="/Invest" element={<Invest setLoading={setLoading} />} />
-          <Route path="/Profile" element={<Profile />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
+        <Router>
+          <Navbar />
+          {loading && <Popup setUploading={setLoading}/>}
+          <Routes>
+            <Route exact path="/" element={<Dashboard />} />
+            <Route path="/Campaign/:id" element={<Campaign setLoading={setLoading}/>} />
+            <Route path="/AddCampaign" element={<AddCampaign setLoading={setLoading}/>} />
+            <Route path="/Staking" element={<Staking setLoading={setLoading} />} />
+            <Route path="/Invest" element={<Invest setLoading={setLoading} />} />
+            <Route path="/Profile" element={<Profile />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </PersistGate>
     </Provider>
   );
 }

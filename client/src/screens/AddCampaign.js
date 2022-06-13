@@ -7,7 +7,7 @@ import { BigNumber } from "ethers";
 import moment from 'moment'
 import Popup from "../components/Popup";
 
-export default function AddCampaign({ setLoading, loading }) {
+export default function AddCampaign({ setLoading }) {
   const [creator, setCreator] = useState("");
   const [title, setTitle] = useState("");
   const [snippet, setSnippet] = useState("");
