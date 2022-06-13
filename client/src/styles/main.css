@@ -1,0 +1,1038 @@
+* {
+  font-family: "Rubik", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+/*navbar*/
+.navbar {
+  height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  border-bottom: 1px solid rgb(25, 27, 31);
+}
+.logo {
+  height: 60px;
+  width: auto;
+}
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.logo-container span {
+  color: white;
+}
+.links {
+  list-style: none;
+  display: flex;
+}
+.links li {
+  margin-right: 25px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+}
+.links li:hover {
+  color: white;
+}
+.wallet-container {
+  display: flex;
+}
+.wallet {
+  align-items: center;
+  display: flex;
+}
+.balance {
+  color: white;
+  font-size: 16px;
+  margin-left: 8px;
+  font-weight: bold;
+}
+.connect-btn {
+  margin-left: 20px;
+  padding: 12px;
+  background-color: rgb(255 0 122);
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+/*dashboard*/
+.dashboard {
+  background-color: #191b1f;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: calc(100vh - 120px);
+  height: 100%;
+  padding: 0 5%;
+}
+.title-section {
+  margin-top: 0;
+  padding-top: 150px;
+  text-align: center;
+}
+.big-title {
+  display: block;
+  font-size: 42px;
+  font-weight: bold;
+  color: white;
+}
+.special {
+  color: rgb(255 0 122);
+  font-weight: bold;
+}
+.smaller-title {
+  display: block;
+  margin-top: 20px;
+  font-size: 22px;
+  color: white;
+}
+.dashboard-grid {
+  margin-top: 150px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 500px));
+  column-gap: 100px;
+  justify-content: space-evenly;
+  row-gap: 80px;
+}
+.CampaignCard-container {
+  height: fit-content;
+  position: relative;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #1d1f23;
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  transition: 1.2s ease;
+  color: rgba(255, 255, 255, 0.6);
+}
+.CampaignCard-container:hover {
+  transform: translateY(-20px);
+}
+.card-img {
+  height: 150px;
+  width: 150px;
+  margin-right: 16px;
+  margin-bottom: 20px;
+}
+.card-info {
+  display: flex;
+  align-items: flex-start;
+}
+.card-title {
+  font-size: 20px;
+  color: rgb(255 0 122);
+  font-weight: bold;
+  padding-top: 10px;
+}
+.card-descp {
+  max-width: 300px;
+  margin-top: 20px;
+}
+
+.campaign-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-btn {
+  float: right;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: rgb(255 0 122);
+  width: 100px;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 8px;
+  color: white;
+}
+
+.campaign {
+  background-color: #191b1f;
+  padding-top: 100px;
+  min-height: calc(100vh - 120px);
+  height: 100%;
+  font-size: 18px;
+}
+.campaign-container {
+  position: relative;
+  top: 50px;
+  z-index: 99;
+  width: 80%;
+  height: 360px;
+  border-radius: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin: 0 auto;
+  color: white;
+  display: flex;
+  align-items: flex-end;
+}
+.campaign-website {
+  display: block;
+  margin-top: 15px;
+  color: #ff007a;
+}
+.campaign-website a {
+  text-decoration: none;
+  color: white;
+}
+.campaign-country {
+  display: block;
+  margin-top: 15px;
+}
+.campaign-image-wrapper {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
+  border-radius: 24px;
+  width: 100%;
+  height: calc(100% - 20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 20px;
+}
+.campaign-info {
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.campaign-title {
+  color: #ff007a;
+  font-size: 24px;
+}
+.campaign-descp {
+  max-width: 400px;
+  color: rgba(255, 255, 255, 1);
+  margin-top: 10px;
+}
+
+.campaign-website-info {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 80px;
+  padding-left: 30px;
+}
+
+.campaign-bottom-CTA {
+  display: flex;
+}
+
+.invest-info {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+}
+.info {
+  color: #ff007a;
+  font-weight: bold;
+}
+.value {
+  margin-top: 10px;
+  color: white;
+}
+.invest-btn {
+  margin-top: 60px;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ff007a;
+  width: 300px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  padding: 12px;
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.campaign-about {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: white;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 60px;
+  align-items: flex-start;
+}
+
+.campaign-description-header {
+  color: #ff007a;
+  margin-bottom: 20px;
+}
+
+.campaign-about > p {
+  color: #d4d4d4;
+  line-height: 25px;
+}
+
+.formContainer {
+  background-color: #191b1f;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  padding-top: 140px;
+  padding-bottom: 40px;
+}
+
+.form-wrapper {
+  background-color: #212429;
+  width: fit-content;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 16px;
+  padding: 3% 3%;
+}
+
+.flex-left-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.flex-right-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  color: #fff;
+  font-size: 29px;
+  font-family: "Roboto Mono", monospace;
+}
+.form {
+  margin-top: 80px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.textarea {
+  background-color: rgb(44, 47, 54);
+  border: 1px solid #40444f;
+  border-radius: 10px;
+  font-size: 22px;
+  width: 400px;
+  padding: 8px;
+  margin-bottom: 30px;
+  color: white;
+  outline: none;
+  resize: none;
+  font-family: "Roboto mono";
+  scrollbar-color: rebeccapurple green;
+}
+
+textarea::-webkit-scrollbar {
+  width: 10px;
+  padding-right: 20px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #212429;
+}
+
+.form-label {
+  width: 350px;
+  color: white;
+  font-size: 22px;
+  margin-right: 20px;
+  margin-bottom: 30px;
+}
+.input {
+  width: 300px;
+  height: 30px;
+  padding: 8px;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  background-color: rgb(44, 47, 54);
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid #40444f;
+  color: white;
+  font-family: "Roboto mono";
+}
+
+::placeholder {
+  color: rgb(195, 197, 203);
+}
+
+/* IMAGE PICKER */
+.image-input {
+  font-size: 20px;
+  width: 300px;
+  height: 30px;
+  padding: 8px;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  outline: none;
+  font-family: "Roboto mono";
+  display: flex;
+  align-items: center;
+  color: rgb(195, 197, 203);
+}
+
+.add-campaign-label {
+  justify-self: flex-start;
+  font-size: 22px;
+  color: rgb(195, 197, 203);
+  font-family: "Roboto mono";
+  margin-bottom: 10px;
+}
+
+/* DATE PICKER */
+.date-input {
+  width: 300px;
+  height: 30px;
+  padding: 8px;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  background-color: rgb(44, 47, 54);
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid #40444f;
+  font-family: "Roboto mono";
+  display: flex;
+  color: rgb(195, 197, 203);
+}
+
+/* DATE PICKER */
+
+.submitBtn {
+  margin-top: 15px;
+  border-radius: 8px;
+  width: 150px;
+  cursor: pointer;
+  background-color: #ff007a;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  padding: 12px;
+}
+
+.footer {
+  display: flex;
+  height: 60px;
+  background-color: #191b1f;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.footer img {
+  height: 40px;
+  width: auto;
+}
+.footer-links {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.social-media-link:hover {
+  fill: #58595a;
+}
+
+.staking {
+  background-color: rgb(31, 33, 40);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: calc(100vh - 120px);
+  height: 100%;
+  padding-top: 100px;
+  padding-bottom: 40px;
+  font-size: 18px;
+}
+.staking > .title {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+  width: fit-content;
+  margin: 0 auto;
+}
+.staking-container {
+  padding-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.left-container {
+  justify-self: center;
+  width: 90%;
+}
+
+.right-container {
+  justify-self: center;
+  display: flex;
+  width: 90%;
+  align-items: center;
+}
+
+/* CARD 1 */
+
+.card-1 {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 16px;
+  background-color: #191b1f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 10px;
+  border: 1px solid rgb(44, 47, 54);
+}
+
+.card-info-wrapper {
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.card-1-label {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+  justify-content: center;
+}
+
+.card-1-label > p {
+  margin-left: 10px;
+}
+
+.card-info-wrapper:not(:last-child) {
+  border-bottom: 1px solid rgb(44, 47, 54);
+}
+.card-1-title {
+  margin-right: 0px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.value-staked {
+  color: #ff007a;
+  margin-right: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Roboto Mono", monospace;
+}
+
+/* CARD 2 */
+
+.card-2 {
+  width: 100%;
+  border-radius: 16px;
+  background-color: #191b1f;
+  margin-top: 20px;
+  padding: 25px 10px;
+  border: 1px solid rgb(44, 47, 54);
+
+  color: white;
+}
+
+.card-2-top-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+}
+
+.card-2-top-info h3 span {
+  font-family: "Roboto Mono", monospace;
+}
+
+.card-2-description {
+  font-family: "Roboto Mono", monospace;
+  padding-left: 20px;
+  margin: 20px 0px;
+}
+
+.card-2-input-wrapper {
+  padding-left: 10px;
+  width: calc(100% - 60px);
+  padding-right: 20px;
+  padding-top: 10px;
+  background-color: #212429;
+  margin: 0 auto;
+  border-radius: 16px;
+  border: 1px solid rgb(44, 47, 54);
+}
+
+.card-2-top-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+}
+
+.card-2-top-input p {
+  font-family: "Roboto Mono", monospace;
+  color: rgb(143, 150, 172);
+  font-size: 15px;
+}
+
+.stake-input {
+  margin-top: 20px;
+  padding-left: 10px;
+}
+
+.stake-input input {
+  height: 30px;
+  font-size: 30px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  margin-bottom: 20px;
+  color: white;
+  font-family: "Roboto Mono", monospace;
+}
+
+.stake-btn-wrapper {
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.stake-btn {
+  margin-top: 15px;
+  border-radius: 8px;
+  width: 150px;
+  cursor: pointer;
+  background-color: #ff007a;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  padding: 8px;
+}
+
+/* Card 3 */
+.card-3 {
+  background-color: #191b1f;
+  color: white;
+  border-radius: 16px;
+  padding: 25px 20px;
+  align-self: center;
+  width: 100%;
+  border: 1px solid rgb(44, 47, 54);
+}
+
+.card-3-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.card-3-stakes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-3-stakes > div {
+  display: flex;
+  align-items: center;
+}
+
+.card-3-stakes:not(:last-child) {
+  border-bottom: 1px solid rgb(44, 47, 54);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.card-3-stakes > div > p {
+  margin-left: 10px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.card-3-stakes p {
+  font-family: "Roboto Mono", monospace;
+}
+
+.claim-btn {
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: "Roboto Mono", monospace;
+  font-weight: bold;
+}
+
+.claim-btn:hover {
+  color: #ff007a;
+}
+
+.card-3-empty {
+  border: 1px solid rgb(44, 47, 54);
+  border-radius: 14px;
+  margin-top: 30px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Invest screen */
+.invest-wrapper {
+  background-color: #191b1f;
+  height: calc(100vh - (80px + 60px));
+  padding-top: 5%;
+  padding-bottom: 5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invest-form-wrapper > form {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.invest-form-wrapper > form > h1 {
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.invest-form-wrapper {
+  background-color: #212429;
+  border-radius: 24px;
+  width: 480px;
+  margin: 0 auto;
+  padding: 2% 1%;
+  color: white;
+}
+
+.invest-form-wrapper > h1 {
+  margin-bottom: 20px;
+  margin-left: 5px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.invest-input {
+  padding-left: 3%;
+  width: 70%;
+}
+
+.invest-input > input {
+  background-color: transparent;
+  outline: none;
+  border: 0px;
+  z-index: 99;
+  color: white;
+  font-family: "Roboto Mono", monospace;
+  height: 30px;
+  font-size: 38px;
+  margin-bottom: 20px;
+}
+
+.invest-amount-dollar {
+  font-family: "Roboto Mono", monospace;
+}
+
+.invest-input-wrapper {
+  display: flex;
+  background-color: #191b1f;
+  padding-right: 3%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-radius: 20px;
+}
+
+.currency-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: "Roboto Mono", monospace;
+}
+
+.invest-currency {
+  background-color: rgb(44, 47, 54);
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 8px;
+  margin-bottom: 10px;
+  margin-right: 0;
+}
+
+.invest-amount-dollar {
+  color: rgb(143, 150, 172);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Roboto Mono", monospace;
+}
+
+.invest-currency > h3 {
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-left: 7px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.currency-wrapper > p {
+  color: rgb(143, 150, 172);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Roboto Mono", monospace;
+}
+
+.invest-action-btn {
+  text-align: center;
+  border-radius: 20px;
+  padding: 16px;
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+.invest-action-btn > h1 {
+  font-family: "Roboto Mono", monospace;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* POPUP */
+
+@keyframes popup {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.popup-wrapper {
+  background-color: #434953;
+  font-family: "Roboto Mono", monospace;
+  min-width: 350px;
+  color: white;
+  width: fit-content;
+  position: fixed;
+  top: 100px;
+  right: 30px;
+  padding: 20px 20px;
+  border-radius: 13px;
+  border: 1px solid rgb(44, 47, 54);
+  animation: popup 0.5s ease-out;
+}
+
+.etherscan-link {
+  color: #ff007a;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.popup-title {
+  margin-bottom: 10px;
+}
+
+/* POPUP */
+
+/* LOADING SPINNER */
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loading-spinner {
+  width: 25px;
+  height: 25px;
+  border: 3px solid #ff007a;
+  border-top: 3px solid #f3f3f3;
+  border-radius: 50%;
+  animation: spinner 1.5s linear infinite;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+/* LOADING SPINNER */
+
+/* PROFILE */
+
+.profile-screen {
+  background-color: #191b1f;
+  min-height: calc(100vh - (80px + 60px));
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+.profile-screen > h1 {
+  color: white;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.profile-invested-title {
+  color: white;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.profile-screen .CampaignCard-container {
+  margin-top: 10px;
+}
+.menu-btn {
+  cursor: pointer;
+  display: none;
+}
+.menu-btn:hover {
+  transform: rotate(90deg);
+  transition: 300ms linear all;
+}
+.mobile-menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  padding-top: 60px;
+  z-index: 99;
+  background-color: rgb(25, 27, 31);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.menu-links {
+  text-align: center;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+}
+
+.menu-links li {
+  margin-top: 12px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+}
+.menu-links li:hover {
+  color: white;
+}
+/*Media queries*/
+@media (max-width: 1200px) {
+  .staking-container {
+    grid-template-columns: repeat(1, auto);
+    justify-content: center;
+  }
+  .country {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .profile-invested {
+    margin-top: 22px;
+  }
+  .CampaignCard-container {
+    margin-top: 18px;
+    margin: 16px auto;
+  }
+}
+@media (max-width: 990px) {
+  .navbar {
+    justify-content: space-between;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .navbar .links {
+    display: none;
+  }
+  .menu-btn {
+    display: block;
+  }
+  .hi {
+    display: none;
+  }
+  .form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .flex-left-side,
+  .flex-right-side {
+    width: 90%;
+  }
+  .input,
+  .textarea,
+  .date-input {
+    width: 90%;
+  }
+}
+@media (max-width: 768px) {
+  .dashboard-grid {
+    margin-top: 75px;
+  }
+  .campaign-card-bottom {
+    margin-top: 20px;
+    flex-direction: column;
+  }
+  .card-btn {
+    margin-top: 10px;
+  }
+  .card-1,
+  .card-2,
+  .card-3 {
+    max-width: 355px;
+  }
+  .card-info-wrapper {
+    flex-direction: column;
+  }
+  .card-1-title {
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+  .profile-screen .CampaignCard-container {
+    max-width: 285px;
+  }
+  .footer {
+    flex-direction: column;
+    height: 100%;
+  }
+  .footer > span {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+}
