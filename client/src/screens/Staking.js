@@ -19,11 +19,11 @@ export default function Stakings({setLoading}) {
   const handleStake = async () => {
     const stakeInfo = {
       user: user?.wallet,
-      amount: amount,
+      amount: amount * (10 ** 3),
       claimed: false,
       date: moment().unix()
     }
-    await stake(amount, user?.wallet, stakeInfo, setLoading, dispatch);
+    await stake(user?.wallet, stakeInfo, setLoading, dispatch);
     setAmount(0);
   }
 
@@ -33,8 +33,8 @@ export default function Stakings({setLoading}) {
   }
 
   const handleClaim = async (stake) => {
-    const amountAfterMint = Number(stake.amount) + Number(stake.reward);
-    await withdrawStake(stake.amount, Math.ceil(stake.reward), Math.ceil(amountAfterMint).toString(), user?.wallet, stake.id, setLoading, dispatch);
+    const amountAfterMint = (Number(stake.amount) + Number(stake.reward));
+    await withdrawStake(stake.amount, stake.reward.toString(), amountAfterMint, user?.wallet, stake.id, setLoading, dispatch);
   }
 
 
@@ -50,7 +50,7 @@ export default function Stakings({setLoading}) {
         if (stakes.length > 0) {
           stakes.map((stake, index) => {
             if (stake.claimable) {
-              setTotalStaked(prev => prev + Number(stake.amount));
+              setTotalStaked(prev => prev + Number(stake.amount / (10 ** 3)));
               setStakes(prev => ([
                 ...prev,
                 {
@@ -65,9 +65,10 @@ export default function Stakings({setLoading}) {
         }
       }
       const stake = await totalAmount();
+      console.log(typeof(stake));
       dispatch({type: "token/setInfo", token: {supply: sup, circulation: cir, staked: stake}});
     })();
-  }, [fetch])
+  }, [fetch]) 
 
 
 
@@ -85,21 +86,21 @@ export default function Stakings({setLoading}) {
                 <FaGem color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS Supply</p>
               </div>
-              <p><span className="value-staked">{token?.supply}</span> GMS</p>
+              <p><span className="value-staked">{Number(token?.supply / (10 ** 3)).toFixed(2)}</span> GMS</p>
             </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
                 <FaRocket color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS In Circulation</p>
               </div>
-              <p><span className="value-staked">{token?.circulation}</span> GMS</p>
+              <p><span className="value-staked">{Number(token?.circulation / (10 ** 3)).toFixed(2)}</span> GMS</p>
             </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
                 <FaLock color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS Staked</p>
               </div>
-              <p><span className="value-staked">{token?.staked}</span> GMS</p>
+              <p><span className="value-staked">{token?.staked / (10 ** 3)}</span> GMS</p>
             </div>
           </div>
 
@@ -113,7 +114,7 @@ export default function Stakings({setLoading}) {
             <div className="card-2-input-wrapper">
               <div className="card-2-top-input">
                 <p>Amount</p>
-                <p>Wallet Balance: {user?.balance} GMS</p>
+                <p>Wallet Balance: {Number(user?.balance / (10 ** 3)).toFixed(2)} GMS</p>
               </div>
               <div className="stake-input">
                 <input 
@@ -152,9 +153,9 @@ export default function Stakings({setLoading}) {
                   <div className="card-3-stakes">
                     <div>
                       <FaGem color="#FF007A" size={20} />
-                      <p>{stake.amount} GSM</p>
+                      <p>{stake.amount / (10 ** 3)} GSM</p>
                     </div>
-                    <p>Claimable: {Number(stake.reward).toFixed(2)} GSM</p>
+                    <p>Claimable: {Number(stake.reward / (10 ** 3)).toFixed(2) } GSM</p>
                     <p className="claim-btn" onClick={() => handleClaim(stake)}>Claim</p>
                   </div>
                 )

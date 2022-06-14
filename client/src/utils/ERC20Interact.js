@@ -45,11 +45,11 @@ export const balanceOf = async (address) => {
    return bal; 
 }
 
-export const stake = async (amount, address, stake, setUploading, dispatch) => {
+export const stake = async (address, stake, setUploading, dispatch) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.stake(Number(amount), address).encodeABI(),
+      data: ERC20Contract.methods.stake(Number(stake.amount), address).encodeABI(),
    }
    try {
       const txHash = await window.ethereum.request({
@@ -102,7 +102,7 @@ export const sendToContract = async (address) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.sendToContract("0xeAa610F6C2b8da2561E24c4809eF9F709bB1e312", 100).encodeABI()
+      data: ERC20Contract.methods.sendToContract("0xeAa610F6C2b8da2561E24c4809eF9F709bB1e312", 100 * (10 ** 3)).encodeABI()
    }
    try {
       const txHash = await window.ethereum.request({
@@ -129,11 +129,10 @@ export const totalAmount = async () => {
 }
 
 export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch) => {
-
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.withdrawStake(initialAmount, amount, amountMint, address, id).encodeABI()
+      data: ERC20Contract.methods.withdrawStake(initialAmount, Math.ceil(amount), Math.ceil(amountMint), address, id).encodeABI()
    }
    try {
       const txHash = await window.ethereum.request({
@@ -151,14 +150,6 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
                  console.log(rec);
                  clearInterval(interval);
                  dispatch({type: "tx/setStatus", status: rec.status})
-                 await axios.post("http://localhost:8080/claimStake", {id: id})
-                 .then((res) => {
-                   console.log(res.response);
-                 })
-                 .catch((error) => {
-                   console.log(error);
-                   dispatch({type: "tx/setStatus", status: rec.status})
-                 });
                }
              });
            }, 1000)

@@ -68,7 +68,7 @@ function Navbar(props) {
    }, [user?.wallet]);
 
    const mint = async () => {
-     //await mintTokens(user?.wallet, 1000000);
+     //await mintTokens(user?.wallet, 1000000 * (10 ** 3));
      await sendToContract(user?.wallet)
    }
 
@@ -96,7 +96,7 @@ function Navbar(props) {
       <div className="wallet-container">
         <div className="wallet">
           <FaRegGem color="#fff" fontSize="1.5em" />
-          <span className="balance">{user?.balance} GMS</span>
+          <span className="balance">{Number(user?.balance / (10 ** 3)).toFixed(2)} GMS</span>  
         </div>
         <div className="connect-btn" onClick={getAccount}>
           {user?.wallet ? formatAddress() : "Connect Wallet"}
