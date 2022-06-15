@@ -27,7 +27,7 @@ import rootReducer from './reducers'; // the value from combineReducers
 const persistConfig = {
  key: 'root',
  storage: storage,
- blacklist: ['campaign', 'transaction', 'user']
+ blacklist: ['campaign', 'transaction']
 };
 
 const pReducer = persistReducer(persistConfig, rootReducer);

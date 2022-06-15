@@ -11,6 +11,7 @@ export const ERC20Contract = new web3.eth.Contract(
    ERC20_CONTRACT
 );
 
+
 export const mintTokens = async (address, amount) => {
    const transactionParameters = {
       to: ERC20_CONTRACT,
@@ -66,16 +67,7 @@ export const stake = async (address, stake, setUploading, dispatch) => {
               if (rec) {
                 console.log(rec);
                 clearInterval(interval);
-                await axios.post("http://localhost:8080/addStake", stake)
-                .then((res) => {
-                   console.log(res.response);
-                   dispatch({type: "tx/setStatus", status: rec.status})
-                })
-                .catch((error) => {
-                   console.log(error);
-                   dispatch({type: "tx/setStatus", status: rec.status})
-                });
-               
+                dispatch({type: "tx/setStatus", status: rec.status});
               }
             });
           }, 1000)  
@@ -128,7 +120,7 @@ export const totalAmount = async () => {
    return res;
 }
 
-export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch) => {
+export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch, balance) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
@@ -149,6 +141,15 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
                if (rec) {
                  console.log(rec);
                  clearInterval(interval);
+                 await axios.post("/claimStake",  {address: address, value: amountMint})
+                 .then((res) => {
+                  console.log(res.response);
+                  dispatch({type: "tx/setStatus", status: rec.status})
+                 })
+                .catch((error) => {
+                  console.log(error);
+                  dispatch({type: "tx/setStatus", status: rec.status})
+                 });
                  dispatch({type: "tx/setStatus", status: rec.status})
                }
              });
@@ -159,7 +160,6 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
    } catch (err) {
       console.log(err.message)
    }
-  // await axios.post("http://localhost:8080/claimStake", {id: id})
 }
 
 export const subscribeToTransfer = async () => {

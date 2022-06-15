@@ -10,8 +10,11 @@ function Profile() {
    const [campaignsCreated, setCampaignsCreated] = useState([]);
    useEffect(() => {
       (async () => {
+         console.log('here');
          const res = await axios.get("http://localhost:8080/getProfile", {params: {address: user?.wallet}})
+         console.log('res',res.data);
          const created = await axios.get("http://localhost:8080/getCreated", {params: {address: user?.wallet}})
+         console.log('created',created.data);
          setCampaigns(res.data);
          setCampaignsCreated(created.data);
       })();

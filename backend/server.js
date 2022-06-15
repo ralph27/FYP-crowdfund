@@ -98,22 +98,27 @@ app.post("/addStake", async (req, res) => {
   });
 })
 
-app.get("/getStakes", async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  Campaign.Stake.find({ user: req.query.user, claimed: false})
-  .then((result) => {
-    res.send(result);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+app.post("/claimShares", async (req, res) => {
+  const filter = {user:  req.body.address};
+  const updateDoc = {
+    $push: {
+      balance: req.body.value
+    },
+    upsert: true
+  }
+  const result = await Campaign.Balance.findOneAndUpdate(filter, updateDoc);
 })
 
 app.post("/claimStake", async (req, res) => {
-  const filter = {_id:  req.body.id};
-  const updateDoc = {claimed: true};
-  const result = await Campaign.Stake.updateOne(filter, updateDoc);
+  const filter = {user:  req.body.address};
+  const updateDoc = {
+    $push: {
+      balance: req.body.value,
+    }
+  };
+  const result = await Campaign.Balance.updateOne(filter, updateDoc);
 })
+
 
 app.get("/getProfile", async (req, res) => {
   console.log(req.query);

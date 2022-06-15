@@ -45,7 +45,9 @@ export default function Campaign({setLoading}) {
 
   const handleClaim = async () => {
     if (user?.wallet?.toLowerCase() !== blockData?.creator?.toLowerCase()) {
-          await claimShares(campaign?.campaignId, user?.wallet, setLoading, dispatch);
+          const res = await pledgedAmount(campaign?.campaignId, user?.wallet);
+          console.log('pl', res);
+          await claimShares(campaign?.campaignId, user?.wallet, setLoading, dispatch, user?.balance);
     } else if (blockData.claimed === false) {
       await claimStake(campaign?.campaignId, user?.wallet, blockData?.pledged, setLoading, dispatch);
 
@@ -104,7 +106,7 @@ export default function Campaign({setLoading}) {
           <ProgressBar completed={( blockData?.pledged * 100 ) / blockData?.goal} width="50vw" margin="50px 0 0 0" bgColor="#FF007A"/>
           <div className="campaign-bottom-CTA">
 
-            {Number(blockData?.endAt) >= moment().unix() && user?.wallet.toLowerCase() !== blockData?.creator.toLowerCase() && <div className="invest-btn" onClick={() => navigate('/invest')}>
+            {user?.wallet.toLowerCase() !== blockData?.creator.toLowerCase() && <div className="invest-btn" onClick={() => navigate('/invest')}>
               Invest
             </div>}
 

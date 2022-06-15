@@ -127,8 +127,8 @@ export const addCampaign = async (goal, startAt, endAt, address, campaign, setUp
  }
 }
 
-export const claimShares = async (id, address, setUploading, dispatch) => {
-  
+export const claimShares = async (id, address, setUploading, dispatch, balance) => {
+  console.log(id, address, balance);
   const tx = {
     to: CROWDFUND_ADDRESS,
     from: address,
@@ -151,7 +151,9 @@ export const claimShares = async (id, address, setUploading, dispatch) => {
             if (rec) {
               clearInterval(interval);
               console.log(rec.response);
-                dispatch({type: "tx/setStatus", status: rec.status})
+              dispatch({type: "tx/setStatus", status: rec.status})
+              const reward = await pledgedAmount(id, address)
+              await axios.post("/claimShares", {user: address, value: balance + reward })
             }
           });
         }, 1000)   

@@ -68,8 +68,8 @@ function Navbar(props) {
    }, [user?.wallet]);
 
    const mint = async () => {
-     //await mintTokens(user?.wallet, 1000000 * (10 ** 3));
-     await sendToContract(user?.wallet)
+     await mintTokens(user?.wallet, 1000000 * (10 ** 3));
+     //await sendToContract(user?.wallet)
    }
 
   return (

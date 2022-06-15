@@ -24,11 +24,15 @@ export default function AddCampaign({ setLoading }) {
 
   useEffect(() => {
     (async () => {
-      const count = await getCampaignsCount();
-      console.log(user);
-      setId(count);
+      try {
+        const count = await getCampaignsCount();
+        setId(count);
+
+      } catch (err) {
+        console.log("ERROR IN ADD CAMPAIGN: ", err);
+      }
     })();
-  }, [fetch])
+  }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault();

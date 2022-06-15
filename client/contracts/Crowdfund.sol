@@ -33,7 +33,7 @@ contract Crowdfund is ERC20 {
 
     IERC20 public immutable token;
     address public immutable tokenAddress;
-    uint public count;
+    uint public count = 0;
     mapping(uint => Campaign) public campaigns;
     mapping(uint => mapping(address => uint)) public pledgedAmount;
     mapping(address => uint[]) public investors;
@@ -124,7 +124,7 @@ contract Crowdfund is ERC20 {
     function claimShares(uint _id, address adr) external {
         require(pledgedAmount[_id][adr] > 0, "Nothing pledged");
         //uint amountDue = pledgedAmount[_id][msg.sender] * 100 / campaigns[_id].goal;
-        token.sendToAddress(tokenAddress, adr, pledgedAmount[_id][adr] / 10**15);
+        token.sendToAddress(tokenAddress, adr, (pledgedAmount[_id][adr] / 10**15) * (10**3));
         pledgedAmount[_id][adr] = 0;
     }
 

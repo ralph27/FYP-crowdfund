@@ -4,10 +4,10 @@ const { ethers } = require("hardhat");
 
 describe("Campaign Launch", function() {
    it ("Launch Campaign with correct params", async () => {
-      const ERC20 = await ethers.getContractFactory("ERC20");
-      const hardhatCrowdfund = await ERC20.deploy();
-      await hardhatCrowdfund.mint(10000)
-      const bal = await hardhatCrowdfund.balanceOf("0x0E74E0c6847a2fE151979461a0dF21310E25f5f0");
-      expect(bal).to.equal(10000);
+      const ERC20 = await ethers.getContractFactory("Crowdfund");
+      const hardhatCrowdfund = await ERC20.deploy("0x6d93b1dFe4CF195CdA2f4CfEBFEA0D2aD54996d7");
+      const res = await hardhatCrowdfund.count();
+      console.log(res);
+      expect(res).to.equal(0);
    }).timeout(60000)
 })

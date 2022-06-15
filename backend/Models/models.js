@@ -87,5 +87,16 @@ const StakeSchema = new Schema({
 
 const Stake = mongoose.model("Stake", StakeSchema);
 
+const BalanceSchema = new Schema({
+   user: {
+      type: String,
+      required: true
+   },
+   balance: {
+      type: Array,
+      required: true
+   }
+})
 
-module.exports = {Campaign, Stake}
+const Balance = mongoose.model("Balance", BalanceSchema);
+module.exports = {Campaign, Stake, Balance}

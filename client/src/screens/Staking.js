@@ -34,7 +34,7 @@ export default function Stakings({setLoading}) {
 
   const handleClaim = async (stake) => {
     const amountAfterMint = (Number(stake.amount) + Number(stake.reward));
-    await withdrawStake(stake.amount, stake.reward.toString(), amountAfterMint, user?.wallet, stake.id, setLoading, dispatch);
+    await withdrawStake(stake.amount, stake.reward.toString(), amountAfterMint, user?.wallet, stake.id, setLoading, dispatch, user?.balance);
   }
 
 
