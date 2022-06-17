@@ -140,6 +140,8 @@ contract Crowdfund is ERC20 {
         require(success, "Call failed");
 
         pledgedAmount[_id][msg.sender] = 0;
+        campaign.pledged -= bal;
+        campaign.numberOfInvestors -= 1;
         //token.transfer(msg.sender, bal);
         
         emit Refund(_id, msg.sender, bal);

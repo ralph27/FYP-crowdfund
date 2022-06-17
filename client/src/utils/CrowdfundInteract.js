@@ -83,6 +83,7 @@ export const pledgeAmount = async (id, amount, address, setUploading, dispatch) 
 }
 
 export const addCampaign = async (goal, startAt, endAt, address, campaign, setUploading, dispatch) => {
+  console.log('campaign added', campaign);
   const transactionParameters = {
     to: CROWDFUND_ADDRESS,
     from: address,
@@ -153,7 +154,7 @@ export const claimShares = async (id, address, setUploading, dispatch, balance) 
               console.log(rec.response);
               dispatch({type: "tx/setStatus", status: rec.status})
               const reward = await pledgedAmount(id, address)
-              await axios.post("/claimShares", {user: address, value: balance + reward })
+              await axios.post("http://localhost:8080/claimShares", {user: address, value: balance + reward })
             }
           });
         }, 1000)   
@@ -185,19 +186,18 @@ export const claimStake = async (id, address, amount, setUploading, dispatch) =>
         dispatch({type: "tx/setTx", tx: txHash})
         const interval = setInterval(function() {
           console.log("Attempting to get transaction receipt...");
-          clearInterval(interval);
           web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
             if (rec) {
               console.log(rec);
               clearInterval(interval)
+              dispatch({type: "tx/setStatus", status: rec.status})
+
               await axios.post("http://localhost:8080/claimCampaign", {id: id, claimed: true})
               .then((res) => {
                 console.log(res.response);
-                dispatch({type: "tx/setStatus", status: rec.status})
               })
               .catch((error) => {
                 console.log(error);
-                dispatch({type: "tx/setStatus", status: rec.status})
               });
             }
           });
@@ -232,10 +232,10 @@ export const refund = async (id, address, amount, setUploading, dispatch) => {
             if (rec) {
               clearInterval(interval);
               console.log(rec);
+              dispatch({type: "tx/setStatus", status: rec.status})
               await axios.post("http://localhost:8080/updateCampaign", {id: id, amount: amount})
               .then((res) => {
                 console.log(res.response);
-                dispatch({type: "tx/setStatus", status: rec.status})
               })
               .catch((error) => {
                 console.log(error);

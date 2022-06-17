@@ -45,10 +45,10 @@ export default function Stakings({setLoading}) {
       if (user?.wallet) {
         setTotalStaked(0);
         setStakes([]);
-        const stakes = await getUserStakes(user?.wallet);
-        console.log(stakes);
-        if (stakes.length > 0) {
-          stakes.map((stake, index) => {
+        const blockStakes = await getUserStakes(user?.wallet);
+        console.log(blockStakes);
+        if (blockStakes.length > stakes?.length) {
+          blockStakes.map((stake, index) => {
             if (stake.claimable) {
               setTotalStaked(prev => prev + Number(stake.amount / (10 ** 3)));
               setStakes(prev => ([
@@ -62,7 +62,9 @@ export default function Stakings({setLoading}) {
               ]))
             }
           })
+        
         }
+        
       }
       const stake = await totalAmount();
       console.log(typeof(stake));

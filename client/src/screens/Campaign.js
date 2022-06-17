@@ -106,7 +106,7 @@ export default function Campaign({setLoading}) {
           <ProgressBar completed={( blockData?.pledged * 100 ) / blockData?.goal} width="50vw" margin="50px 0 0 0" bgColor="#FF007A"/>
           <div className="campaign-bottom-CTA">
 
-            {user?.wallet.toLowerCase() !== blockData?.creator.toLowerCase() && <div className="invest-btn" onClick={() => navigate('/invest')}>
+            {Number(blockData?.endAt) >= moment().unix() && user?.wallet.toLowerCase() !== blockData?.creator.toLowerCase() && <div className="invest-btn" onClick={() => navigate('/invest')}>
               Invest
             </div>}
 
