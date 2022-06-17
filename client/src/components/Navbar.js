@@ -7,14 +7,13 @@ import { FaGem } from "react-icons/fa";
 import { connectWallet } from "../utils/CrowdfundInteract";
 import { balanceOf, getTotalSupply, mintTokens, sendToContract } from "../utils/ERC20Interact";
 import { useDispatch, useSelector } from "react-redux";
+import {BsArrowRightShort} from "react-icons/bs";
 
 function Navbar(props) {
-  const [wallet, setWallet] = useState("");
-  const [balance, setBalance] = useState(0);
+  const [walletDropdown, setWalletDropdown] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
   const [scrolled, setScrolled] = useState(false);
-  const [totalSupply, setTotalSupply] = useState(0)
   const changeBackground = () => {
     if (window.scrollY >= 66) {
       setScrolled(true);
@@ -32,10 +31,8 @@ function Navbar(props) {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts) => {
         if (accounts.length > 0) {
-          setWallet(accounts[0]);
           dispatch({ type: "user/login", wallet: accounts[0] });
         } else {
-          setWallet("");
           dispatch({ type: "user/login", wallet: "" });
         }
       });
@@ -59,8 +56,6 @@ function Navbar(props) {
      ( async () => {
       dispatch({type: "fetch/setFetch", status: true})
       await getAccount();
-      const supply = await getTotalSupply();
-      setTotalSupply(supply)
       addWalletListener();
       dispatch({type: "fetch/setFetch", status: false})
      }
@@ -93,7 +88,7 @@ function Navbar(props) {
           <li>Profile</li>
         </Link>
       </ul>
-      <div className="wallet-container">
+      <div className="wallet-container"  onClick={() => setWalletDropdown(prev => !prev)}>
         <div className="wallet">
           <FaRegGem color="#fff" fontSize="1.5em" />
           <span className="balance">{Number(user?.balance / (10 ** 3)).toFixed(2)} GMS</span>  
@@ -101,6 +96,27 @@ function Navbar(props) {
         <div className="connect-btn" onClick={getAccount}>
           {user?.wallet ? formatAddress() : "Connect Wallet"}
         </div>
+       {
+        walletDropdown && 
+        <div className="nav-dropdown">
+          <div className="nav-dropdown-item">
+            {<BsArrowRightShort size={30}/>}
+            <Link to="/profile" className="nav-dropdown-link">
+              <p>
+                Withdraw
+              </p>
+            </Link>
+          </div>
+          <div className="nav-dropdown-item">
+            {<BsArrowRightShort size={30}/>}
+            <Link to="/profile" className="nav-dropdown-link">
+              <p>
+                Deposit
+              </p>
+            </Link>
+          </div>
+        </div>
+       }
       </div>
     </nav>
   );

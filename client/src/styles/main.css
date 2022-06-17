@@ -52,6 +52,8 @@
   font-size: 16px;
   margin-left: 8px;
   font-weight: bold;
+  user-select: none;
+  cursor: pointer;
 }
 .connect-btn {
   margin-left: 20px;
@@ -61,6 +63,48 @@
   cursor: pointer;
   color: white;
   font-weight: bold;
+  user-select: none;
+}
+
+.nav-dropdown {
+  background-color: #434953;
+  position: absolute;
+  bottom: -100px;
+  color: #f3f3f3;
+  padding: 15px;
+  padding-bottom: 0;
+  padding-left: 20px;
+  padding-right: 50px;
+  border-radius: 10px;
+  border: 1px solid #40444f;
+}
+
+.nav-dropdown-item > Link {
+  font-size: 1.2rem;
+  font-family: "Roboto mono";
+  text-decoration: none;
+}
+
+.nav-dropdown-link {
+  text-decoration: none;
+  color: white
+}
+
+
+.nav-dropdown-item:hover > .nav-dropdown-link {
+  color: #ff007a;
+  cursor: pointer;
+}
+
+.nav-dropdown-item:hover {
+  color: #ff007a;
+
+}
+
+.nav-dropdown-item {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 }
 
 /*dashboard*/

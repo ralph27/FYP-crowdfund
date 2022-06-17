@@ -5,7 +5,6 @@ import { addCampaign, getCampaignsCount } from "../utils/CrowdfundInteract";
 import { useDispatch, useSelector } from "react-redux";
 import { BigNumber } from "ethers";
 import moment from 'moment'
-import Popup from "../components/Popup";
 
 export default function AddCampaign({ setLoading }) {
   const [creator, setCreator] = useState("");
