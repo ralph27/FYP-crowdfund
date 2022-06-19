@@ -95,15 +95,19 @@ contract ERC20 is IERC20, Staking {
         emit Transfer(msg.sender, address(0), amount);
     }
 
-    function stake(uint _amount, address adr) public {
+    function stake(uint _amount, address adr, uint id) public {
         require(_amount <= balanceOf[adr], "Not enough tokens");
-        _stake(_amount, adr);
+        _stake(_amount, adr, id);
         balanceOf[adr] -= _amount;
         circulatingSupply -= _amount;
     }
 
     function getTotalAmountStaked() public view returns (uint) {
         return total_amount_stacked;
+    }
+
+    function getTotalStakes() public view returns (uint) {
+        return number_of_stakes;
     }
 
     function getUserStakes(address adr) public view returns (Stake[] memory)  {

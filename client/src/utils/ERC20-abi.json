@@ -269,6 +269,19 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getTotalStakes",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -299,6 +312,11 @@
 						"internalType": "bool",
 						"name": "claimable",
 						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
 					}
 				],
 				"internalType": "struct Staking.Stake[]",
@@ -406,6 +424,11 @@
 				"internalType": "address",
 				"name": "adr",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
 			}
 		],
 		"name": "stake",

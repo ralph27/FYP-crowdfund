@@ -75,8 +75,8 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\ERC20.sol": {
-      "lastModificationDate": 1655142001730,
-      "contentHash": "404dfa822d6d23e16870b2254ebe7fda",
+      "lastModificationDate": 1655652501099,
+      "contentHash": "b82de69b9f83d599014669ab02d29e95",
       "sourceName": "contracts/ERC20.sol",
       "solcConfig": {
         "version": "0.8.10",
@@ -113,8 +113,8 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\Staking.sol": {
-      "lastModificationDate": 1655141948885,
-      "contentHash": "509ec6d8db19956c8370217c1fcd6911",
+      "lastModificationDate": 1655652480915,
+      "contentHash": "5db621974b20ab5763464ed3043e1489",
       "sourceName": "contracts/Staking.sol",
       "solcConfig": {
         "version": "0.8.10",

@@ -19,10 +19,11 @@ contract Staking {
      */
     struct Stake {
         address user;
-        uint256 amount;
+        uint256 amount; 
         uint256 since;
         // Claimable represent how big of a reward is currently available
         bool claimable;
+        uint id;
     }
     /**
      * @notice Stakeholder is a staker that has active stakes
@@ -47,7 +48,13 @@ contract Staking {
       This will give users 0.1% reward for each staked token / H
      */
     uint256 internal rewardPerHour = 1000;
-
+    
+    /**
+    * @notice
+    *  stores number of stakes
+    */
+    uint256 number_of_stakes = 0;
+    
     /**
      * @notice
      *   This is a array where we store all Stakes that are performed on the Contract
@@ -90,7 +97,7 @@ contract Staking {
      * _Stake is used to make a stake for an sender. It will remove the amount staked from the stakers account and place those tokens inside a stake container
      * StakeID
      */
-    function _stake(uint256 _amount, address adr) internal { 
+    function _stake(uint256 _amount, address adr, uint id) internal { 
         // Simple check so that user does not stake 0
         require(_amount > 0, "Cannot stake nothing");
 
@@ -109,9 +116,10 @@ contract Staking {
         // Use the index to push a new Stake
         // push a newly created Stake with the current block timestamp.
         stakeholders[index].address_stakes.push(
-            Stake(adr, _amount, timestamp, true)
+            Stake(adr, _amount, timestamp, true, id)
         );
         total_amount_stacked += _amount;
+        number_of_stakes += 1;
         // Emit an event that the stake has occured
         emit Staked(adr, _amount, index, timestamp);
     }

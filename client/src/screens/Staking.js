@@ -3,7 +3,7 @@ import { FaGem } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaRocket } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getCirculation, getTotalSupply, getUserStakes, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
+import { getCirculation, getStakesCount, getTotalSupply, getUserStakes, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
 import moment from "moment";
 import Popup from "../components/Popup";
 
@@ -15,15 +15,24 @@ export default function Stakings({setLoading}) {
   const [amount, setAmount] = useState();
   const [stakes, setStakes] = useState([]);
   const [totalStaked, setTotalStaked] = useState(0);
+  const [lock, setLock] = useState(false)
   
+  const stakesList = useSelector(state => state?.staking);
+  console.log(stakesList);
+
   const handleStake = async () => {
+    const id = await getStakesCount();
     const stakeInfo = {
       user: user?.wallet,
       amount: amount * (10 ** 3),
       claimed: false,
-      date: moment().unix()
+      date: moment().unix(),
     }
-    await stake(user?.wallet, stakeInfo, setLoading, dispatch);
+   
+    setTotalStaked(prev => prev + amount);
+    await stake(user?.wallet, stakeInfo, setLoading, dispatch, calculateReward, id);
+    
+
     setAmount(0);
   }
 
@@ -42,37 +51,41 @@ export default function Stakings({setLoading}) {
     (async () => { 
       const sup = await getTotalSupply();
       const cir = await getCirculation();
-      if (user?.wallet) {
-        setTotalStaked(0);
-        setStakes([]);
-        const blockStakes = await getUserStakes(user?.wallet);
-        console.log(blockStakes);
-        if (blockStakes.length > stakes?.length) {
-          blockStakes.map((stake, index) => {
-            if (stake.claimable) {
-              setTotalStaked(prev => prev + Number(stake.amount / (10 ** 3)));
-              setStakes(prev => ([
-                ...prev,
-                {
-                  amount: stake.amount,
-                  date: stake.since,
-                  reward: calculateReward(stake.since, stake.amount),
-                  id: index
-                }
-              ]))
-            }
-          })
-        
-        }
-        
-      }
       const stake = await totalAmount();
-      console.log(typeof(stake));
+      if (user?.wallet) {
+        const blockStakes = await getUserStakes(user?.wallet);
+        formatStakes(blockStakes)
+        setLock(prev => true);
+      }
+      
       dispatch({type: "token/setInfo", token: {supply: sup, circulation: cir, staked: stake}});
     })();
-  }, [fetch]) 
+  }, []) 
 
+  useEffect(() => {
+    dispatch({type: "staking/updateStaking", stake: stakes})
+  }, [stakes]);
 
+  const formatStakes = (blockStakes) => {
+    setStakes([]);
+    setTotalStaked(0);
+    if (!lock) {
+      blockStakes.map((stake, index) => {
+        if (stake.claimable) {
+          setTotalStaked(prev => prev + Number(stake.amount / (10 ** 3)));
+          setStakes(prev => ([
+            ...prev, {
+              amount: stake.amount,
+              date: stake.since,
+              reward: calculateReward(stake.since, stake.amount),
+              id: index
+            }
+          ]
+          ))
+        }
+      })
+    }
+  }
 
 
   return (
@@ -138,19 +151,19 @@ export default function Stakings({setLoading}) {
           <div className="card-3">
             <div className="card-3-top">
               <h3>GSM Staked</h3>
-              <p>Total: {stakes.length > 0 ? totalStaked : "-"} GSM</p>
+              <p>Total: {stakesList.length > 0 ? totalStaked : "-"} GSM</p>
             </div>
             <div 
               style={
                 {
-                  border: stakes.length > 0 ? '1px solid rgb(44, 47, 54)' : 'none',
-                  borderRadius: stakes.length > 0 ? '16px' : '0',
-                  padding: stakes.length > 0 ? "30px 20px" : '0',
-                  marginTop: stakes.length > 0 ? "30px" : "0",
+                  border: stakesList.length > 0 ? '1px solid rgb(44, 47, 54)' : 'none',
+                  borderRadius: stakesList.length > 0 ? '16px' : '0',
+                  padding: stakesList.length > 0 ? "30px 20px" : '0',
+                  marginTop: stakesList.length > 0 ? "30px" : "0",
                 }
               }
               >
-              {stakes.length > 0 ? stakes.map(stake => {
+              {stakesList.length > 0 ? stakesList.map(stake => {
                 return (
                   <div className="card-3-stakes">
                     <div>

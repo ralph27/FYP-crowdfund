@@ -4,6 +4,7 @@ import tokenReducer from "./features/tokenReducer";
 import TransactionReducer from "./features/TransactionReducer";
 import userReducer from "./features/userReducer";
 import campaignReducer from "./features/campaignReducer";
+import stakingReducer from "./features/stakingReducer";
 
 
 const rootReducer = combineReducers({
@@ -11,8 +12,8 @@ const rootReducer = combineReducers({
    campaign: campaignReducer,
    token: tokenReducer,
    fetch: fetchReducer,
-   transaction: TransactionReducer
-
+   transaction: TransactionReducer,
+   staking: stakingReducer
 })
 
 export default rootReducer;

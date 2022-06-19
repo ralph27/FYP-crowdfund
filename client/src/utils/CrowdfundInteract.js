@@ -70,6 +70,10 @@ export const pledgeAmount = async (id, amount, address, setUploading, dispatch) 
               console.log(rec);
               clearInterval(interval);
               dispatch({type: "tx/setStatus", status: rec.status})
+              if (rec.status) {
+                console.log(amount);
+                dispatch({type: "user/updateBalance", wallet: {balanceType: "ethBalance", value: amount}});
+              }
             }
           });
         }, 1000)
@@ -106,15 +110,17 @@ export const addCampaign = async (goal, startAt, endAt, address, campaign, setUp
             if (rec) {
               console.log(rec);
               clearInterval(interval);
-              await axios.post("http://localhost:8080/addCampaign", campaign)
-              .then((res) => {
-                console.log(res.response);
-                dispatch({type: "tx/setStatus", status: rec.status})
-              })
-              .catch((error) => {
-                console.log(error);
-                dispatch({type: "tx/setStatus", status: rec.status})
-              });
+              if (rec.status) {
+                await axios.post("http://localhost:8080/addCampaign", campaign)
+                .then((res) => {
+                  console.log(res.response);
+                  dispatch({type: "tx/setStatus", status: rec.status})
+                })
+                .catch((error) => {
+                  console.log(error);
+                  dispatch({type: "tx/setStatus", status: rec.status})
+                });
+              }
             }
           });
         }, 1000)

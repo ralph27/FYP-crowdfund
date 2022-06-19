@@ -5,6 +5,7 @@ const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const web3 = createAlchemyWeb3(alchemyKey);
 const contract_abi = require("./ERC20-abi.json");
 const {ERC20_CONTRACT} = env;
+const moment = require("moment");
 
 export const ERC20Contract = new web3.eth.Contract(
    contract_abi,
@@ -46,11 +47,94 @@ export const balanceOf = async (address) => {
    return bal; 
 }
 
-export const stake = async (address, stake, setUploading, dispatch) => {
+export const stake = async (address, stake, setUploading, dispatch, calculateReward, id) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.stake(Number(stake.amount), address).encodeABI(),
+      data: ERC20Contract.methods.stake(Number(stake.amount), address, id).encodeABI(),
+   }
+   try {
+      const txHash = await window.ethereum.request({
+         method: "eth_sendTransaction",
+         params: [tx]
+      });
+      setTimeout(  
+         function() {
+            setUploading(true);
+            dispatch({type: "tx/setTx", tx: txHash})
+            const interval = setInterval(function() {
+            console.log("Attempting to get transaction receipt...");
+            web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+              if (rec) {
+                console.log(rec);
+                clearInterval(interval);
+                dispatch({type: "tx/setStatus", status: rec.status});
+                if (rec.status) {
+                  dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: stake.amount }})
+                  dispatch({type: "staking/addStaking", stake: {amount: stake.amount, date: moment().unix(),
+                     reward: calculateReward(moment().unix(), stake.amount), id: id}
+                   });
+                  return true;
+                }
+              }
+            });
+          }, 1000)  
+         },  
+      1000)
+      
+   } catch (err) {
+      console.log(err.message)
+   }
+}
+
+export const getStakes = async (address) => {
+   console.log(address);
+   const summary = await ERC20Contract.methods.getSummary(address).call();
+   return summary;
+}
+
+export const getUserStakes = async (address) => {
+   const summary = await ERC20Contract.methods.getUserStakes(address).call();
+   return summary;
+}
+
+export const getStakesCount = async () => {
+   const res = await ERC20Contract.methods.getTotalStakes().call();
+   return res;
+}
+ 
+export const sendToContract = async (address, recipient, amount, dispatch) => {
+   console.log(address + " SPACE " + ERC20_CONTRACT);
+   const tx = {
+      from: address,
+      to: ERC20_CONTRACT,
+      data: ERC20Contract.methods.sendToContract(recipient, amount * (10 ** 3)).encodeABI()
+   }
+   try {
+      const txHash = await window.ethereum.request({
+         method: "eth_sendTransaction",
+         params: [tx]
+      });
+      const interval = setInterval(function() {
+        console.log("Attempting to get transaction receipt...");
+        web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+          if (rec) {
+            console.log(rec);
+            clearInterval(interval);
+            dispatch({type: "tx/setStatus", status: rec.status})
+          }
+        });
+      }, 1000)    
+   } catch (err) {
+      console.log(err.message)
+   }
+}
+
+export const transfer = async (address, recipient, amount, dispatch, setUploading) => {
+   const tx = {
+      from: address,
+      to: ERC20_CONTRACT,
+      data: ERC20Contract.methods.transferFrom(address, recipient, amount * (10 ** 3)).encodeABI()
    }
    try {
       const txHash = await window.ethereum.request({
@@ -74,42 +158,6 @@ export const stake = async (address, stake, setUploading, dispatch) => {
          },  
       1000)
       
-   } catch (err) {
-      console.log(err.message)
-   }
-}
-
-export const getStakes = async (address) => {
-   console.log(address);
-   const summary = await ERC20Contract.methods.getSummary(address).call();
-   return summary;
-}
-
-export const getUserStakes = async (address) => {
-   const summary = await ERC20Contract.methods.getUserStakes(address).call();
-   return summary;
-}
-
-export const sendToContract = async (address) => {
-   const tx = {
-      from: address,
-      to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.sendToContract("0xeAa610F6C2b8da2561E24c4809eF9F709bB1e312", 100 * (10 ** 3)).encodeABI()
-   }
-   try {
-      const txHash = await window.ethereum.request({
-         method: "eth_sendTransaction",
-         params: [tx]
-      });
-      const interval = setInterval(function() {
-        console.log("Attempting to get transaction receipt...");
-        web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
-          if (rec) {
-            console.log(rec);
-            clearInterval(interval);
-          }
-        });
-      }, 1000)    
    } catch (err) {
       console.log(err.message)
    }
@@ -141,16 +189,18 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
                if (rec) {
                  console.log(rec);
                  clearInterval(interval);
-                 await axios.post("/claimStake",  {address: address, value: amountMint})
-                 .then((res) => {
-                  console.log(res.response);
-                  dispatch({type: "tx/setStatus", status: rec.status})
-                 })
-                .catch((error) => {
-                  console.log(error);
-                  dispatch({type: "tx/setStatus", status: rec.status})
-                 });
                  dispatch({type: "tx/setStatus", status: rec.status})
+                 if (rec.status) {
+                  dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: -amountMint}})
+                  dispatch({type: "staking/removeStaking", id: {id}});
+                  await axios.post("/claimStake",  {address: address, value: amountMint})
+                  .then((res) => {
+                     console.log(res.response);
+                  })
+                  .catch((error) => {
+                     console.log(error);
+                  });
+                 }
                }
              });
            }, 1000)

@@ -42,10 +42,15 @@
 }
 .wallet-container {
   display: flex;
+  
 }
 .wallet {
   align-items: center;
+  background-color: rgb(44, 47, 54);
+  padding: 0 10px;
+  border-radius: 15px;
   display: flex;
+  margin-left: 10px;
 }
 .balance {
   color: white;
@@ -93,12 +98,12 @@
 
 .nav-dropdown-item:hover > .nav-dropdown-link {
   color: #ff007a;
-  cursor: pointer;
+  
 }
 
 .nav-dropdown-item:hover {
   color: #ff007a;
-
+  cursor: pointer;
 }
 
 .nav-dropdown-item {
@@ -784,7 +789,7 @@ textarea::-webkit-scrollbar-thumb {
 
 .invest-input {
   padding-left: 3%;
-  width: 70%;
+  width: 60%;
 }
 
 .invest-input > input {
@@ -816,6 +821,7 @@ textarea::-webkit-scrollbar-thumb {
 
 .currency-wrapper {
   display: flex;
+  width: 300px;
   flex-direction: column;
   align-items: flex-end;
   font-family: "Roboto Mono", monospace;
@@ -1000,6 +1006,92 @@ input::-webkit-inner-spin-button {
 .menu-links li:hover {
   color: white;
 }
+
+/* WITHDRAW */
+
+.withdraw-screen {
+  background-color: #191b1f;
+  height: calc(100vh - (80px + 60px));
+  padding-top: 5%;
+  padding-bottom: 5%;
+  color: white;
+}
+
+.withdraw-screen-title {
+  width: fit-content;
+  font-family: "Roboto Mono";
+  padding-top: 50px;
+  padding-bottom: 30px;
+  margin: 0 auto;
+}
+
+.withdraw-wrapper {
+  background-color: #212429;
+  border-radius: 24px;
+  width: 50%;
+  margin: 0 auto;
+  padding: 2% 2%;
+  color: white;
+}
+
+.recipient-input {
+  display: flex;
+  background-color: #191b1f;
+  padding-right: 3%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  align-items: center;
+  border-radius: 20px;
+  padding-left: 15px;
+}
+
+.recipient-input > input {
+  background-color: transparent;
+  width: 100%;
+  outline: none;
+  border: 0px;
+  z-index: 99;
+  color: white;
+  font-family: "Roboto Mono", monospace;
+  height: 30px;
+  font-size: 28px;
+  padding-bottom: 5px;
+}
+
+.withdraw-wrapper > h3 {
+  font-size: 1.8rem;
+  font-family: "Roboto Mono";
+  margin-bottom: 20px;
+}
+
+.recipient-amount-input {
+  display: flex;
+  background-color: #191b1f;
+  padding-right: 2%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  align-items: flex-start;
+  border-radius: 20px;
+  padding-left: 15px;
+}
+
+.recipient-amount-input > input {
+  background-color: transparent;
+  width: 100%;
+  outline: none;
+  border: 0px;
+  z-index: 99;
+  color: white;
+  font-family: "Roboto Mono", monospace;
+  height: 30px;
+  font-size: 38px;
+  padding-bottom: 5px;
+}
+
+
+/* WITHDRAW */
+
+
 /*Media queries*/
 @media (max-width: 1200px) {
   .staking-container {

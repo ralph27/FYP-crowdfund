@@ -6,7 +6,13 @@ export default function userReducer(state = initialState, action) {
       case "user/login":
          temp = { ...state };
          temp.wallet = action.wallet.address;
-         temp.balance = action.wallet.balance
+         temp.balance = action.wallet.balance;
+         temp.ethBalance = action.wallet.ethBal;
+         return temp;
+      case "user/updateBalance": 
+         temp = { ...state };
+         temp[action.wallet.balanceType] -= action.wallet.value;
+         console.log(temp);
          return temp;
       default:
          return state;
