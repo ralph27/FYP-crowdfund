@@ -2,7 +2,7 @@ window.env = {
   "ALLUSERSPROFILE": "C:\\ProgramData",
   "API_URL": "https://eth-goerli.alchemyapi.io/v2/5kvpNxUU9Hx-ddylW5VeXSKoHhFvgPKs",
   "APPDATA": "C:\\Users\\User\\AppData\\Roaming",
-  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_8000_QIQDPNAWHWAOVNDE",
+  "CHROME_CRASHPAD_PIPE_NAME": "\\\\.\\pipe\\crashpad_2224_MXHLSAPUXTWMDBFM",
   "COLOR": "0",
   "COLORTERM": "truecolor",
   "CommonProgramFiles": "C:\\Program Files\\Common Files",

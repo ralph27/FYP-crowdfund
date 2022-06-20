@@ -46,8 +46,8 @@ export default function Campaign({setLoading}) {
   const handleClaim = async () => {
     if (user?.wallet?.toLowerCase() !== blockData?.creator?.toLowerCase()) {
           const res = await pledgedAmount(campaign?.campaignId, user?.wallet);
-          console.log('pl', res);
-          await claimShares(campaign?.campaignId, user?.wallet, setLoading, dispatch, user?.balance);
+
+          await claimShares(campaign?.campaignId, user?.wallet, setLoading, dispatch, user?.balance, res);
     } else if (blockData.claimed === false) {
       await claimStake(campaign?.campaignId, user?.wallet, blockData?.pledged, setLoading, dispatch);
 

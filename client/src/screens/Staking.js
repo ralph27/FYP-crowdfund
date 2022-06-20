@@ -29,8 +29,7 @@ export default function Stakings({setLoading}) {
       date: moment().unix(),
     }
    
-    setTotalStaked(prev => prev + amount);
-    await stake(user?.wallet, stakeInfo, setLoading, dispatch, calculateReward, id);
+    await stake(user?.wallet, stakeInfo, setLoading, dispatch, calculateReward, id, setTotalStaked);
     
 
     setAmount(0);
@@ -43,7 +42,7 @@ export default function Stakings({setLoading}) {
 
   const handleClaim = async (stake) => {
     const amountAfterMint = (Number(stake.amount) + Number(stake.reward));
-    await withdrawStake(stake.amount, stake.reward.toString(), amountAfterMint, user?.wallet, stake.id, setLoading, dispatch, user?.balance);
+    await withdrawStake(stake.amount, stake.reward.toString(), amountAfterMint, user?.wallet, stake.id, setLoading, dispatch, user?.balance, setTotalStaked);
   }
 
 

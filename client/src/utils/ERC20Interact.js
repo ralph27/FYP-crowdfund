@@ -47,7 +47,7 @@ export const balanceOf = async (address) => {
    return bal; 
 }
 
-export const stake = async (address, stake, setUploading, dispatch, calculateReward, id) => {
+export const stake = async (address, stake, setUploading, dispatch, calculateReward, id, setTotalStaked) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
@@ -74,6 +74,8 @@ export const stake = async (address, stake, setUploading, dispatch, calculateRew
                   dispatch({type: "staking/addStaking", stake: {amount: stake.amount, date: moment().unix(),
                      reward: calculateReward(moment().unix(), stake.amount), id: id}
                    });
+                   setTotalStaked(prev => Number(prev) + Number(stake.amount / (10 ** 3)));
+                   dispatch({type: "token/updateStaked", staked: Number(stake.amount )})
                   return true;
                 }
               }
@@ -152,6 +154,9 @@ export const transfer = async (address, recipient, amount, dispatch, setUploadin
                 console.log(rec);
                 clearInterval(interval);
                 dispatch({type: "tx/setStatus", status: rec.status});
+                if (rec.status) {
+                  dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: amount * (10 ** 3)}})
+                }
               }
             });
           }, 1000)  
@@ -168,7 +173,7 @@ export const totalAmount = async () => {
    return res;
 }
 
-export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch, balance) => {
+export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch, balance, setTotalStaked) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
@@ -193,6 +198,8 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
                  if (rec.status) {
                   dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: -amountMint}})
                   dispatch({type: "staking/removeStaking", id: {id}});
+                  dispatch({type: "token/updateStaked", staked: -initialAmount})
+                  setTotalStaked(prev => prev - Number(initialAmount / (10 ** 3)));
                   await axios.post("/claimStake",  {address: address, value: amountMint})
                   .then((res) => {
                      console.log(res.response);

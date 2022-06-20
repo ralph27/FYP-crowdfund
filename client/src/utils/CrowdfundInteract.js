@@ -1,7 +1,6 @@
 import env from "react-dotenv";
 import { ethers} from 'ethers';
 import axios from "axios";
-import { parseEther } from "ethers/lib/utils";
 import { getAbi, getPoolImmutables } from "../helpers/EthHelpers";
 const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
@@ -134,7 +133,7 @@ export const addCampaign = async (goal, startAt, endAt, address, campaign, setUp
  }
 }
 
-export const claimShares = async (id, address, setUploading, dispatch, balance) => {
+export const claimShares = async (id, address, setUploading, dispatch, balance, pledgedAmount) => {
   console.log(id, address, balance);
   const tx = {
     to: CROWDFUND_ADDRESS,
@@ -159,6 +158,9 @@ export const claimShares = async (id, address, setUploading, dispatch, balance) 
               clearInterval(interval);
               console.log(rec.response);
               dispatch({type: "tx/setStatus", status: rec.status})
+              if (rec.status) {
+                dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: -(pledgedAmount / 10**15) * (10**3)}})
+              }
               const reward = await pledgedAmount(id, address)
               await axios.post("http://localhost:8080/claimShares", {user: address, value: balance + reward })
             }
@@ -197,14 +199,16 @@ export const claimStake = async (id, address, amount, setUploading, dispatch) =>
               console.log(rec);
               clearInterval(interval)
               dispatch({type: "tx/setStatus", status: rec.status})
-
-              await axios.post("http://localhost:8080/claimCampaign", {id: id, claimed: true})
-              .then((res) => {
-                console.log(res.response);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+              if (rec.status) {
+                dispatch({type: "user/updateBalance", wallet: {balanceType: "ethBalance", value: -amount}})
+                await axios.post("http://localhost:8080/claimCampaign", {id: id, claimed: true})
+                .then((res) => {
+                  console.log(res.response);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+              }
             }
           });
         }, 1000)
@@ -239,6 +243,9 @@ export const refund = async (id, address, amount, setUploading, dispatch) => {
               clearInterval(interval);
               console.log(rec);
               dispatch({type: "tx/setStatus", status: rec.status})
+              if (rec.status) {
+                dispatch({type: "user/updateBalance", wallet: {balanceType: "ethBalance", value: -amount}})
+              }
               await axios.post("http://localhost:8080/updateCampaign", {id: id, amount: amount})
               .then((res) => {
                 console.log(res.response);

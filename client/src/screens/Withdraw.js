@@ -14,6 +14,8 @@ function Withdraw({setLoading}) {
    const handleTransfer = async () => {
       console.log(user?.balance, recipient, amount);
       await transfer(user?.wallet, recipient, amount, dispatch, setLoading);
+      setRecipient("");
+      setAmount(0);
    }
 
  
