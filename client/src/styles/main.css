@@ -1091,6 +1091,10 @@ input::-webkit-inner-spin-button {
 
 /* WITHDRAW */
 
+.error {
+  color: red;
+}
+
 
 /*Media queries*/
 @media (max-width: 1200px) {

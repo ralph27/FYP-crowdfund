@@ -150,19 +150,19 @@ export default function Stakings({setLoading}) {
           <div className="card-3">
             <div className="card-3-top">
               <h3>GSM Staked</h3>
-              <p>Total: {stakesList.length > 0 ? totalStaked : "-"} GSM</p>
+              <p>Total: {stakesList?.length > 0 ? totalStaked : "-"} GSM</p>
             </div>
             <div 
               style={
                 {
-                  border: stakesList.length > 0 ? '1px solid rgb(44, 47, 54)' : 'none',
-                  borderRadius: stakesList.length > 0 ? '16px' : '0',
-                  padding: stakesList.length > 0 ? "30px 20px" : '0',
-                  marginTop: stakesList.length > 0 ? "30px" : "0",
+                  border: stakesList?.length > 0 ? '1px solid rgb(44, 47, 54)' : 'none',
+                  borderRadius: stakesList?.length > 0 ? '16px' : '0',
+                  padding: stakesList?.length > 0 ? "30px 20px" : '0',
+                  marginTop: stakesList?.length > 0 ? "30px" : "0",
                 }
               }
               >
-              {stakesList.length > 0 ? stakesList.map(stake => {
+              {stakesList?.length > 0 ? stakesList.map(stake => {
                 return (
                   <div className="card-3-stakes">
                     <div>

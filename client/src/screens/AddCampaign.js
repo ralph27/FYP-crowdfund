@@ -16,11 +16,12 @@ export default function AddCampaign({ setLoading }) {
   const [goal, setGoal] = useState("");
   const [description, setDescription] = useState("");
   const [id, setId] = useState(0);
+  const [err, setErr] = useState("");
   const user = useSelector(state => state?.user);
-  const fetch = useSelector(state => state?.fetch)
 
   const dispatch = useDispatch();
-
+  const disabled = title === "" || snippet === "" || thumbnail === "" || description === "" || goal === "";
+  
   useEffect(() => {
     (async () => {
       try {
@@ -35,36 +36,41 @@ export default function AddCampaign({ setLoading }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let startStr = moment(startDate).unix();
-    let endStr = moment(endDate).unix();
-    const newCampaign = {
-      id: id,
-      creator: user?.wallet,
-      title: title,
-      description: description,
-      snippet: snippet,
-      thumbnail: thumbnail,
-      startAt: startStr,
-      endAt: endStr,
-      goal: parseEther(goal).toString(),
-      nbOfInvestors: 0,
-      pledged: 0,
-      claimed: false,
-      investors: [],
-    };
-    let wei = parseEther(goal).toString();
-    let weiBig = BigNumber.from(wei).toString();
-    console.log('wei', weiBig);
-    await addCampaign(weiBig, startStr, endStr, user.wallet, newCampaign, setLoading, dispatch);
-    setId(0);
-    setCreator("");
-    setTitle("");
-    setDescription("");
-    setSnippet("");
-    setThumbnail("");
-    setStartDate(new Date());
-    setEndDate(new Date());
-    setGoal("");
+    if (disabled) {
+      setErr("Fill All Field");
+    } else {
+      let startStr = moment(startDate).unix();
+      let endStr = moment(endDate).unix();
+      const newCampaign = {
+        id: id,
+        creator: user?.wallet,
+        title: title,
+        description: description,
+        snippet: snippet,
+        thumbnail: thumbnail,
+        startAt: startStr,
+        endAt: endStr,
+        goal: parseEther(goal).toString(),
+        nbOfInvestors: 0,
+        pledged: 0,
+        claimed: false,
+        investors: [],
+      };
+      let wei = parseEther(goal).toString();
+      let weiBig = BigNumber.from(wei).toString();
+      console.log('wei', weiBig);
+      await addCampaign(weiBig, startStr, endStr, user.wallet, newCampaign, setLoading, dispatch);
+      setErr("");
+      setId(0);
+      setCreator("");
+      setTitle("");
+      setDescription("");
+      setSnippet("");
+      setThumbnail("");
+      setStartDate(new Date());
+      setEndDate(new Date());
+      setGoal("");
+    }
   };
 
   
@@ -144,6 +150,7 @@ export default function AddCampaign({ setLoading }) {
             />
           </div>
         </form>
+          <p className="error">{err}</p>
           <button className="submitBtn" onClick={handleSubmit} >Submit</button>
       </div>
     </div>
