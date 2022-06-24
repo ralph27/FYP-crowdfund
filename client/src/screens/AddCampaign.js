@@ -37,7 +37,7 @@ export default function AddCampaign({ setLoading }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (disabled) {
-      setErr("Fill All Field");
+      setErr("Please Fill All The Fields");
     } else {
       let startStr = moment(startDate).unix();
       let endStr = moment(endDate).unix();

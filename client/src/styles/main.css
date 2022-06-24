@@ -143,7 +143,7 @@
   color: white;
 }
 .dashboard-grid {
-  margin-top: 150px;
+  margin-top: 120px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 500px));
   column-gap: 100px;
@@ -966,7 +966,7 @@ input::-webkit-inner-spin-button {
   margin-bottom: 30px;
 }
 .profile-screen .CampaignCard-container {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 .menu-btn {
   cursor: pointer;
@@ -1006,6 +1006,31 @@ input::-webkit-inner-spin-button {
 .menu-links li:hover {
   color: white;
 }
+
+.profile-amount-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 70px;
+}
+
+.profile-amount-info > div {
+  text-align: center;
+  color: white;
+}
+
+.profile-amount-info > div > h1 {
+  margin-bottom: 20px;
+}
+
+.profile-amount-info > div > p {
+  font-size: 2rem;
+  color: #FF007A;
+}
+
+
+
+
 
 /* WITHDRAW */
 
@@ -1093,6 +1118,8 @@ input::-webkit-inner-spin-button {
 
 .error {
   color: red;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1.3rem;
 }
 
 

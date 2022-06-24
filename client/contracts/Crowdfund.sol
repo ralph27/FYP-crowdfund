@@ -37,6 +37,8 @@ contract Crowdfund is ERC20 {
     mapping(uint => Campaign) public campaigns;
     mapping(uint => mapping(address => uint)) public pledgedAmount;
     mapping(address => uint[]) public investors;
+    mapping(address => uint) public totalAmountInvested;
+    mapping(address => uint) public totalAmountRaised; 
 
     constructor(address _token) {
         token = IERC20(_token);
@@ -92,6 +94,7 @@ contract Crowdfund is ERC20 {
         pledgedAmount[_id][msg.sender] += _amount;
         //token.transferFrom(msg.sender, address(this), _amount);
         campaigns[_id] = campaign;
+        totalAmountInvested[msg.sender] += _amount;
         emit Pledge(_id, msg.sender, _amount);
     }
 
@@ -104,6 +107,7 @@ contract Crowdfund is ERC20 {
 
         campaign.pledged -= _amount;
         pledgedAmount[_id][msg.sender] -= _amount;
+        totalAmountInvested[msg.sender] -= _amount;
         //token.transfer(msg.sender, _amount);
 
         emit Unpledge(_id, msg.sender, _amount);
@@ -115,6 +119,7 @@ contract Crowdfund is ERC20 {
         (bool success, ) = adr.call{value: amount}("");     
         require(success, "Call failed");
         campaign.claimed = true;
+        totalAmountRaised[adr] += amount;
         //token.transferFrom(msg.sender, campaign.pledged);
         
 

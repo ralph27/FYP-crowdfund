@@ -282,6 +282,16 @@ export const getProfile = async (adr) => {
   return res;
 }
 
+export const getTotalAmountInvested = async (adr) => {
+  const res = await CrowdfundContract.methods.totalAmountInvested(adr).call();
+  return res;
+}
+
+export const getTotalAmountRaised = async (adr) => {
+  const res = await CrowdfundContract.methods.totalAmountRaised(adr).call();
+  return res
+}
+
 export const getPrice = async (inputAmount) => {
   const {INFURA_URL, ETHERSCAN_KEY} = env;
 
