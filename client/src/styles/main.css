@@ -1207,4 +1207,12 @@ input::-webkit-inner-spin-button {
     margin-bottom: 18px;
     text-align: center;
   }
+  
+  .profile-amount-info {
+    flex-direction: column;
+  }
+
+  .profile-amount-info > div:not(:last-child) {
+    margin-bottom: 60px;
+  }
 }
