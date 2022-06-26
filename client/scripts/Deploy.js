@@ -7,6 +7,10 @@ async function main() {
   const Crowdfund_deployed = await Crowdfund.deploy(ERC20_deployed.address);
   console.log("Contract Crowdfund deployed to address:", Crowdfund_deployed.address); 
 
+  const CPAMM = await ethers.getContractFactory("CPAMM");
+  const CPAMM_deployed = await CPAMM.deploy(ERC20_deployed.address);
+  console.log("Contract CPAMM deployed to address: ", CPAMM_deployed.address);
+
   const Staking = await ethers.getContractFactory("Staking");
   const Staking_deployed = await Staking.deploy();
   console.log("Contract Staking deployed to address: ", Staking_deployed.address);

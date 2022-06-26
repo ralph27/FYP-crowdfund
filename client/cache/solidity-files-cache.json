@@ -146,6 +146,44 @@
       "artifacts": [
         "Staking"
       ]
+    },
+    "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\CPAMM.sol": {
+      "lastModificationDate": 1656267280621,
+      "contentHash": "e15877f9edb93e462a797ee246ea0973",
+      "sourceName": "contracts/CPAMM.sol",
+      "solcConfig": {
+        "version": "0.8.10",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.10"
+      ],
+      "artifacts": [
+        "CPAMM",
+        "IERC20"
+      ]
     }
   }
 }
