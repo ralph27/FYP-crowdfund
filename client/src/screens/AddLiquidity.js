@@ -1,22 +1,41 @@
+import { BigNumber } from 'ethers';
+import { parseEther } from 'ethers/lib/utils';
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ParseGMS } from '../helpers/ParseGMS';
 import eth from '../images/ethereum.png'
+import { addLiquidity, getEthReserve, getGmsReserve, removeLiquidity } from '../utils/CpammInteract';
 
-function AddLiquidity() {
+function AddLiquidity({setLoading}) {
    const [amountGMS, setAmountGMS] = useState();
    const [amountETH, setAmountETH] = useState();
 
    const user = useSelector(state => state?.user);
-   console.log(user);
+   const dispatch = useDispatch();
 
    const handleAddLiquidity = async () => {
-      console.log("clicked");
+      let wei = parseEther(amountETH).toString();
+      let weiBig = BigNumber.from(wei).toString();
+      await addLiquidity(user?.wallet, ParseGMS(amountGMS * (10 ** 18)), weiBig, setLoading, dispatch);
    }
 
    const handleChange = (GMS) => {
       setAmountGMS(GMS);
-      setAmountETH(GMS * (10 ** 18) / (10 ** 18));
+      setAmountETH(GMS);
    }
+
+   const removeUserLiquidity = async () => {
+      await removeLiquidity(user?.wallet, setLoading, dispatch);
+   }
+
+   useEffect(() => {
+      (async () => {
+         const res = await getEthReserve();
+         const resGMS = await getGmsReserve();
+         console.log(res, resGMS);
+      })();
+   }, [])
 
    return (
       <div className='liquidity-wrapper'>
@@ -32,7 +51,7 @@ function AddLiquidity() {
                      onChange={(e) => handleChange(e.target.value)}
                   /> 
                   <div className='currency-wrapper'>
-                     <div className='invest-currency'>
+                     <div className='invest-currency' onClick={() => removeUserLiquidity()}>
                         <img src={eth} alt='eth' height={20} width={20}/>
                         <h3>GMS</h3>  
                      </div>
@@ -54,7 +73,7 @@ function AddLiquidity() {
                         <img src={eth} alt='eth' height={20} width={20}/>
                         <h3>ETH</h3>  
                      </div>
-                     <p>Balance: {(Number(user?.balance) / (10 ** 18)).toFixed(2)}</p>
+                     <p>Balance: {(Number(user?.ethBalance) / (10 ** 18)).toFixed(2)}</p>
                   </div>
                </div>
             </div>

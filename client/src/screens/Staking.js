@@ -3,15 +3,14 @@ import { FaGem } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { FaRocket } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { getCirculation, getStakesCount, getTotalSupply, getUserStakes, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
+import { getCirculation, getTotalSupply, totalAmount } from "../utils/ERC20Interact";
+import {stake, getUserStakes, withdrawStake, getStakesCount} from "../utils/CpammInteract"
 import moment from "moment";
-import Popup from "../components/Popup";
 import { ParseGMS } from "../helpers/ParseGMS";
 
 export default function Stakings({setLoading}) {
   const dispatch = useDispatch();
   const token = useSelector(state => state?.token);
-  const fetch = useSelector(state => state?.fetch);
   const user = useSelector(state => state?.user);
   const [amount, setAmount] = useState();
   const [stakes, setStakes] = useState([]);
@@ -37,20 +36,22 @@ export default function Stakings({setLoading}) {
   }
 
   const calculateReward = (date, amount) => {
-    const res =  (((moment().unix() - date) / 60) * amount) / 1000;
+    console.log(amount / (10 ** 18));
+    const res =  (((moment().unix() - date) / 60) * amount);
+    console.log("reward", res );
     return res;
   }
 
   const handleClaim = async (stake) => {
-    let amountToClaim = ParseGMS(Number(stake.amount) + Number(stake.reward));
-    console.log("amountTOClaim: ", amountToClaim);
-    let initialAmount = ParseGMS(stake.amount);
-    console.log("initialAmount: ", initialAmount);
+    console.log("amountTOClaim: ", stake.reward / (10 ** 18));
 
-    let reward = ParseGMS(stake.reward);
-    console.log("reward: ", reward);
+    // let initialAmount = ParseGMS(stake.amount);
+    console.log("initialAmount: ", stake.amount / (10 ** 18));
+    console.log("id", stake.id);
+    // let reward = ParseGMS(stake.reward);
+    // console.log("reward: ", reward);
 
-    await withdrawStake(initialAmount, reward, amountToClaim, user?.wallet, stake.id, setLoading, dispatch, user?.balance, setTotalStaked);
+    await withdrawStake(stake.amount, stake.reward, user?.wallet, stake.id, setLoading, dispatch, user?.balance, setTotalStaked);
   }
 
 
@@ -136,7 +137,7 @@ export default function Stakings({setLoading}) {
             <div className="card-2-input-wrapper">
               <div className="card-2-top-input">
                 <p>Amount</p>
-                <p>Wallet Balance: {Number(user?.balance / (10 ** 18)).toFixed(2)} GMS</p>
+                <p>Wallet Balance: {Number(user?.shares) / (10 ** 18)} LT</p>
               </div>
               <div className="stake-input">
                 <input 

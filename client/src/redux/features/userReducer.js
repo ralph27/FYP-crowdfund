@@ -8,6 +8,7 @@ export default function userReducer(state = initialState, action) {
          temp.wallet = action.wallet.address;
          temp.balance = action.wallet.balance;
          temp.ethBalance = action.wallet.ethBal;
+         temp.shares = action.wallet.shares;
          return temp;
       case "user/updateBalance": 
          temp = { ...state };

@@ -11,7 +11,7 @@ interface IERC20 {
     function transfer(address recipient, uint amount) external returns (bool);
 
     function allowance(address owner, address spender)
-        external
+        external 
         view
         returns (uint);
     

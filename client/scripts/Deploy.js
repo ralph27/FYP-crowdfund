@@ -3,13 +3,13 @@ async function main() {
   // const ERC20_deployed = await ERC20.deploy();
   // console.log("Contract ERC20 deployed to address: ", ERC20_deployed.address);
 
-  const Crowdfund = await ethers.getContractFactory("Crowdfund");
-  const Crowdfund_deployed = await Crowdfund.deploy("0x891001cabB4d86b1c57876DF4a900A9b1DA9B7E0");
-  console.log("Contract Crowdfund deployed to address:", Crowdfund_deployed.address); 
+  // const Crowdfund = await ethers.getContractFactory("Crowdfund");
+  // const Crowdfund_deployed = await Crowdfund.deploy(ERC20_deployed.address);
+  // console.log("Contract Crowdfund deployed to address:", Crowdfund_deployed.address); 
 
-  // const CPAMM = await ethers.getContractFactory("CPAMM");
-  // const CPAMM_deployed = await CPAMM.deploy("0x891001cabB4d86b1c57876DF4a900A9b1DA9B7E0");
-  // console.log("Contract CPAMM deployed to address: ", CPAMM_deployed.address);
+  const CPAMM = await ethers.getContractFactory("CPAMM");
+  const CPAMM_deployed = await CPAMM.deploy("0xb10734F6DD43a440e622a7BE8BF9154882f1631c");
+  console.log("Contract CPAMM deployed to address: ", CPAMM_deployed.address);
 
   // const Staking = await ethers.getContractFactory("Staking");
   // const Staking_deployed = await Staking.deploy();

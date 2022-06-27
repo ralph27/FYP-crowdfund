@@ -195,7 +195,7 @@ contract Staking {
         uint256 totalStakeAmount;
         // Keep a summary in memory since we need to calculate this
         StakingSummary memory summary = StakingSummary(
-            0,
+            0, 
             stakeholders[stakes[_staker]].address_stakes
         );
         // Itterate all stakes and grab amount of stakes

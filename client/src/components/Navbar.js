@@ -8,6 +8,7 @@ import { balanceOf, mintTokens, sendToContract } from "../utils/ERC20Interact";
 import { useDispatch, useSelector } from "react-redux";
 import { getEthBalance } from "../utils/EthInteract";
 import {BigNumber} from "ethers"
+import { getUserShares } from "../utils/CpammInteract";
 
 function Navbar(props) {
   const dispatch = useDispatch();
@@ -48,7 +49,8 @@ function Navbar(props) {
     const res = await connectWallet();
     const bal = await balanceOf(res[0]);
     const ethBal = await getEthBalance(res[0].toLowerCase());
-    dispatch({ type: "user/login", wallet: {address: res[0], balance: bal, ethBal: ethBal} });
+    const shares = await getUserShares(res[0]);
+    dispatch({ type: "user/login", wallet: {address: res[0], balance: bal, ethBal: ethBal, shares: shares} });
   }
 
   useEffect(() => {
@@ -63,10 +65,10 @@ function Navbar(props) {
 
    const mint = async () => {
      const decimals = 18;
-     const input = 100;
+     const input = 10;
      const amount = BigNumber.from(input).mul(BigNumber.from(10).pow(decimals));
      //await mintTokens(user?.wallet, BigNumber.from((amount.toString())) );
-     await sendToContract("0x1ac81977227035BC024F70622826FCdc534C6055", user?.wallet, amount.toString(), dispatch)
+     await sendToContract("0x48075EdF997430c3CFe0c4084Af111E27cFE97e9", user?.wallet, amount.toString(), dispatch)
    }
 
   return (

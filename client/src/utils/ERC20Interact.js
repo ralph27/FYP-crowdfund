@@ -144,7 +144,7 @@ export const transfer = async (address, recipient, amount, dispatch, setUploadin
          params: [tx]
       });
       setTimeout(  
-         function() {
+         function() { 
             setUploading(true);
             dispatch({type: "tx/setTx", tx: txHash})
             const interval = setInterval(function() {

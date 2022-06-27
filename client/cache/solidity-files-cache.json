@@ -37,7 +37,7 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\Crowdfund.sol": {
-      "lastModificationDate": 1656325696330,
+      "lastModificationDate": 1656329348513,
       "contentHash": "9c97ecf1d97e32108697f6d2267f05ba",
       "sourceName": "contracts/Crowdfund.sol",
       "solcConfig": {
@@ -75,8 +75,8 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\ERC20.sol": {
-      "lastModificationDate": 1656322748306,
-      "contentHash": "fdcb31fed57e6ba222c0c522040e80ff",
+      "lastModificationDate": 1656332597446,
+      "contentHash": "2be5a0da28ffc117314390065e1a9485",
       "sourceName": "contracts/ERC20.sol",
       "solcConfig": {
         "version": "0.8.10",
@@ -113,8 +113,8 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\Staking.sol": {
-      "lastModificationDate": 1655652480915,
-      "contentHash": "5db621974b20ab5763464ed3043e1489",
+      "lastModificationDate": 1656333537490,
+      "contentHash": "2e53afaefb3bf9ab7cb1afae9de3c34d",
       "sourceName": "contracts/Staking.sol",
       "solcConfig": {
         "version": "0.8.10",
@@ -148,8 +148,8 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\CPAMM.sol": {
-      "lastModificationDate": 1656267280621,
-      "contentHash": "e15877f9edb93e462a797ee246ea0973",
+      "lastModificationDate": 1656353843482,
+      "contentHash": "0534cbde7239f49dad5f7929b4d561d0",
       "sourceName": "contracts/CPAMM.sol",
       "solcConfig": {
         "version": "0.8.10",
@@ -175,7 +175,8 @@
         }
       },
       "imports": [
-        "hardhat/console.sol"
+        "hardhat/console.sol",
+        "./Staking.sol"
       ],
       "versionPragmas": [
         "^0.8.10"
