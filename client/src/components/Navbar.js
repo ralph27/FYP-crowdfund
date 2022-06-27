@@ -7,6 +7,7 @@ import { connectWallet } from "../utils/CrowdfundInteract";
 import { balanceOf, mintTokens, sendToContract } from "../utils/ERC20Interact";
 import { useDispatch, useSelector } from "react-redux";
 import { getEthBalance } from "../utils/EthInteract";
+import {BigNumber} from "ethers"
 
 function Navbar(props) {
   const dispatch = useDispatch();
@@ -61,8 +62,11 @@ function Navbar(props) {
    }, [user?.wallet]);
 
    const mint = async () => {
-    // await mintTokens(user?.wallet, 1000000 * (10 ** 3));
-     await sendToContract("0xC40B52D3e7b7b4Ed6e048CaEA2E37081c6BC9bDF", user?.wallet, 100, dispatch)
+     const decimals = 18;
+     const input = 100;
+     const amount = BigNumber.from(input).mul(BigNumber.from(10).pow(decimals));
+     //await mintTokens(user?.wallet, BigNumber.from((amount.toString())) );
+     await sendToContract("0x1ac81977227035BC024F70622826FCdc534C6055", user?.wallet, amount.toString(), dispatch)
    }
 
   return (
@@ -88,11 +92,14 @@ function Navbar(props) {
         <Link to="/Profile" style={{ textDecoration: "none" }}>
           <li>Profile</li>
         </Link>
+        <Link to="/Liquidity" style={{ textDecoration: "none" }}>
+          <li>Add Liquidity</li>
+        </Link>
       </ul>
       <div className="wallet-container">
         <div className="wallet">
           <FaRegGem color="#fff" fontSize="1.5em" />
-          <span className="balance">{Number(user?.balance / (10 ** 3)).toFixed(2)} GMS</span>  
+          <span className="balance">{Number(user?.balance / (10 ** 18)).toFixed(2)} GMS</span>  
         </div>
         <div className="wallet">
           <FaEthereum color="white" fontSize="1.4em" />

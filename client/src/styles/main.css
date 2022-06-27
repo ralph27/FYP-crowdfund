@@ -882,6 +882,33 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+/* LIQUIDITY */
+.liquidity-wrapper {
+  background-color: #191b1f;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: calc(100vh - 120px);
+  height: 100%;
+  padding: 0 5%;
+}
+
+.liquidity-container {
+    background-color: #212429;
+    border-radius: 24px;
+    width: 50%;
+    margin: 0 auto;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2% 2%;
+    color: white;
+}
+
+.liquidity-sub {
+  margin-bottom: 20px;
+}
+
 /* POPUP */
 
 @keyframes popup {

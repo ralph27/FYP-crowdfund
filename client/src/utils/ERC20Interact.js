@@ -51,7 +51,7 @@ export const stake = async (address, stake, setUploading, dispatch, calculateRew
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.stake(Number(stake.amount), address, id).encodeABI(),
+      data: ERC20Contract.methods.stake(stake.amount, address, id).encodeABI(),
    }
    try {
       const txHash = await window.ethereum.request({
@@ -74,7 +74,7 @@ export const stake = async (address, stake, setUploading, dispatch, calculateRew
                   dispatch({type: "staking/addStaking", stake: {amount: stake.amount, date: moment().unix(),
                      reward: calculateReward(moment().unix(), stake.amount), id: id}
                    });
-                   setTotalStaked(prev => Number(prev) + Number(stake.amount / (10 ** 3)));
+                   setTotalStaked(prev => Number(prev) + Number(stake.amount / (10 ** 18)));
                    dispatch({type: "token/updateStaked", staked: Number(stake.amount )})
                   return true;
                 }
@@ -110,7 +110,7 @@ export const sendToContract = async (address, recipient, amount, dispatch) => {
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.sendToContract(recipient, amount * (10 ** 3)).encodeABI()
+      data: ERC20Contract.methods.sendToContract(recipient, amount).encodeABI()
    }
    try {
       const txHash = await window.ethereum.request({
@@ -136,7 +136,7 @@ export const transfer = async (address, recipient, amount, dispatch, setUploadin
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.transferFrom(address, recipient, amount * (10 ** 3)).encodeABI()
+      data: ERC20Contract.methods.transferFrom(address, recipient, amount).encodeABI()
    }
    try {
       const txHash = await window.ethereum.request({
@@ -155,7 +155,7 @@ export const transfer = async (address, recipient, amount, dispatch, setUploadin
                 clearInterval(interval);
                 dispatch({type: "tx/setStatus", status: rec.status});
                 if (rec.status) {
-                  dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: amount * (10 ** 3)}})
+                  dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: amount}})
                 }
               }
             });
@@ -174,10 +174,11 @@ export const totalAmount = async () => {
 }
 
 export const withdrawStake = async (initialAmount, amount, amountMint, address, id, setUploading, dispatch, balance, setTotalStaked) => {
+   console.log(initialAmount, amount, amountMint);
    const tx = {
       from: address,
       to: ERC20_CONTRACT,
-      data: ERC20Contract.methods.withdrawStake(initialAmount, Math.ceil(amount), Math.ceil(amountMint), address, id).encodeABI()
+      data: ERC20Contract.methods.withdrawStake(initialAmount, amount, amountMint, address, id).encodeABI()
    }
    try {
       const txHash = await window.ethereum.request({
@@ -199,14 +200,8 @@ export const withdrawStake = async (initialAmount, amount, amountMint, address, 
                   dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: -amountMint}})
                   dispatch({type: "staking/removeStaking", id: {id}});
                   dispatch({type: "token/updateStaked", staked: -initialAmount})
-                  setTotalStaked(prev => prev - Number(initialAmount / (10 ** 3)));
-                  await axios.post("/claimStake",  {address: address, value: amountMint})
-                  .then((res) => {
-                     console.log(res.response);
-                  })
-                  .catch((error) => {
-                     console.log(error);
-                  });
+                  setTotalStaked(prev => prev - Number(initialAmount / (10 ** 18)));
+                 
                  }
                }
              });

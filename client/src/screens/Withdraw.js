@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { ParseGMS } from '../helpers/ParseGMS';
 import eth from '../images/ethereum.png'
 import { transfer } from '../utils/ERC20Interact';
 
@@ -13,7 +14,7 @@ function Withdraw({setLoading}) {
 
    const handleTransfer = async () => {
       console.log(user?.balance, recipient, amount);
-      await transfer(user?.wallet, recipient, amount, dispatch, setLoading);
+      await transfer(user?.wallet, recipient, ParseGMS(amount * (10 ** 18)), dispatch, setLoading);
       setRecipient("");
       setAmount(0);
    }
@@ -45,20 +46,20 @@ function Withdraw({setLoading}) {
                      <img src={eth} alt='eth' height={20} width={20}/>
                      <h3>ETH</h3>  
                   </div>
-                  <p>Balance: {(Number(user?.balance) / (10 ** 3)).toFixed(2)}</p>
+                  <p>Balance: {(Number(user?.balance) / (10 ** 18)).toFixed(2)}</p>
                </div>
             </div>
             <div 
                className='invest-action-btn' 
-               style={{background: amount < Number(user?.balance / (10 ** 3)) && recipient !== "" && amount > 0 ? "#1966D4" : '#191B1F'}}
-               onClick={amount < Number(user?.balance / (10 ** 3)) && amount ? handleTransfer : undefined}
+               style={{background: amount < Number(user?.balance / (10 ** 18)) && recipient !== "" && amount > 0 ? "#1966D4" : '#191B1F'}}
+               onClick={amount < Number(user?.balance / (10 ** 18)) && amount ? handleTransfer : undefined}
                >
                <h1 style={
                   {
-                     color: amount < Number(user?.balance / (10 ** 3)) && recipient !== "" && amount > 0 ? "white" : "#4B4D52",
-                     cursor: amount < Number(user?.balance / (10 ** 3)) && recipient !== "" && amount > 0 ? 'pointer' : 'default'
+                     color: amount < Number(user?.balance / (10 ** 18)) && recipient !== "" && amount > 0 ? "white" : "#4B4D52",
+                     cursor: amount < Number(user?.balance / (10 ** 18)) && recipient !== "" && amount > 0 ? 'pointer' : 'default'
                   }
-                  }>{amount > Number(user?.balance / (10 ** 3)) ? "Insufficient GMS balance" : "Transfer"}</h1>
+                  }>{amount > Number(user?.balance / (10 ** 18)) ? "Insufficient GMS balance" : "Transfer"}</h1>
             </div>
          </div>
     </div>

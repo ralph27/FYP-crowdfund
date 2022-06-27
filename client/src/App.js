@@ -27,6 +27,7 @@ import Profile from "./screens/Profile";
 import Popup from "./components/Popup";
 import { PersistGate } from "redux-persist/integration/react";
 import Withdraw from "./screens/Withdraw";
+import AddLiquidity from "./screens/AddLiquidity";
 
 function App() {  
   const [loading, setLoading] = useState(false);
@@ -44,6 +45,7 @@ function App() {
             <Route path="/Invest" element={<Invest setLoading={setLoading} />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Withdraw" element={<Withdraw setLoading={setLoading} />} />
+            <Route path="/Liquidity" element={<AddLiquidity setLoading={setLoading} />}/>
           </Routes>
           <Footer />
         </Router>

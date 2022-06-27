@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCirculation, getStakesCount, getTotalSupply, getUserStakes, stake, totalAmount, withdrawStake } from "../utils/ERC20Interact";
 import moment from "moment";
 import Popup from "../components/Popup";
+import { ParseGMS } from "../helpers/ParseGMS";
 
 export default function Stakings({setLoading}) {
   const dispatch = useDispatch();
@@ -24,11 +25,11 @@ export default function Stakings({setLoading}) {
     const id = await getStakesCount();
     const stakeInfo = {
       user: user?.wallet,
-      amount: amount * (10 ** 3),
+      amount: ParseGMS(amount * (10 ** 18)),
       claimed: false,
       date: moment().unix(),
     }
-   
+    console.log("stake", stakeInfo)
     await stake(user?.wallet, stakeInfo, setLoading, dispatch, calculateReward, id, setTotalStaked);
     
 
@@ -41,8 +42,15 @@ export default function Stakings({setLoading}) {
   }
 
   const handleClaim = async (stake) => {
-    const amountAfterMint = (Number(stake.amount) + Number(stake.reward));
-    await withdrawStake(stake.amount, stake.reward.toString(), amountAfterMint, user?.wallet, stake.id, setLoading, dispatch, user?.balance, setTotalStaked);
+    let amountToClaim = ParseGMS(Number(stake.amount) + Number(stake.reward));
+    console.log("amountTOClaim: ", amountToClaim);
+    let initialAmount = ParseGMS(stake.amount);
+    console.log("initialAmount: ", initialAmount);
+
+    let reward = ParseGMS(stake.reward);
+    console.log("reward: ", reward);
+
+    await withdrawStake(initialAmount, reward, amountToClaim, user?.wallet, stake.id, setLoading, dispatch, user?.balance, setTotalStaked);
   }
 
 
@@ -71,7 +79,7 @@ export default function Stakings({setLoading}) {
     if (!lock) {
       blockStakes.map((stake, index) => {
         if (stake.claimable) {
-          setTotalStaked(prev => prev + Number(stake.amount / (10 ** 3)));
+          setTotalStaked(prev => prev + Number(stake.amount / (10 ** 18)));
           setStakes(prev => ([
             ...prev, {
               amount: stake.amount,
@@ -100,21 +108,21 @@ export default function Stakings({setLoading}) {
                 <FaGem color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS Supply</p>
               </div>
-              <p><span className="value-staked">{Number(token?.supply / (10 ** 3)).toFixed(2)}</span> GMS</p>
+              <p><span className="value-staked">{Number(token?.supply / (10 ** 18)).toFixed(2)}</span> GMS</p>
             </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
                 <FaRocket color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS In Circulation</p>
               </div>
-              <p><span className="value-staked">{Number(token?.circulation / (10 ** 3)).toFixed(2)}</span> GMS</p>
+              <p><span className="value-staked">{Number(token?.circulation / (10 ** 18)).toFixed(2)}</span> GMS</p>
             </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
                 <FaLock color="#FF007A" size={25} />
                 <p className="card-1-title">Total GMS Staked</p>
               </div>
-              <p><span className="value-staked">{token?.staked / (10 ** 3)}</span> GMS</p>
+              <p><span className="value-staked">{token?.staked / (10 ** 18)}</span> GMS</p>
             </div>
           </div>
 
@@ -128,7 +136,7 @@ export default function Stakings({setLoading}) {
             <div className="card-2-input-wrapper">
               <div className="card-2-top-input">
                 <p>Amount</p>
-                <p>Wallet Balance: {Number(user?.balance / (10 ** 3)).toFixed(2)} GMS</p>
+                <p>Wallet Balance: {Number(user?.balance / (10 ** 18)).toFixed(2)} GMS</p>
               </div>
               <div className="stake-input">
                 <input 
@@ -167,9 +175,9 @@ export default function Stakings({setLoading}) {
                   <div className="card-3-stakes">
                     <div>
                       <FaGem color="#FF007A" size={20} />
-                      <p>{stake.amount / (10 ** 3)} GSM</p>
+                      <p>{stake.amount / (10 ** 18)} GSM</p>
                     </div>
-                    <p>Claimable: {Number(stake.reward / (10 ** 3)).toFixed(2) } GSM</p>
+                    <p>Claimable: {Number(stake.reward / (10 ** 18)).toFixed(2) } GSM</p>
                     <p className="claim-btn" onClick={() => handleClaim(stake)}>Claim</p>
                   </div>
                 )
