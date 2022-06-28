@@ -1,11 +1,12 @@
 import env from "react-dotenv";
-import { ethers} from 'ethers';
+import { BigNumber, ethers} from 'ethers';
 import { ParseGMS } from "../helpers/ParseGMS";
+import { parseEther } from "ethers/lib/utils";
 const alchemyKey = process.env.REACT_APP_ALCHEMY_KEY;
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const web3 = createAlchemyWeb3(alchemyKey);
 const contract_abi = require("./cpamm-abi.json");
-const {CPAMM_ADDRESS} = env;
+const {CPAMM_ADDRESS, ERC20_CONTRACT} = env;
 const moment = require("moment");
 
 export const CPAMMContract = new web3.eth.Contract(
@@ -28,8 +29,7 @@ export const getUserShares = async (address) => {
    return shares
 }
 
-export const removeLiquidity = async (address, setUploading, dispatch) => {
-   const shares = await getUserShares(address);
+export const removeLiquidity = async (shares, address, setUploading, dispatch) => {
    const transactionParameters = {
       to: CPAMM_ADDRESS,
       from: address,
@@ -102,6 +102,54 @@ export const addLiquidity = async (address, amountGMS, amountETH, setUploading, 
     } catch (err) {
       console.log(err.message);
     }
+}
+
+export const swapTokens = async (address, addressIn, amountIn, setUploading, dispatch) => {
+  let transactionParameters;
+  if (addressIn === ERC20_CONTRACT) {
+    transactionParameters = {
+       to: CPAMM_ADDRESS,
+       from: address,
+       data: CPAMMContract.methods.swap(addressIn, ParseGMS(amountIn * (10 ** 18))).encodeABI(),
+     }
+  } else {
+    const total = amountIn / (10 ** 18);
+    const value = total.toString();  
+    transactionParameters = {
+      to: CPAMM_ADDRESS,
+      from: address,
+      data: CPAMMContract.methods.swap(addressIn, value.toString()).encodeABI(),
+      value: ethers.utils.parseEther(value).toHexString()
+    }
+  }
+ 
+   try {
+     const txHash = await window.ethereum.request({
+       method: "eth_sendTransaction",
+       params: [transactionParameters]
+     })
+ 
+     setTimeout(
+       function() {
+         setUploading(true);
+         dispatch({type: "tx/setTx", tx: txHash})
+         var interval = setInterval(function() {
+           console.log("Attempting to get transaction receipt...");
+           web3.eth.getTransactionReceipt(txHash, async function(err, rec) {
+             if (rec) {
+               console.log(rec);
+               clearInterval(interval);
+               dispatch({type: "tx/setStatus", status: rec.status})
+             }
+           });
+         }, 1000)
+       },
+       1000
+     )
+ 
+   } catch (err) {
+     console.log(err.message);
+   }
 }
 
 export const stake = async (address, stake, setUploading, dispatch, calculateReward, id, setTotalStaked) => {

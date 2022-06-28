@@ -10,8 +10,13 @@ import { addLiquidity, getEthReserve, getGmsReserve, removeLiquidity } from '../
 function AddLiquidity({setLoading}) {
    const [amountGMS, setAmountGMS] = useState();
    const [amountETH, setAmountETH] = useState();
+   const [withdrawLiquidity, setWithdrawLiquidity] = useState(false);
+   const [shares, setShares] = useState();
 
    const user = useSelector(state => state?.user);
+   const reserves = useSelector(state => state?.token);
+   const {ReserveETH, ReserveGMS} = reserves;
+   console.log(ReserveETH / (10 ** 18), ReserveGMS / (10 ** 18));
    const dispatch = useDispatch();
 
    const handleAddLiquidity = async () => {
@@ -21,12 +26,21 @@ function AddLiquidity({setLoading}) {
    }
 
    const handleChange = (GMS) => {
+      //reserve_GMS * amountGMS == reserve_ETH * amountETH
       setAmountGMS(GMS);
-      setAmountETH(GMS);
+      setAmountETH((GMS * ReserveGMS) / ReserveETH);
    }
 
    const removeUserLiquidity = async () => {
-      await removeLiquidity(user?.wallet, setLoading, dispatch);
+      if (Number(shares) > 0 && Number(shares) <= Number(user?.shares / (10 ** 18))) {
+         await removeLiquidity(user?.shares, user?.wallet, setLoading, dispatch);
+      }
+   }
+
+   const handleRemoveLiquidity = () => {
+      setAmountETH(0);
+      setAmountGMS(0);
+      setWithdrawLiquidity(prev => !prev);
    }
 
    useEffect(() => {
@@ -39,19 +53,20 @@ function AddLiquidity({setLoading}) {
 
    return (
       <div className='liquidity-wrapper'>
-         <h1 style={{color: 'white', paddingTop: 140, textAlign: 'center'}}>Add Equal Amount Of ETH and GMS In The Liquidity Pool</h1>
+         <h1 style={{color: 'white', paddingTop: 140, textAlign: 'center'}}>Add ETH and GMS In The Liquidity Pool</h1>
          <div className='liquidity-container'>
             <div>
                <h1 className='liquidity-sub'>Add GMS amount</h1>
                <div className='recipient-amount-input'>
                   <input 
+                     disabled={withdrawLiquidity}
                      placeholder='0.0' 
                      type='text' 
                      value={amountGMS} 
                      onChange={(e) => handleChange(e.target.value)}
                   /> 
                   <div className='currency-wrapper'>
-                     <div className='invest-currency' onClick={() => removeUserLiquidity()}>
+                     <div className='invest-currency'>
                         <img src={eth} alt='eth' height={20} width={20}/>
                         <h3>GMS</h3>  
                      </div>
@@ -77,19 +92,62 @@ function AddLiquidity({setLoading}) {
                   </div>
                </div>
             </div>
+            <p className='remove-liquidity-sub' onClick={handleRemoveLiquidity}>Or Remove Your Liquidity</p>
+            {withdrawLiquidity && <div>
+               <h1 className='remove-liquidity-title'>Enter Amount of Shares to Withdraw</h1>
+               <div className='recipient-input'>
+                  <input 
+                     placeholder='0' 
+                     type='text' 
+                     value={shares} 
+                     onChange={(e) => setShares(e.target.value)}
+                  />                  
+               </div>
+            </div>}
+            {withdrawLiquidity ? 
             <div 
                className='invest-action-btn' 
-               style={{background:  amountGMS && Number(amountGMS) <= Number(user?.balance / (10 ** 18)) ? "#1966D4" : '#191B1F'}}
-               onClick={ amountGMS && Number(amountGMS) <= Number(user?.balance / (10 ** 18)) ?  handleAddLiquidity : undefined
+               style={{ background: Number(shares) > 0 && Number(shares) <= Number(user?.shares / (10 ** 18))
+                        ? "#1966D4" : '#191B1F'
+                     }}
+               onClick={() => removeUserLiquidity()}
+
+            >
+               <h1 style={
+                  {
+                     color: Number(shares) > 0 && Number(shares) <= Number(user?.shares / (10 ** 18)) ?
+                              "white" : "#4B4D52",
+                     cursor: Number(shares) > 0 && Number(shares) <= Number(user?.shares / (10 ** 18)) ?
+                              "pointer" : 'default'
+
+                  }
+               }>
+                  Remove
+               </h1>
+            </div>
+            :
+            <div 
+               className='invest-action-btn' 
+               style={{background:  Number(amountGMS) > 0 && Number(amountGMS) <= Number(user?.balance / (10 ** 18)) &&
+                                       Number(amountETH) > 0 && Number(amountETH) <= Number(user?.ethBalance / (10 ** 18)) ? 
+                                       "#1966D4" : '#191B1F'}}
+               onClick={ Number(amountGMS) > 0 && Number(amountGMS) <= Number(user?.balance / (10 ** 18)) &&
+                           Number(amountETH) > 0 && Number(amountETH) <= Number(user?.ethBalance / (10 ** 18)) ?  handleAddLiquidity : undefined
                }
                >
                <h1 style={
                   {
-                     color: Number(amountGMS) <= Number(user?.balance / (10 ** 18)) ? "white" : "#4B4D52",
-                     cursor: amountGMS <= Number(user?.balance / (10 ** 18)) ? 'pointer' : 'default'
+                     color: Number(amountGMS) > 0 && Number(amountGMS) <= Number(user?.balance / (10 ** 18)) && 
+                              Number(amountETH) > 0 && Number(amountETH) <= Number(user?.ethBalance / (10 ** 18)) ? "white" : "#4B4D52",
+                     cursor: Number(amountGMS) > 0 && amountGMS <= Number(user?.balance / (10 ** 18)) && 
+                              Number(amountETH) > 0 && Number(amountETH) <= Number(user?.ethBalance / (10 ** 18)) ? 'pointer' : 'default'
                   }
-                  }>{Number(amountGMS) > Number(user?.balance / (10 ** 18)) ? "Insufficient GMS balance" : "Transfer"}</h1>
-            </div>
+                  }>{
+                     Number(amountGMS) > Number(user?.balance / (10 ** 18)) || 
+                     Number(amountETH) > Number(user?.ethBalance / (10 ** 18)) ? "Insufficient Balance" : "Add"
+                  }
+               </h1>
+            </div>}
          </div>
       </div>
   )

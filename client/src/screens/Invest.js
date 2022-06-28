@@ -47,7 +47,6 @@ function Invest({setLoading}) {
                      value={value} 
                      onChange={(e) => setValue(e.target.value)}
                   />
-                  
                </div>
                <div className='currency-wrapper'>
                   <div className='invest-currency'>

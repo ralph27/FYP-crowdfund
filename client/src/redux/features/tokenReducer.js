@@ -10,11 +10,13 @@ export default function tokenReducer(state = initialState, action) {
          temp.staked = action.token.staked
          return temp;
       case "token/updateStaked":
-         console.log("ACTION: ", action.staked);
          temp = {...state};
-
          temp.staked = Number(temp.staked) + action.staked;
-         console.log("TEMP: ", temp);
+         return temp;
+      case "token/reserves": 
+         temp = {...state};
+         temp.ReserveGMS = action.reserves.GMS;
+         temp.ReserveETH = action.reserves.ETH;
          return temp;
       default:
          return state;

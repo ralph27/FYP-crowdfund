@@ -8,7 +8,7 @@ import { balanceOf, mintTokens, sendToContract } from "../utils/ERC20Interact";
 import { useDispatch, useSelector } from "react-redux";
 import { getEthBalance } from "../utils/EthInteract";
 import {BigNumber} from "ethers"
-import { getUserShares } from "../utils/CpammInteract";
+import { getEthReserve, getGmsReserve, getUserShares } from "../utils/CpammInteract";
 
 function Navbar(props) {
   const dispatch = useDispatch();
@@ -53,10 +53,17 @@ function Navbar(props) {
     dispatch({ type: "user/login", wallet: {address: res[0], balance: bal, ethBal: ethBal, shares: shares} });
   }
 
+  const getTokenInfo = async () => {
+    const GMS = await getGmsReserve();
+    const ETH = await getEthReserve();
+    dispatch({type: "token/reserves", reserves: {ETH: ETH, GMS: GMS}});
+  }
+
   useEffect(() => {
      ( async () => {
       dispatch({type: "fetch/setFetch", status: true})
       await getAccount();
+      await getTokenInfo();
       addWalletListener();
       dispatch({type: "fetch/setFetch", status: false})
      }
@@ -83,7 +90,7 @@ function Navbar(props) {
           <li>Dashboard</li>
         </Link>
         <Link to="/AddCampaign" style={{ textDecoration: "none" }}>
-          <li>Add Your Campaign</li>
+          <li>Add Campaign</li>
         </Link>
         <Link to="/Staking" style={{ textDecoration: "none" }}>
           <li>Staking</li>
@@ -95,7 +102,10 @@ function Navbar(props) {
           <li>Profile</li>
         </Link>
         <Link to="/Liquidity" style={{ textDecoration: "none" }}>
-          <li>Add Liquidity</li>
+          <li>Liquidity Pool</li>
+        </Link>
+        <Link to="/Swap" style={{ textDecoration: "none" }}>
+          <li>Swap</li>
         </Link>
       </ul>
       <div className="wallet-container">
