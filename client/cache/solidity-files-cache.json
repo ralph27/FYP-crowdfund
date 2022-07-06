@@ -148,8 +148,8 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\CPAMM.sol": {
-      "lastModificationDate": 1656353843482,
-      "contentHash": "0534cbde7239f49dad5f7929b4d561d0",
+      "lastModificationDate": 1657110141391,
+      "contentHash": "3fa66a3de64c3155d15e1bb9a2c89113",
       "sourceName": "contracts/CPAMM.sol",
       "solcConfig": {
         "version": "0.8.10",

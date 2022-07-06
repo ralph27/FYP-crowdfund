@@ -4,7 +4,7 @@ import { FaLock } from "react-icons/fa";
 import { FaRocket } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { getCirculation, getTotalSupply, totalAmount } from "../utils/ERC20Interact";
-import {stake, getUserStakes, withdrawStake, getStakesCount} from "../utils/CpammInteract"
+import {stake, getUserStakes, withdrawStake, getStakesCount, getEthReserve, getGmsReserve} from "../utils/CpammInteract"
 import moment from "moment";
 import { ParseGMS } from "../helpers/ParseGMS";
 
@@ -58,15 +58,15 @@ export default function Stakings({setLoading}) {
   useEffect(() => {
     (async () => { 
       const sup = await getTotalSupply();
-      const cir = await getCirculation();
-      const stake = await totalAmount();
+      const ethReserve = await getEthReserve();
+      const gmsReserve = await getGmsReserve();
       if (user?.wallet) {
         const blockStakes = await getUserStakes(user?.wallet);
         formatStakes(blockStakes)
         setLock(prev => true);
       }
       
-      dispatch({type: "token/setInfo", token: {supply: sup, circulation: cir, staked: stake}});
+      dispatch({type: "token/setInfo", token: {supply: sup, ethReserve: ethReserve, gmsReserve: gmsReserve}});
     })();
   }, []) 
 
@@ -104,27 +104,28 @@ export default function Stakings({setLoading}) {
 
           { /*first card */ }
           <div className="card-1">
+          <div className="card-info-wrapper">
+              <div className="card-1-label">
+                <FaLock color="#FF007A" size={25} />
+                <p className="card-1-title">Total GMS supply</p>
+              </div>
+              <p><span className="value-staked">{Number(token?.supply / (10 ** 18)).toFixed(3)}</span> GMS</p>
+            </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
                 <FaGem color="#FF007A" size={25} />
-                <p className="card-1-title">Total GMS Supply</p>
+                <p className="card-1-title">GMS Reserve</p>
               </div>
-              <p><span className="value-staked">{Number(token?.supply / (10 ** 18)).toFixed(2)}</span> GMS</p>
+              <p><span className="value-staked">{Number(token?.gmsReserve / (10 ** 18)).toFixed(3)}</span> GMS</p>
             </div>
             <div className="card-info-wrapper">
               <div className="card-1-label">
                 <FaRocket color="#FF007A" size={25} />
-                <p className="card-1-title">Total GMS In Circulation</p>
+                <p className="card-1-title">ETH Reserve</p>
               </div>
-              <p><span className="value-staked">{Number(token?.circulation / (10 ** 18)).toFixed(2)}</span> GMS</p>
+              <p><span className="value-staked">{Number(token?.ethReserve / (10 ** 18)).toFixed(3)}</span> ETH</p>
             </div>
-            <div className="card-info-wrapper">
-              <div className="card-1-label">
-                <FaLock color="#FF007A" size={25} />
-                <p className="card-1-title">Total GMS Staked</p>
-              </div>
-              <p><span className="value-staked">{token?.staked / (10 ** 18)}</span> GMS</p>
-            </div>
+            
           </div>
 
           { /*second card */ }

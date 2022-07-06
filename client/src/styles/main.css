@@ -168,6 +168,7 @@
   width: 150px;
   margin-right: 16px;
   margin-bottom: 20px;
+  border-radius: 8px;
 }
 .card-info {
   display: flex;
@@ -918,6 +919,15 @@ input::-webkit-inner-spin-button {
 
 .remove-liquidity-title {
   margin-bottom: 30px;
+}
+
+.share-balance {
+  color: rgb(143, 150, 172);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Roboto Mono", monospace;
+  width: 200px;
+
 }
 
 /* POPUP */

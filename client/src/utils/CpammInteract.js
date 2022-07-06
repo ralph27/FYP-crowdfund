@@ -180,7 +180,6 @@ export const stake = async (address, stake, setUploading, dispatch, calculateRew
                      reward: calculateReward(moment().unix(), stake.amount), id: id}
                    });
                    setTotalStaked(prev => Number(prev) + Number(stake.amount / (10 ** 18)));
-                   dispatch({type: "token/updateStaked", staked: Number(stake.amount )})
                   return true;
                 }
               }
@@ -220,7 +219,6 @@ export const withdrawStake = async (initialAmount, amount, address, id, setUploa
                  if (rec.status) {
                   dispatch({type: "user/updateBalance", wallet: {balanceType: "balance", value: -amount}})
                   dispatch({type: "staking/removeStaking", id: {id}});
-                  dispatch({type: "token/updateStaked", staked: -initialAmount})
                   setTotalStaked(prev => prev - Number(initialAmount / (10 ** 18)));
                  
                  }

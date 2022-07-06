@@ -37,9 +37,9 @@ export default function Campaign({setLoading}) {
       setTimeLeft("Campaign Has Ended")
     } else
     if (d >= 1) {
-      setTimeLeft(`${d} day and ${h} ${h > 1 ? "hours" : "hour"} left`);
+      setTimeLeft(`${d > 0 ? d + " days and" : ""} ${h > 0 ? h + " hours  " : ""} left`);
     } else {
-      setTimeLeft(`${h} ${h > 1 ? "hours" : "hour"} and ${m} ${m > 1 ? "minutes" : "minute"} and ${s} ${s > 1 ? "seconds" : "second"} left`);
+      setTimeLeft(` ${h > 0 ? h + " hours  and " : ""} ${m > 0 ? m + " minutes  and" : ""} ${s > 0 ? s + " seconds  " : ""} left`);
     } 
   }
 

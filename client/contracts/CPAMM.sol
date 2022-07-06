@@ -12,6 +12,9 @@ contract CPAMM is Staking {
 
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;
+    mapping(address => uint256) public GmsAdded;
+    mapping(address => uint256) public EthAdded;
+
 
     constructor(address _token) {
         GMS = IERC20(_token);
@@ -146,6 +149,8 @@ contract CPAMM is Staking {
 
         require(shares > 0, "shares = 0");
         _mint(msg.sender, shares);
+        GmsAdded[msg.sender] += amountGMS;
+        EthAdded[msg.sender] += amountETH;
 
         _update(GMS.balanceOf(address(this)), amountETH + reserve_ETH);
     }
@@ -167,6 +172,8 @@ contract CPAMM is Staking {
         GMS.transfer(msg.sender, amountGMS);
         (bool success, ) = msg.sender.call{value: amountETH}("");
         require(success, "Call failed");
+        GmsAdded[msg.sender] -= amountGMS;
+        EthAdded[msg.sender] -= amountETH;
     }
 
     function _sqrt(uint256 y) private pure returns (uint256 z) {

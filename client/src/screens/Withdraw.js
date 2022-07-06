@@ -22,7 +22,7 @@ function Withdraw({setLoading}) {
  
    return (
       <div className='withdraw-screen'>
-         <h1 className='withdraw-screen-title'>Withdraw Your Funds</h1>
+         <h1 className='withdraw-screen-title'>Transfer Your Funds</h1>
          <div className='withdraw-wrapper'>
             <h3>Enter recipient's address</h3>
             <div className='recipient-input'>

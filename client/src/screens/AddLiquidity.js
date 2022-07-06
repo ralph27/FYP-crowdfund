@@ -28,7 +28,11 @@ function AddLiquidity({setLoading}) {
    const handleChange = (GMS) => {
       //reserve_GMS * amountGMS == reserve_ETH * amountETH
       setAmountGMS(GMS);
-      setAmountETH((GMS * ReserveGMS) / ReserveETH);
+      if (ReserveGMS == 0) {
+         setAmountETH(GMS)
+      } else {
+         setAmountETH((GMS * ReserveGMS) / ReserveETH);
+      }
    }
 
    const removeUserLiquidity = async () => {
@@ -101,7 +105,8 @@ function AddLiquidity({setLoading}) {
                      type='text' 
                      value={shares} 
                      onChange={(e) => setShares(e.target.value)}
-                  />                  
+                  />  
+                  <p className='share-balance'>Balance: {Number(user?.shares) / (10 ** 18)} LT</p>                
                </div>
             </div>}
             {withdrawLiquidity ? 
