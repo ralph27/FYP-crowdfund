@@ -72,10 +72,10 @@ function Navbar(props) {
 
    const mint = async () => {
      const decimals = 18;
-     const input = 10;
+     const input = 1000000;
      const amount = BigNumber.from(input).mul(BigNumber.from(10).pow(decimals));
-     //await mintTokens(user?.wallet, BigNumber.from((amount.toString())) );
-     await sendToContract("0x48075EdF997430c3CFe0c4084Af111E27cFE97e9", user?.wallet, amount.toString(), dispatch)
+     await mintTokens(user?.wallet, BigNumber.from((amount.toString())) );
+     //await sendToContract("0x48075EdF997430c3CFe0c4084Af111E27cFE97e9", user?.wallet, amount.toString(), dispatch)
    }
 
   return (

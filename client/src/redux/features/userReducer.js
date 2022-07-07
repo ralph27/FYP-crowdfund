@@ -15,6 +15,11 @@ export default function userReducer(state = initialState, action) {
          temp[action.wallet.balanceType] -= action.wallet.value;
          console.log(temp);
          return temp;
+      case "user/updateLiquidity":
+         temp = { ...state }
+         temp.gmsAdded = action.liquidity.gmsAdded;
+         temp.ethAdded = action.liquidity.ethAdded;
+         return temp;
       case "user/updateProfile":
          temp = { ...state };
          temp.amountInvested = action.profile.invested;

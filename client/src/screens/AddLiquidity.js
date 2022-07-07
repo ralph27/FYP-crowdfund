@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ParseGMS } from '../helpers/ParseGMS';
 import eth from '../images/ethereum.png'
-import { addLiquidity, getEthReserve, getGmsReserve, removeLiquidity } from '../utils/CpammInteract';
+import { addLiquidity, getEthAdded, getEthReserve, getGmsAdded, getGmsReserve, removeLiquidity } from '../utils/CpammInteract';
 
 function AddLiquidity({setLoading}) {
    const [amountGMS, setAmountGMS] = useState();
@@ -16,7 +16,6 @@ function AddLiquidity({setLoading}) {
    const user = useSelector(state => state?.user);
    const reserves = useSelector(state => state?.token);
    const {ReserveETH, ReserveGMS} = reserves;
-   console.log(ReserveETH / (10 ** 18), ReserveGMS / (10 ** 18));
    const dispatch = useDispatch();
 
    const handleAddLiquidity = async () => {
@@ -51,7 +50,9 @@ function AddLiquidity({setLoading}) {
       (async () => {
          const res = await getEthReserve();
          const resGMS = await getGmsReserve();
-         console.log(res, resGMS);
+         const gmsAdded = await getGmsAdded(user?.wallet);
+         const ethAdded = await getEthAdded(user?.wallet);
+         dispatch({type: "user/updateLiquidity", liquidity: {gmsAdded: gmsAdded, ethAdded: ethAdded}})
       })();
    }, [])
 
@@ -106,7 +107,10 @@ function AddLiquidity({setLoading}) {
                      value={shares} 
                      onChange={(e) => setShares(e.target.value)}
                   />  
-                  <p className='share-balance'>Balance: {Number(user?.shares) / (10 ** 18)} LT</p>                
+                  <div className='liquidity-balance'>
+                     <p className='share-balance'>GMS deposited: {Number(user?.gmsAdded) / (10 ** 18)} GMS</p>                
+                     <p  className='share-balance'>ETH Deposited: {Number(user?.ethAdded) / (10 ** 18)} ETH</p>
+                  </div>
                </div>
             </div>}
             {withdrawLiquidity ? 

@@ -37,8 +37,8 @@
       ]
     },
     "C:\\Users\\User\\Crypto Projects\\PFE-LU\\final-year-project\\client\\contracts\\Crowdfund.sol": {
-      "lastModificationDate": 1656329348513,
-      "contentHash": "9c97ecf1d97e32108697f6d2267f05ba",
+      "lastModificationDate": 1657215434957,
+      "contentHash": "93a9a8622766f45b5a7cfadc374f8fa9",
       "sourceName": "contracts/Crowdfund.sol",
       "solcConfig": {
         "version": "0.8.10",

@@ -921,12 +921,16 @@ input::-webkit-inner-spin-button {
   margin-bottom: 30px;
 }
 
+.liquidity-balance {
+  min-width: 220px;
+}
+
 .share-balance {
   color: rgb(143, 150, 172);
   font-size: 16px;
   font-weight: 500;
   font-family: "Roboto Mono", monospace;
-  width: 200px;
+  width: 230px;
 
 }
 

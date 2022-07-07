@@ -242,3 +242,13 @@ export const getStakesCount = async () => {
    const res = await CPAMMContract.methods.getTotalStakes().call();
    return res;
 }
+
+export const getGmsAdded = async (address) => {
+  const res = await CPAMMContract.methods.GmsAdded(address).call();
+  return res;
+}
+
+export const getEthAdded = async (address) => {
+  const res = await CPAMMContract.methods.EthAdded(address).call();
+  return res;
+}

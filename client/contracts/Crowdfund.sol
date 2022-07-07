@@ -129,7 +129,7 @@ contract Crowdfund is ERC20 {
     function claimShares(uint _id, address adr) external {
         require(pledgedAmount[_id][adr] > 0, "Nothing pledged");
         //uint amountDue = pledgedAmount[_id][msg.sender] * 100 / campaigns[_id].goal;
-        token.sendToAddress(tokenAddress, adr, (pledgedAmount[_id][adr] / 10**15) * (10**18));
+        token.sendToAddress(tokenAddress, adr, (pledgedAmount[_id][adr]));
         pledgedAmount[_id][adr] = 0;
     }
 
